@@ -3,32 +3,26 @@
 Tutto il resto (codice, contenuti, aggiornamenti, SEO tecnico) lo fa l'operatore automatico.
 Queste azioni richiedono la tua identità, un pagamento o un account a tuo nome. In ordine:
 
-## 1. Dominio e hosting definitivo (15 minuti, ~11 €/anno) — BLOCCANTE
+## 1. Dominio e hosting su Cloudflare Pages (15 minuti, ~10 $/anno) — BLOCCANTE
 
-Finché non fai questo passo il sito non è online. Due strade:
+Finché non fai questo passo il sito non è online. Cloudflare Pages è gratuito e consente l'uso
+commerciale. Se una build fallisce non viene pubblicata e resta online la versione precedente.
+Dominio, titolare (Andrea Lando) ed email sono già configurati in `site.config.json`.
 
-- **Vercel (meno lavoro per te)**: riconnetti il connettore Vercel su <https://claude.ai/customize/connectors>
-  con i permessi di scrittura e apri una nuova sessione: Claude compra il dominio (con la tua conferma sul
-  prezzo), crea il progetto e collega il dominio. Limite: il piano gratuito Vercel vieta l'uso commerciale,
-  quindi prima di attivare pubblicità o affiliazioni bisogna passare a Cloudflare Pages (gratuito, basta
-  cambiare il DNS) o a Vercel Pro (20 $/mese).
-- **Cloudflare Pages (subito definitivo)**: i passi sotto. Gratuito, uso commerciale consentito.
+1. Crea un account su <https://dash.cloudflare.com> e conferma l'email.
+2. **Domain Registration** → **Register Domains** → cerca `nettochiaro.com` → acquista (prezzo di costo,
+   circa 10 $/anno; serve la carta). Se non fosse più libero, scegline un altro e scrivimelo.
+3. **Workers & Pages** → **Create** → scheda **Pages** → **Connect to Git** → autorizza GitHub → scegli
+   `Acci4i0/income`.
+4. Impostazioni build: Framework preset **None**, Build command `node build.mjs`, Build output directory
+   `dist`, Production branch `claude/income-generator-project-jphcdt` (il branch di default del repo).
+   In **Environment variables** aggiungi `NODE_VERSION` = `22`. **Save and Deploy**.
+5. Nel progetto Pages → **Custom domains** → **Set up a custom domain** → `nettochiaro.com` (il DNS si
+   configura da solo perché il dominio è su Cloudflare). Ripeti per `www.nettochiaro.com`.
+6. Scrivimi "fatto" (o apri una issue con label `owner`): verifico che sia tutto online.
 
-In entrambi i casi, se una build fallisce non viene pubblicata e resta online la versione precedente.
-
-1. Compra il dominio. Disponibile al 6/10/2026: `nettochiaro.com` (11,25 $/anno su Vercel; su Cloudflare
-   Registrar costa circa uguale). Per un `.it` usa un registrar italiano: Vercel e Cloudflare non lo vendono.
-2. Crea un account su <https://dash.cloudflare.com> → **Workers & Pages** → **Create** → scheda **Pages** →
-   **Connect to Git** → autorizza GitHub → scegli `Acci4i0/income`.
-3. Impostazioni build: Framework preset **None**, Build command `node build.mjs`, Build output `dist`.
-   Production branch: il branch di default del repo. Salva e fai il deploy.
-4. Nel progetto Pages → **Custom domains** → aggiungi il dominio e segui le istruzioni DNS.
-5. Apri una issue nel repo con titolo `dominio: nettochiaro.com` (o il tuo dominio) e label `owner`.
-   Nella stessa issue indica il titolare del sito (nome e cognome o ragione sociale, con indirizzo di
-   domicilio o sede) e un'email di contatto. Questi dati compaiono in pubblico nell'informativa privacy e in
-   Chi siamo: li chiedono l'art. 13 GDPR e, con la pubblicità, l'art. 7 del D.Lgs. 70/2003.
-   L'operatore li inserisce in `site.config.json` (`titolare`, `contactEmail`), aggiorna `baseUrl`, attiva
-   l'indicizzazione e pubblica.
+Con la pubblicità attiva, l'art. 7 del D.Lgs. 70/2003 chiede anche un recapito geografico del titolare:
+basta il comune, da indicare quando attivi AdSense.
 
 ## 2. Google Search Console (5 minuti, subito dopo il punto 1)
 
@@ -40,9 +34,7 @@ Senza questo passo Google ci mette molto di più a trovare il sito.
 
 ## 3. Google AdSense (20 minuti, dopo 4-8 settimane di contenuti indicizzati)
 
-Prima di attivare AdSense controlla che titolare ed email (sezione 1, punto 5) siano in `site.config.json`
-(`titolare`, `contactEmail`): con il publisher ID impostato e senza questi dati la build si ferma con un
-errore.
+Titolare ed email sono già in `site.config.json`: senza, la build si ferma con un errore.
 
 1. <https://adsense.google.com> → registrati con il dominio.
 2. Copia il publisher ID (`ca-pub-XXXXXXXXXXXXXXXX`) e mettilo in una issue `owner`: l'operatore lo inserisce
@@ -59,22 +51,31 @@ errore.
 
 AdSense può rifiutare siti giovani o con poco traffico: in quel caso si riprova dopo qualche settimana.
 
-## 4. Affiliazioni (facoltativo, 10 minuti per programma)
+## 4. Negozio Etsy (30 minuti una volta, poi automatico)
 
-Il sito ha già tre spazi pronti in `site.config.json` → `monetization.offers` (conto business per partita
-IVA, commercialista online, prodotto digitale). Compaiono solo quando hanno un URL.
+I prodotti (fogli Excel) li crea e li pubblica l'operatore: una GitHub Action sincronizza
+`products/` con il tuo negozio. Tu fai solo l'apertura del negozio e un'autorizzazione una tantum.
+Guida passo per passo: [`products/ETSY.md`](products/ETSY.md).
+
+Costi Etsy: 0,20 $ per inserzione ogni 4 mesi, 6,5% sulla vendita, 4% + 0,30 € di pagamento, più la
+commissione regolamentare. Su un prodotto da 5,90 € ti restano circa 4 €.
+
+## 5. Affiliazioni (facoltativo, 10 minuti per programma)
+
+Il sito ha già due spazi pronti in `site.config.json` → `monetization.offers` (conto business per partita
+IVA, commercialista online). Compaiono solo quando hanno un URL.
 
 1. Iscriviti al programma di affiliazione di un servizio che useresti davvero (molti conti business e
    servizi per partite IVA ne hanno uno, diretto o tramite reti come Awin).
 2. Mettilo in una issue `owner` con il link di affiliazione e a quale spazio associarlo.
 
-## 5. Statistiche (facoltativo, 2 minuti)
+## 6. Statistiche (facoltativo, 2 minuti)
 
 Nel progetto Cloudflare Pages → **Metrics** → attiva **Web Analytics**. Sono anonime e senza cookie.
 
-## 6. Fisco
+## 7. Fisco
 
-I guadagni di pubblicità e affiliazioni sono reddito da dichiarare. Se diventano un'attività abituale serve
+I guadagni di pubblicità, affiliazioni ed Etsy sono reddito da dichiarare. Se diventano un'attività abituale serve
 la partita IVA: il calcolatore del forfettario del sito ti dice quanto pagheresti.
 
 ---
