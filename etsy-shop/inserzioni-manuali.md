@@ -22,7 +22,7 @@ Campi comuni a tutti:
 Regime Forfettario 2026 Excel e Google Sheets: Gestionale Partita IVA, Fatture, Tasse, INPS, Scadenze F24
 ```
 
-**Prezzo:** 9,9 €  ·  **Categoria (cerca):** Paper & Party Supplies › Paper › Stationery › Design & Templates › Templates › Bookkeeping Templates
+**Prezzo:** 9,90 €  ·  **Categoria (cerca):** Paper & Party Supplies › Paper › Stationery › Design & Templates › Templates › Bookkeeping Templates
 
 **Descrizione**
 ```
@@ -104,7 +104,7 @@ modello excel
 Budget familiare 2026 in italiano per Excel e Google Sheets: spese mensili, risparmio e debiti
 ```
 
-**Prezzo:** 5,9 €  ·  **Categoria (cerca):** Paper & Party Supplies › Paper › Stationery › Design & Templates › Templates › Personal Finance Templates
+**Prezzo:** 5,90 €  ·  **Categoria (cerca):** Paper & Party Supplies › Paper › Stationery › Design & Templates › Templates › Personal Finance Templates
 
 **Descrizione**
 ```
@@ -191,7 +191,7 @@ modello excel
 2026 Budget Planner Spreadsheet, Excel and Google Sheets, Monthly Budget, Debt Snowball, Sinking Funds
 ```
 
-**Prezzo:** 5,9 €  ·  **Categoria (cerca):** Paper & Party Supplies › Paper › Stationery › Design & Templates › Templates › Personal Finance Templates
+**Prezzo:** 5,90 €  ·  **Categoria (cerca):** Paper & Party Supplies › Paper › Stationery › Design & Templates › Templates › Personal Finance Templates
 
 **Descrizione**
 ```
