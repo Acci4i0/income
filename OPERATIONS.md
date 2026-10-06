@@ -83,6 +83,16 @@ Se una voce è troppo grande per una sessione, spezzala nel backlog e consegna l
   `data-out`. Riusa le classi CSS esistenti.
 - **Ordine nel menu**: campo `order`. I tool con più domanda stanno prima.
 
+## Stile visivo
+
+- Colori solo dai token in cima a `src/assets/style.css` (chiaro e scuro). Un solo colore segnale
+  (`--accent`, arancio): il risultato principale, il focus, i link. Niente nuovi colori, gradienti o ombre.
+- Angoli vivi, filetti da 1px, nessuna card arrotondata. Etichette tecniche in Geist Mono maiuscolo;
+  cifre con `tabular-nums`. Nessun font esterno: Geist e Geist Mono sono in `src/assets/fonts/`.
+- Nei contenuti ogni `<h2>` senza attributi apre una sezione numerata (titolo a sinistra su desktop):
+  scrivi i titoli di sezione come `<h2>` semplici, mai dentro altri elementi.
+- Il quadrante dei risultati (`.results`) è sempre scuro: dentro usa le variabili, non colori fissi.
+
 ## Prodotti digitali (Etsy)
 
 - Struttura e schema in `products/README.md`; guida del proprietario in `products/ETSY.md`.

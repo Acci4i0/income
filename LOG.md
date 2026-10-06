@@ -2,6 +2,17 @@
 
 Voci più recenti in alto. Formato in OPERATIONS.md.
 
+## 2026-10-06 — Nuovo design del sito (richiesta del proprietario)
+- Fatto: riscritti `src/assets/style.css` e la struttura di `src/layout.mjs` sul modello indicato dal
+  proprietario (t1energy.com, on.energy, rauno.me): griglia a filetti, angoli vivi, un solo colore segnale
+  arancio, Geist + Geist Mono ospitati nel sito (`src/assets/fonts/`, OFL, ~52 KB), quadrante dei risultati
+  scuro, sezioni numerate con titolo fisso a sinistra, home e "Altri calcolatori" come indice numerato,
+  piè di pagina con tutti i calcolatori, favicon nuova. Regole di stile in OPERATIONS.md.
+- Verifiche: 105 test, build, smoke test desktop e mobile; screenshot chiaro/scuro di tutte le pagine;
+  box prodotti e /prodotti/ provati con un'inserzione attiva simulata; contrasti WCAG AA (testo ≥ 4,5:1,
+  bordi dei campi ≥ 3:1). I tre siti di riferimento non erano raggiungibili dal container (proxy).
+- Prossimo: edizioni 2027 dei budget planner. Le immagini dei prodotti Etsy restano nei colori vecchi.
+
 ## 2026-10-06 — App Etsy in attesa di approvazione
 - Fatto: il proprietario ha aperto il negozio, creato l'app Etsy e aggiunto i 2 segreti; "Etsy:
   autorizzazione" passo avvia riuscito (run 37539842598). Il link di Etsy risponde "application not

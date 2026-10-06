@@ -26,7 +26,7 @@ Nessuna dipendenza npm. Serve Node 20+.
 ```
 src/lib/        logica di calcolo pura + params.js (tutti i parametri fiscali, con fonte)
 src/pages/      una pagina = un modulo .mjs (meta, calcolatore, contenuto, FAQ)
-src/assets/     CSS, app.js (UI comune), tools/*.js (UI di ogni calcolatore)
+src/assets/     CSS, app.js (UI comune), tools/*.js (UI di ogni calcolatore), fonts/ (Geist, OFL)
 public/         file copiati così come sono in dist/
 tests/          test node:test
 ```
