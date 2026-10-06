@@ -10,7 +10,8 @@ import { renderPage, urlFor } from './src/layout.mjs';
 const root = path.dirname(fileURLToPath(import.meta.url));
 const dist = path.join(root, 'dist');
 const config = JSON.parse(await readFile(path.join(root, 'site.config.json'), 'utf8'));
-if (process.env.SITE_BASE_URL) config.baseUrl = process.env.SITE_BASE_URL;
+// baseUrl: variabile d'ambiente > config > URL del deploy Cloudflare Pages > locale.
+config.baseUrl = process.env.SITE_BASE_URL || config.baseUrl || process.env.CF_PAGES_URL || 'http://localhost:4321';
 
 async function walk(dir) {
   const out = [];

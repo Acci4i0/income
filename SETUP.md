@@ -5,8 +5,9 @@ Queste azioni richiedono la tua identità, un pagamento o un account a tuo nome.
 
 ## 1. Dominio e hosting definitivo (15 minuti, ~11 €/anno) — BLOCCANTE
 
-Il preview su Vercel resta `noindex` perché il piano Hobby di Vercel vieta l'uso commerciale (pubblicità e
-affiliazioni comprese). Cloudflare Pages è gratuito e lo consente.
+Finché non fai questo passo il sito non è online. Hosting scelto: Cloudflare Pages, gratuito e con uso
+commerciale consentito (il piano gratuito di Vercel lo vieta, pubblicità e affiliazioni comprese).
+Se una build fallisce, Cloudflare non pubblica e resta online la versione precedente.
 
 1. Compra il dominio. Disponibile al 6/10/2026: `nettochiaro.com` (11,25 $/anno su Vercel; su Cloudflare
    Registrar costa circa uguale). Per un `.it` usa un registrar italiano: Vercel e Cloudflare non lo vendono.
@@ -55,6 +56,12 @@ I guadagni di pubblicità e affiliazioni sono reddito da dichiarare. Se diventan
 la partita IVA: il calcolatore del forfettario del sito ti dice quanto pagheresti.
 
 ---
+
+## Ogni settimana: revisione della PR (2 minuti)
+
+Il lunedì l'operatore apre una PR con la modifica della settimana. Controlla il riassunto e che la CI sia
+verde, poi fai **Squash and merge**. Il merge pubblica il sito. Se qualcosa non ti convince, lascia un
+commento o chiudi la PR: la sessione successiva lo legge.
 
 ## Come dare istruzioni all'operatore
 

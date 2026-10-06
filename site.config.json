@@ -1,7 +1,7 @@
 {
   "name": "NettoChiaro",
   "tagline": "Calcolatori fiscali chiari: quanto ti resta davvero in tasca",
-  "baseUrl": "https://income-acci4i0s-projects.vercel.app",
+  "baseUrl": "",
   "indexable": false,
   "contactEmail": "",
   "repoUrl": "https://github.com/Acci4i0/income",
