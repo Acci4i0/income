@@ -1,0 +1,62 @@
+# SETUP — le azioni che solo il proprietario può fare
+
+Tutto il resto (codice, contenuti, aggiornamenti, SEO tecnico) lo fa l'operatore automatico.
+Queste azioni richiedono la tua identità, un pagamento o un account a tuo nome. In ordine:
+
+## 1. Dominio e hosting definitivo (15 minuti, ~11 €/anno) — BLOCCANTE
+
+Il preview su Vercel resta `noindex` perché il piano Hobby di Vercel vieta l'uso commerciale (pubblicità e
+affiliazioni comprese). Cloudflare Pages è gratuito e lo consente.
+
+1. Compra il dominio. Disponibile al 6/10/2026: `nettochiaro.com` (11,25 $/anno su Vercel; su Cloudflare
+   Registrar costa circa uguale). Per un `.it` usa un registrar italiano: Vercel e Cloudflare non lo vendono.
+2. Crea un account su <https://dash.cloudflare.com> → **Workers & Pages** → **Create** → scheda **Pages** →
+   **Connect to Git** → autorizza GitHub → scegli `Acci4i0/income`.
+3. Impostazioni build: Framework preset **None**, Build command `node build.mjs`, Build output `dist`.
+   Production branch: il branch di default del repo. Salva e fai il deploy.
+4. Nel progetto Pages → **Custom domains** → aggiungi il dominio e segui le istruzioni DNS.
+5. Apri una issue nel repo con titolo `dominio: nettochiaro.com` (o il tuo dominio) e label `owner`.
+   L'operatore aggiorna `baseUrl`, attiva l'indicizzazione e pubblica.
+
+## 2. Google Search Console (5 minuti, subito dopo il punto 1)
+
+1. <https://search.google.com/search-console> → **Aggiungi proprietà** → **Dominio** → verifica via DNS
+   (con Cloudflare è quasi automatico).
+2. **Sitemap** → invia `https://<dominio>/sitemap.xml`.
+
+Senza questo passo Google ci mette molto di più a trovare il sito.
+
+## 3. Google AdSense (20 minuti, dopo 4-8 settimane di contenuti indicizzati)
+
+1. <https://adsense.google.com> → registrati con il dominio.
+2. Copia il publisher ID (`ca-pub-XXXXXXXXXXXXXXXX`) e mettilo in una issue `owner`: l'operatore lo inserisce
+   in `site.config.json` → `monetization.adsenseClient`, così vengono generati lo script e `ads.txt`.
+3. In AdSense → **Privacy e messaggi** → attiva il messaggio di consenso GDPR per UE/SEE (obbligatorio).
+4. Attiva gli **Annunci automatici**.
+
+AdSense può rifiutare siti giovani o con poco traffico: in quel caso si riprova dopo qualche settimana.
+
+## 4. Affiliazioni (facoltativo, 10 minuti per programma)
+
+Il sito ha già tre spazi pronti in `site.config.json` → `monetization.offers` (conto business per partita
+IVA, commercialista online, prodotto digitale). Compaiono solo quando hanno un URL.
+
+1. Iscriviti al programma di affiliazione di un servizio che useresti davvero (molti conti business e
+   servizi per partite IVA ne hanno uno, diretto o tramite reti come Awin).
+2. Mettilo in una issue `owner` con il link di affiliazione e a quale spazio associarlo.
+
+## 5. Statistiche (facoltativo, 2 minuti)
+
+Nel progetto Cloudflare Pages → **Metrics** → attiva **Web Analytics**. Sono anonime e senza cookie.
+
+## 6. Fisco
+
+I guadagni di pubblicità e affiliazioni sono reddito da dichiarare. Se diventano un'attività abituale serve
+la partita IVA: il calcolatore del forfettario del sito ti dice quanto pagheresti.
+
+---
+
+## Come dare istruzioni all'operatore
+
+Apri una issue nel repo con label `owner` (o semplicemente da tuo account). La sessione settimanale
+le legge per prime. Per fermare tutto: disattiva la Routine da claude.ai/code → Routines.

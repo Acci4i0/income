@@ -1,0 +1,46 @@
+{
+  "name": "NettoChiaro",
+  "tagline": "Calcolatori fiscali chiari: quanto ti resta davvero in tasca",
+  "baseUrl": "https://income-acci4i0s-projects.vercel.app",
+  "indexable": false,
+  "contactEmail": "",
+  "repoUrl": "https://github.com/Acci4i0/income",
+  "monetization": {
+    "adsenseClient": "",
+    "offers": [
+      {
+        "id": "conto-business",
+        "label": "Partner",
+        "pages": ["calcolo-tasse-forfettario", "calcolo-fattura"],
+        "title": "Conto business per partita IVA",
+        "text": "Separare le entrate della partita IVA dal conto personale semplifica tasse e contabilità.",
+        "cta": "Confronta l'offerta",
+        "url": ""
+      },
+      {
+        "id": "commercialista-online",
+        "label": "Partner",
+        "pages": ["calcolo-tasse-forfettario", "prestazione-occasionale", "calcolo-fattura"],
+        "title": "Commercialista online per forfettari",
+        "text": "Apertura partita IVA, dichiarazione e F24 gestiti da un professionista a canone fisso.",
+        "cta": "Richiedi una consulenza",
+        "url": ""
+      },
+      {
+        "id": "foglio-forfettario",
+        "label": "Prodotto",
+        "pages": ["calcolo-tasse-forfettario"],
+        "title": "Foglio Excel per forfettari 2026",
+        "text": "Registro fatture, accantonamento tasse e INPS mese per mese, scadenze F24. Si aggiorna da solo.",
+        "cta": "Scaricalo",
+        "url": ""
+      }
+    ]
+  },
+  "analytics": {
+    "cloudflareToken": ""
+  },
+  "verification": {
+    "google": ""
+  }
+}
