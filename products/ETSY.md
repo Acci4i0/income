@@ -16,12 +16,27 @@ GitHub Action, da sola. Tu fai solo questi quattro passi.
 
 ## 2. Crea l'app su Etsy
 
-1. Apri <https://www.etsy.com/developers/register> (**Create a New App**).
-2. Nome: `NettoChiaro Sync`. Descrizione: "Pubblica e aggiorna le inserzioni del mio negozio".
-   Alla domanda sugli utenti scegli **solo io** (Just myself), alla domanda sull'uso commerciale **No**.
-3. Nella scheda dell'app, tra i **callback URL** (redirect URI), aggiungi esattamente:
-   `https://nettochiaro.com/etsy-callback/` (con la barra finale).
-4. In <https://www.etsy.com/developers/your-apps> trovi **Keystring** e **Shared secret**.
+Apri <https://www.etsy.com/developers/register> (serve il negozio già aperto) e compila così:
+
+| Campo | Valore |
+|---|---|
+| Tipo di app | **Seller App** (solo il tuo negozio: approvazione quasi immediata) |
+| Nome dell'app | `NettoChiaro Sync` (non usare la parola "Etsy") |
+| Descrizione / perché usi l'API | testo qui sotto, in inglese |
+| Sito web | `https://nettochiaro.com` |
+| Chi userà l'app | **Just myself or colleagues** (solo io) |
+| Tipo di applicazione | **Seller Tools** |
+| Uso commerciale | **No** |
+
+Descrizione da incollare:
+
+```
+Private tool for my own Etsy shop (NettoChiaro). It creates and updates my digital download listings (title, description, tags, price, images and files) from my own GitHub repository, and reads my order totals for my bookkeeping. Single user (me), runs a few times per week, no buyer personal data is stored.
+```
+
+Accetta i termini dell'API e crea l'app. Poi, nella scheda dell'app, tra i **callback URL** (redirect URI)
+aggiungi esattamente `https://nettochiaro.com/etsy-callback/` (con la barra finale).
+In <https://www.etsy.com/developers/your-apps> trovi **Keystring** e **Shared secret**.
 
 Etsy può tenere la chiave "in revisione" da qualche giorno a qualche settimana: finché non è attiva il
 passo 4 non funziona. Lo stato si vede nella stessa pagina.
