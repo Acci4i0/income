@@ -3,6 +3,7 @@
   "tagline": "Calcolatori fiscali chiari: quanto ti resta davvero in tasca",
   "baseUrl": "",
   "indexable": false,
+  "titolare": "",
   "contactEmail": "",
   "repoUrl": "https://github.com/Acci4i0/income",
   "monetization": {

@@ -17,10 +17,13 @@ export const IRPEF = {
 export const DIPENDENTE = {
   // Quota IVS a carico del lavoratore (FPLD, aziende generiche).
   inpsAliquota: 0.0919,
-  // +1% sulla quota di retribuzione oltre la prima fascia pensionabile (INPS circ. 14/2026).
+  // +1% oltre la prima fascia di retribuzione pensionabile (art. 3-ter DL 384/1992; INPS circ. 6/2026: 56.224 €).
   inpsAliquotaAggiuntiva: 0.01,
   inpsSogliaAggiuntiva: 56224,
-  // Detrazioni art. 13 c.1 TUIR (D.Lgs. 216/2023, confermate per il 2026).
+  // Massimale contributivo per chi ha il primo contributo dal 1/1/1996 (art. 2 c. 18 L. 335/1995; INPS circ. 6/2026).
+  massimale: 122295,
+  // Detrazioni art. 13 c.1 TUIR (1.955 € a regime da L. 207/2024 art. 1 c. 2) e c.1.1
+  // (+65 € tra 25.000 e 35.000 €, L. 234/2021); invariate dalla L. 199/2025.
   detrazione: {
     fino15000: 1955,
     base: 1910,
@@ -49,10 +52,13 @@ export const ADDIZIONALI_DEFAULT = { regionale: 0.0173, comunale: 0.008 };
 export const FORFETTARIO = {
   sogliaRicavi: 85000,
   sogliaUscitaImmediata: 100000,
+  // 35.000 € per il 2026 (L. 199/2025 art. 1 c. 27, proroga del limite della L. 207/2024);
+  // dal 2027 torna a 30.000 € salvo nuova proroga.
   limiteRedditoDipendente: 35000,
   impostaOrdinaria: 0.15,
   impostaStartup: 0.05,
-  // Allegato 4 L. 190/2014. I codici ATECO sono quelli della tabella in vigore.
+  // Allegato 4 L. 190/2014. Codici ATECO 2007: anche dopo l'adozione di ATECO 2025 (1/4/2025) il
+  // coefficiente si determina con il codice ATECO 2007 corrispondente, finché non esce la nuova tabella.
   coefficienti: [
     { id: 'professionisti', coeff: 0.78, label: 'Attività professionali, scientifiche, tecniche, sanitarie, istruzione, servizi finanziari e assicurativi', ateco: '64-66, 69-75, 85, 86-88' },
     { id: 'altre', coeff: 0.67, label: 'Altre attività economiche (es. sviluppo software, servizi alla persona, attività artistiche)', ateco: 'tutti i codici non compresi negli altri gruppi' },
@@ -111,5 +117,10 @@ export const OCCASIONALE = {
 export const BOLLO = { importo: 2, soglia: 77.47 };
 
 export const IVA = { aliquote: [0.22, 0.10, 0.05, 0.04] };
+
+// Imposta sostitutiva sui finanziamenti a medio-lungo termine: artt. 15-18 DPR 601/1973 (0,25%);
+// 2% per i mutui su abitazioni senza i requisiti prima casa (art. 1-bis c. 6 DL 168/2004,
+// limitato dal DL 220/2004).
+export const MUTUO = { impostaSostitutiva: 0.0025, impostaSostitutivaNoPrimaCasa: 0.02 };
 
 export const RITENUTA_ACCONTO = 0.2;

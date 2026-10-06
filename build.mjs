@@ -32,8 +32,25 @@ for (const file of pageFiles) {
 }
 pages.sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 
+// Segnaposto nei testi: {{titolare}} e {{contatto}} vengono da site.config.json.
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const segnaposto = {
+  titolare: config.titolare ? esc(config.titolare) : 'il gestore del sito NettoChiaro',
+  contatto: config.contactEmail
+    ? `<a href="mailto:${esc(config.contactEmail)}">${esc(config.contactEmail)}</a>`
+    : 'il link di segnalazione in fondo alla pagina',
+};
+for (const p of pages) {
+  for (const k of ['content', 'intro']) {
+    if (typeof p[k] === 'string') p[k] = p[k].replace(/\{\{(titolare|contatto)\}\}/g, (_, n) => segnaposto[n]);
+  }
+}
+
 // Validazione
 const errors = [];
+if (config.monetization?.adsenseClient && (!config.titolare || !config.contactEmail)) {
+  errors.push('site.config.json: con AdSense attivo servono "titolare" e "contactEmail" (informativa privacy, art. 13 GDPR)');
+}
 const slugs = new Set();
 for (const p of pages) {
   const where = p.file;
