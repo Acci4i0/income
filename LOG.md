@@ -2,6 +2,14 @@
 
 Voci più recenti in alto. Formato in OPERATIONS.md.
 
+## 2026-10-06 — App Etsy in attesa di approvazione
+- Fatto: il proprietario ha aperto il negozio, creato l'app Etsy e aggiunto i 2 segreti; "Etsy:
+  autorizzazione" passo avvia riuscito (run 37539842598). Il link di Etsy risponde "application not
+  recognized": l'app è in attesa di approvazione da parte di Etsy. Preparato `etsy-shop/inserzioni-manuali.md`
+  per pubblicare a mano le 3 inserzioni nel frattempo (titoli identici: la sync le riconosce dal titolo).
+- Prossimo: quando l'app è attiva, il proprietario riapre il link del run e lancia "completa"; poi verificare
+  il primo run di "Etsy: sincronizzazione" (log) e products/etsy-listings.json.
+
 ## 2026-10-06 — Google Search Console
 - Fatto: il proprietario ha verificato nettochiaro.com (proprietà Dominio, verifica DNS) e inviato
   https://nettochiaro.com/sitemap.xml. Stato dei passi del proprietario in cima a SETUP.md.
