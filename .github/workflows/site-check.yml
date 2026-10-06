@@ -22,7 +22,7 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - name: Diagnostica
@@ -70,7 +70,25 @@ jobs:
             done
             echo "server: $(curl -sSI --max-time 20 "https://$d/" 2>/dev/null | grep -iE '^(server|cf-ray|x-robots-tag):' | tr '\r\n' '  ')"
             echo "titolo: $(curl -sS --max-time 20 "https://$d/" 2>/dev/null | grep -o '<title>[^<]*' | head -1 | sed 's/<title>//')"
+            echo "pagina inesistente: $(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 "https://$d/pagina-che-non-esiste/" 2>&1)"
             echo '```'
+            sm=$(curl -sS --max-time 20 "https://$d/sitemap.xml" 2>/dev/null | grep -o '<loc>[^<]*' | sed 's/<loc>//')
+            if [ -n "$sm" ]; then
+              echo
+              echo "### Pagine della sitemap e asset"
+              echo '```'
+              ok=0; ko=0
+              for u in $sm; do
+                c=$(curl -sS -o "$RUNNER_TEMP/p.html" -w '%{http_code}' --max-time 20 "$u" 2>/dev/null || echo 000)
+                if [ "$c" = "200" ]; then ok=$((ok+1)); else ko=$((ko+1)); echo "ERRORE $c $u"; fi
+                for a in $(grep -oE '(href|src)="/assets/[^"]+' "$RUNNER_TEMP/p.html" 2>/dev/null | sed -E 's/^(href|src)="//' | sort -u); do
+                  ac=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 "https://$d$a" 2>/dev/null || echo 000)
+                  [ "$ac" = "200" ] || { ko=$((ko+1)); echo "ERRORE asset $ac $a (in $u)"; }
+                done
+              done
+              echo "pagine OK: $ok, errori: $ko"
+              echo '```'
+            fi
           } > "$out"
           cat "$out"
           cat "$out" >> "$GITHUB_STEP_SUMMARY"

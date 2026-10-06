@@ -2,6 +2,15 @@
 
 Voci più recenti in alto. Formato in OPERATIONS.md.
 
+## 2026-10-06 — Sito online su nettochiaro.com
+- Fatto: il proprietario ha registrato nettochiaro.com su Cloudflare e collegato il repo a Cloudflare
+  Pages con i domini nettochiaro.com e www. Workflow "Controllo sito" esteso: verifica ogni pagina della
+  sitemap, gli asset e la 404.
+- Verifiche: Controllo sito alle 21:34 UTC: 200 su /, robots.txt e sitemap.xml per entrambi i domini,
+  titolo corretto, nameserver Cloudflare.
+- In attesa del proprietario: Google Search Console + sitemap, negozio ed app Etsy (SETUP.md).
+- Prossimo: edizioni 2027 dei budget planner.
+
 ## 2026-10-06 — Prodotti Etsy e sincronizzazione automatica
 - Fatto: 3 prodotti in `products/` (gestionale forfettario 2026, budget familiare 2026, budget planner
   2026 EN) con file vuoti e di esempio, 8 immagini ciascuno, listing.json; sincronizzazione Etsy via
