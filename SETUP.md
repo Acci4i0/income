@@ -9,9 +9,13 @@ Finché non fai questo passo il sito non è online. Cloudflare Pages è gratuito
 commerciale. Se una build fallisce non viene pubblicata e resta online la versione precedente.
 Dominio, titolare (Andrea Lando) ed email sono già configurati in `site.config.json`.
 
-1. Crea un account su <https://dash.cloudflare.com> e conferma l'email.
+1. Entra su <https://dash.cloudflare.com> dal browser (l'app "1.1.1.1"/WARP sul telefono non mostra i
+   domini). Usa **un solo account** per dominio e progetto Pages: se hai più account (email diverse),
+   il dominio sta in quello con cui l'hai comprato. Lo vedi in **Domain Registration** → **Manage Domains**.
 2. **Domain Registration** → **Register Domains** → cerca `nettochiaro.com` → acquista (prezzo di costo,
-   circa 10 $/anno; serve la carta). Se non fosse più libero, scegline un altro e scrivimelo.
+   circa 10 $/anno; serve la carta). `and-re.com` (tuo dal 3/8/2026) ospita già il sito "andre": non usarlo
+   per NettoChiaro, oppure usa il sottodominio `nettochiaro.and-re.com` e scrivimelo (gratis, ma per la
+   pubblicità `ads.txt` andrebbe messo anche sul sito principale).
 3. **Workers & Pages** → **Create** → scheda **Pages** → **Connect to Git** → autorizza GitHub → scegli
    `Acci4i0/income`.
 4. Impostazioni build: Framework preset **None**, Build command `node build.mjs`, Build output directory

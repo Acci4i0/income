@@ -23,6 +23,17 @@ e il posizionamento: **l'accuratezza vale più della velocità**.
   salta il controllo del sito live.
 - La CI GitHub (`.github/workflows/ci.yml`) esegue test e build su ogni PR: il merge si fa solo con CI verde.
 
+## Rete e strumenti esterni
+
+- Il container delle sessioni non raggiunge Internet in generale (bloccati anche il sito live, Etsy e
+  api.cloudflare.com). Per vedere il sito dall'esterno usa il workflow **Controllo sito**: si avvia da solo
+  ogni lunedì e a ogni push che modifica `.github/site-check-domains.txt`; leggi il risultato con i tool
+  GitHub (list_workflow_runs su site-check.yml, poi get_job_logs). Il tool GitHub non può avviare workflow
+  a mano (403).
+- Cloudflare: il connettore "Cloudflare Developer Platform", se presente, gestisce solo Workers, KV, R2, D1
+  e la documentazione (search_cloudflare_documentation). Pages, DNS e domini si configurano dal pannello
+  del proprietario (SETUP.md).
+
 ## Procedura settimanale (una sessione = un incremento)
 
 1. **Allinea**: `git fetch origin` e parti dall'ultimo commit del branch di default (`git log origin/HEAD -1`).

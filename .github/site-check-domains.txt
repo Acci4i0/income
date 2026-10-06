@@ -1,2 +1,2 @@
-# Domini controllati dal workflow "Controllo sito" (oltre a quello di site.config.json). Un dominio per riga.
-and-re.com
+# Domini controllati dal workflow "Controllo sito", oltre a quello di site.config.json. Un dominio per riga.
+# Modificare questo file (anche solo un commento) avvia un controllo.
