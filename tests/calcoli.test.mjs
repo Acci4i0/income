@@ -69,7 +69,7 @@ test('forfettario: sotto il minimale i fissi sono dovuti per intero', () => {
 
 test('forfettario: avvisi soglie 85k e 100k', () => {
   assert.ok(calcolaForfettario({ ricavi: 90000, coefficiente: 0.78 }).avvisi[0].includes('prossimo'));
-  assert.ok(calcolaForfettario({ ricavi: 110000, coefficiente: 0.78 }).avvisi[0].includes('anno in corso'));
+  assert.ok(calcolaForfettario({ ricavi: 110000, coefficiente: 0.78 }).avvisi[0].includes('IRPEF ordinaria'));
 });
 
 test('forfettario: cassa professionale con aliquota personalizzata', () => {

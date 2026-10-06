@@ -38,7 +38,7 @@ const segnaposto = {
   titolare: config.titolare ? esc(config.titolare) : 'il gestore del sito NettoChiaro',
   contatto: config.contactEmail
     ? `<a href="mailto:${esc(config.contactEmail)}">${esc(config.contactEmail)}</a>`
-    : 'il link di segnalazione in fondo alla pagina',
+    : "l'indirizzo email del titolare, che verrà indicato qui prima della pubblicazione del sito",
 };
 for (const p of pages) {
   for (const k of ['content', 'intro']) {
@@ -48,8 +48,8 @@ for (const p of pages) {
 
 // Validazione
 const errors = [];
-if (config.monetization?.adsenseClient && (!config.titolare || !config.contactEmail)) {
-  errors.push('site.config.json: con AdSense attivo servono "titolare" e "contactEmail" (informativa privacy, art. 13 GDPR)');
+if ((config.indexable || config.monetization?.adsenseClient) && (!config.titolare || !config.contactEmail)) {
+  errors.push('site.config.json: per pubblicare (indexable) o attivare AdSense servono "titolare" e "contactEmail" (informativa privacy, art. 13 GDPR)');
 }
 const slugs = new Set();
 for (const p of pages) {

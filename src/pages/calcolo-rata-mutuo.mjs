@@ -1,8 +1,12 @@
-import { ANNO, AGGIORNATO } from '../lib/params.js';
+import { ANNO, AGGIORNATO, MUTUO } from '../lib/params.js';
 import { calcolaMutuo, rataMensile } from '../lib/mutuo.js';
-import { euro } from '../lib/format.js';
+import { euro, numero, perc } from '../lib/format.js';
 
 const es = calcolaMutuo({ capitale: 150000, tassoAnnuo: 0.03, anni: 25 });
+// Sostenibilità: rata massima pari a un terzo del reddito netto (stessa soglia dell'avviso in mutuo.js).
+const redditoEs = 2400;
+const rataMaxEs = redditoEs / 3;
+const mutuoMaxEs = Math.round(rataMaxEs / rataMensile(1, 0.03, 25) / 1000) * 1000;
 const tassi = [0.025, 0.03, 0.035, 0.04];
 const durate = [15, 20, 25, 30];
 const tabella = `
@@ -81,12 +85,12 @@ ${tabella}
 <ul>
   <li><strong>TAN</strong>: il tasso puro, usato per calcolare la rata.</li>
   <li><strong>TAEG</strong>: include istruttoria, perizia, assicurazioni obbligatorie e imposta sostitutiva. È il numero giusto per confrontare offerte diverse.</li>
-  <li><strong>Imposta sostitutiva</strong>: 0,25% dell'importo per la prima casa, 2% per la seconda.</li>
+  <li><strong>Imposta sostitutiva</strong>: ${perc(MUTUO.impostaSostitutiva)} dell'importo; ${perc(MUTUO.impostaSostitutivaNoPrimaCasa)} se il mutuo serve ad acquistare, costruire o ristrutturare un'abitazione senza i requisiti prima casa (art. 18 DPR 601/1973).</li>
   <li><strong>Assicurazione incendio e scoppio</strong>: obbligatoria; quelle sulla vita o sull'impiego sono facoltative anche se spesso proposte insieme.</li>
 </ul>
 
 <h2>Quanto mutuo posso permettermi</h2>
-<p>La regola usata dalle banche è che la rata non superi il 30–35% del reddito netto mensile del nucleo. Con 2.400 € netti al mese la rata massima è di circa 800 €: a 25 anni e al 3% corrisponde a un mutuo di circa ${euro(Math.round(800 / rataMensile(1, 0.03, 25) / 1000) * 1000)}. Per sapere il tuo netto parti dal <a href="/calcolo-stipendio-netto/">calcolo dello stipendio netto</a>.</p>
+<p>La regola usata dalle banche è che la rata non superi il 30–35% del reddito netto mensile del nucleo. Con ${numero(redditoEs)} € netti al mese la rata non dovrebbe superare un terzo del reddito, cioè circa ${numero(Math.round(rataMaxEs))} €: a 25 anni e al 3% corrisponde a un mutuo di circa ${numero(mutuoMaxEs)} €. Per sapere il tuo netto parti dal <a href="/calcolo-stipendio-netto/">calcolo dello stipendio netto</a>.</p>
 `,
   faq: [
     {

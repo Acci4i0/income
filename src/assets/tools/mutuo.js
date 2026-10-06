@@ -15,7 +15,7 @@ calcolatore('#calc', (v) => calcolaMutuo({
   out(form, 'rate', String(r.rate));
   out(form, 'rapporto', r.rapportoRataReddito == null ? 'inserisci il reddito' : perc(r.rapportoRataReddito));
   const warn = form.querySelector('[data-warn-rapporto]');
-  if (warn) warn.hidden = !(r.rapportoRataReddito > 0.33);
+  if (warn) warn.hidden = !(r.rapportoRataReddito > 1 / 3);
   barra(form, [
     { etichetta: 'Capitale', valore: r.totalePagato - r.totaleInteressi, classe: 'net' },
     { etichetta: 'Interessi', valore: r.totaleInteressi, classe: 'tax' },

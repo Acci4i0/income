@@ -6,6 +6,7 @@ calcolatore('#calc', (v) => calcolaStipendio({
   mensilita: Number(v.mensilita),
   addRegionale: v.addRegionale,
   addComunale: v.addComunale,
+  contributivoPuro: Boolean(v.contributivoPuro),
 }), (form, r) => {
   out(form, 'nettoMensile', euro(r.nettoMensile));
   out(form, 'netto', euro(r.netto));

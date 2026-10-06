@@ -1,9 +1,12 @@
 import { DIPENDENTE, ADDIZIONALI_DEFAULT } from './params.js';
 import { irpefLorda } from './irpef.js';
 
-export function contributiDipendente(ral) {
-  const { inpsAliquota, inpsAliquotaAggiuntiva, inpsSogliaAggiuntiva } = DIPENDENTE;
-  return ral * inpsAliquota + Math.max(0, ral - inpsSogliaAggiuntiva) * inpsAliquotaAggiuntiva;
+// Contributi IVS a carico del dipendente. Con contributivoPuro (primo contributo dal 1/1/1996)
+// la base contributiva si ferma al massimale annuo (art. 2 c. 18 L. 335/1995).
+export function contributiDipendente(ral, { contributivoPuro = false } = {}) {
+  const { inpsAliquota, inpsAliquotaAggiuntiva, inpsSogliaAggiuntiva, massimale } = DIPENDENTE;
+  const base = contributivoPuro ? Math.min(ral, massimale) : ral;
+  return base * inpsAliquota + Math.max(0, base - inpsSogliaAggiuntiva) * inpsAliquotaAggiuntiva;
 }
 
 // Detrazione per lavoro dipendente, art. 13 c.1 e c.1.1 TUIR, anno intero.
@@ -39,8 +42,9 @@ export function calcolaStipendio({
   mensilita = 13,
   addRegionale = ADDIZIONALI_DEFAULT.regionale,
   addComunale = ADDIZIONALI_DEFAULT.comunale,
+  contributivoPuro = false,
 }) {
-  const inps = contributiDipendente(ral);
+  const inps = contributiDipendente(ral, { contributivoPuro });
   const imponibile = Math.max(0, ral - inps);
   const lorda = irpefLorda(imponibile);
   const detrLavoro = detrazioneLavoro(imponibile);
@@ -51,12 +55,15 @@ export function calcolaStipendio({
   const ti = DIPENDENTE.trattamentoIntegrativo;
   const trattamentoIntegrativo = imponibile <= ti.sogliaReddito && lorda > detrLavoro - ti.franchigia ? ti.importo : 0;
 
-  const addizionali = imponibile * (addRegionale + addComunale);
+  // Le addizionali sono dovute solo se l'IRPEF netta è positiva
+  // (art. 50 c. 2 D.Lgs. 446/1997; art. 1 c. 4 D.Lgs. 360/1998).
+  const addizionali = irpefNetta > 0 ? imponibile * (addRegionale + addComunale) : 0;
   const netto = ral - inps - irpefNetta - addizionali + cuneo.sommaEsente + trattamentoIntegrativo;
 
   return {
     ral,
     mensilita,
+    contributivoPuro,
     inps,
     imponibile,
     irpefLorda: lorda,

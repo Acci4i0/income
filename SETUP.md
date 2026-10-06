@@ -17,7 +17,11 @@ Se una build fallisce, Cloudflare non pubblica e resta online la versione preced
    Production branch: il branch di default del repo. Salva e fai il deploy.
 4. Nel progetto Pages → **Custom domains** → aggiungi il dominio e segui le istruzioni DNS.
 5. Apri una issue nel repo con titolo `dominio: nettochiaro.com` (o il tuo dominio) e label `owner`.
-   L'operatore aggiorna `baseUrl`, attiva l'indicizzazione e pubblica.
+   Nella stessa issue indica il titolare del sito (nome e cognome o ragione sociale, con indirizzo di
+   domicilio o sede) e un'email di contatto. Questi dati compaiono in pubblico nell'informativa privacy e in
+   Chi siamo: li chiedono l'art. 13 GDPR e, con la pubblicità, l'art. 7 del D.Lgs. 70/2003.
+   L'operatore li inserisce in `site.config.json` (`titolare`, `contactEmail`), aggiorna `baseUrl`, attiva
+   l'indicizzazione e pubblica.
 
 ## 2. Google Search Console (5 minuti, subito dopo il punto 1)
 
@@ -29,10 +33,21 @@ Senza questo passo Google ci mette molto di più a trovare il sito.
 
 ## 3. Google AdSense (20 minuti, dopo 4-8 settimane di contenuti indicizzati)
 
+Prima di attivare AdSense controlla che titolare ed email (sezione 1, punto 5) siano in `site.config.json`
+(`titolare`, `contactEmail`): con il publisher ID impostato e senza questi dati la build si ferma con un
+errore.
+
 1. <https://adsense.google.com> → registrati con il dominio.
 2. Copia il publisher ID (`ca-pub-XXXXXXXXXXXXXXXX`) e mettilo in una issue `owner`: l'operatore lo inserisce
    in `site.config.json` → `monetization.adsenseClient`, così vengono generati lo script e `ads.txt`.
-3. In AdSense → **Privacy e messaggi** → attiva il messaggio di consenso GDPR per UE/SEE (obbligatorio).
+3. In AdSense → **Privacy e messaggi**: aggiungi l'URL della privacy policy del sito
+   (`https://<dominio>/privacy/`). Nel messaggio **Normative europee** del sito (crealo, oppure controlla
+   quello che AdSense crea in automatico con **Massimizza la copertura dei messaggi**), in **Scelte
+   dell'utente** imposta **Non acconsentire** su ON per tutti i paesi (almeno per l'Italia) e attiva
+   **Chiudi (non acconsentire)**. Disattiva **Ottimizza il messaggio di consenso** (attivo per impostazione
+   predefinita dal 7/5/2026), che ad alcuni utenti può mostrare un messaggio non bloccante al posto di quello
+   con Accetta/Rifiuta, oppure verifica che ogni variante offra il rifiuto. Lascia attivo il link per
+   rivedere le scelte e pubblica il messaggio prima di attivare gli annunci.
 4. Attiva gli **Annunci automatici**.
 
 AdSense può rifiutare siti giovani o con poco traffico: in quel caso si riprova dopo qualche settimana.

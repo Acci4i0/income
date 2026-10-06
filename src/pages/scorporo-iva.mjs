@@ -1,21 +1,52 @@
-import { AGGIORNATO, ANNO } from '../lib/params.js';
-import { scorporaIva } from '../lib/iva.js';
-import { euro } from '../lib/format.js';
+import { AGGIORNATO, ANNO, IVA } from '../lib/params.js';
+import { scorporaIva, aggiungiIva } from '../lib/iva.js';
+import { euro, round2 } from '../lib/format.js';
 
-const es = scorporaIva(1000, 0.22);
-const righe = [0.22, 0.10, 0.05, 0.04].map((a) => {
+// Formati delle aliquote: 0.22 -> "22%", divisore "1,22", moltiplicatore "0,22".
+const pct = (a) => `${String(round2(a * 100)).replace('.', ',')}%`;
+const virgola = (n) => n.toFixed(2).replace('.', ',');
+const elenco = (xs, cong = 'e') => (xs.length > 1 ? `${xs.slice(0, -1).join(', ')} ${cong} ${xs.at(-1)}` : xs.join(''));
+
+const aliquote = IVA.aliquote;
+const ordinaria = Math.max(...aliquote);
+const elencoAliquote = elenco(aliquote.map(pct));
+const elencoAliquoteO = elenco(aliquote.map(pct), 'o');
+
+// Esempio principale e confronto con l'errore di togliere la percentuale dal prezzo ivato.
+const es = scorporaIva(1000, ordinaria);
+const sbagliato = es.lordo - es.lordo * ordinaria;
+// FAQ: prezzo ivato che corrisponde a 200 € di imponibile.
+const faqScorporo = scorporaIva(round2(aggiungiIva(200, ordinaria).lordo), ordinaria);
+// FAQ: 100 € di imponibile più IVA, poi la percentuale tolta dal totale per errore.
+const faqErrore = scorporaIva(round2(aggiungiIva(100, ordinaria).lordo), ordinaria);
+
+const righe = aliquote.map((a) => {
   const r = scorporaIva(100, a);
-  return `<tr><td class="num">${Math.round(a * 100)}%</td><td class="num">${(1 + a).toFixed(2).replace('.', ',')}</td><td class="num">${euro(r.imponibile)}</td><td class="num">${euro(r.iva)}</td></tr>`;
+  return `<tr><td class="num">${pct(a)}</td><td class="num">${virgola(1 + a)}</td><td class="num">${euro(r.imponibile)}</td><td class="num">${euro(r.iva)}</td></tr>`;
 }).join('');
+
+const radio = aliquote.map((a) => `<label><input type="radio" name="aliquota" value="${a}"${a === ordinaria ? ' checked' : ''}> ${pct(a)}</label>`).join('\n      ');
+
+// Ambiti di applicazione per aliquota (Tabella A allegata al DPR 633/1972).
+const ambiti = {
+  0.22: 'aliquota ordinaria, si applica a tutto ciò che non ha un\'aliquota ridotta (servizi professionali, elettronica, abbigliamento).',
+  0.1: 'tra gli altri, ristoranti e bar, alberghi, alcuni alimenti, ristrutturazioni edilizie, energia elettrica e gas per uso domestico (con limiti).',
+  0.05: 'alcune prestazioni sociosanitarie ed educative rese dalle cooperative sociali, alcune erbe aromatiche fresche come basilico, rosmarino e salvia.',
+  0.04: 'beni di prima necessità come pane, latte, frutta e verdura, libri e giornali, prima casa da costruttore.',
+};
+const listaAmbiti = aliquote.map((a) => {
+  if (!ambiti[a]) throw new Error(`scorporo-iva.mjs: manca la descrizione dell'aliquota ${pct(a)}`);
+  return `  <li><strong>${pct(a)}</strong>: ${ambiti[a]}</li>`;
+}).join('\n');
 
 export default {
   order: 3,
   kind: 'tool',
   slug: 'scorporo-iva',
   navLabel: 'Scorporo IVA',
-  cardText: 'Togli o aggiungi l\'IVA al 22%, 10%, 5% o 4% a qualsiasi importo.',
-  title: 'Scorporo IVA online: calcolo IVA 22%, 10%, 5% e 4%',
-  description: 'Scorpora l\'IVA da un prezzo ivato o aggiungila a un imponibile. Aliquote 22%, 10%, 5% e 4%, con formula ed esempi pratici.',
+  cardText: `Togli o aggiungi l'IVA al ${elencoAliquoteO} a qualsiasi importo.`,
+  title: `Scorporo IVA online: calcolo IVA ${elencoAliquote}`,
+  description: `Scorpora l'IVA da un prezzo ivato o aggiungila a un imponibile. Aliquote ${elencoAliquote}, con formula ed esempi pratici.`,
   h1: 'Scorporo IVA e calcolo IVA',
   year: ANNO,
   updated: AGGIORNATO,
@@ -34,10 +65,7 @@ export default {
     </label>
     <fieldset class="segmented">
       <legend>Aliquota IVA</legend>
-      <label><input type="radio" name="aliquota" value="0.22" checked> 22%</label>
-      <label><input type="radio" name="aliquota" value="0.1"> 10%</label>
-      <label><input type="radio" name="aliquota" value="0.05"> 5%</label>
-      <label><input type="radio" name="aliquota" value="0.04"> 4%</label>
+      ${radio}
     </fieldset>
   </div>
   <div class="results" aria-live="polite">
@@ -55,12 +83,12 @@ export default {
 </form>`,
   content: `
 <h2>Formula dello scorporo IVA</h2>
-<p>Per togliere l'IVA da un prezzo ivato si divide per 1 più l'aliquota: con l'IVA al 22% si divide per 1,22.</p>
+<p>Per togliere l'IVA da un prezzo ivato si divide per 1 più l'aliquota: con l'IVA al ${pct(ordinaria)} si divide per ${virgola(1 + ordinaria)}.</p>
 <p><code>imponibile = prezzo ivato ÷ (1 + aliquota)</code> e <code>IVA = prezzo ivato − imponibile</code></p>
 <div class="example">
-  <p><strong>Esempio:</strong> ${euro(es.lordo)} IVA inclusa al 22% → ${euro(es.lordo)} ÷ 1,22 = <strong>${euro(es.imponibile)}</strong> di imponibile e <strong>${euro(es.iva)}</strong> di IVA.</p>
+  <p><strong>Esempio:</strong> ${euro(es.lordo)} IVA inclusa al ${pct(ordinaria)} → ${euro(es.lordo)} ÷ ${virgola(1 + ordinaria)} = <strong>${euro(es.imponibile)}</strong> di imponibile e <strong>${euro(es.iva)}</strong> di IVA.</p>
 </div>
-<p>Un errore frequente è calcolare il 22% del prezzo ivato e sottrarlo: su 1.000 € darebbe 780 €, cioè 39,67 € in meno del valore corretto.</p>
+<p>Un errore frequente è calcolare il ${pct(ordinaria)} del prezzo ivato e sottrarlo: su ${euro(es.lordo)} darebbe ${euro(sbagliato)}, cioè ${euro(es.imponibile - sbagliato)} in meno del valore corretto.</p>
 
 <h2>Tabella divisori per aliquota</h2>
 <table>
@@ -70,25 +98,22 @@ export default {
 
 <h2>Quale aliquota si applica</h2>
 <ul>
-  <li><strong>22%</strong>: aliquota ordinaria, si applica a tutto ciò che non ha un'aliquota ridotta (servizi professionali, elettronica, abbigliamento).</li>
-  <li><strong>10%</strong>: tra gli altri, ristoranti e bar, alberghi, alcuni alimenti, ristrutturazioni edilizie, energia elettrica e gas per uso domestico (con limiti).</li>
-  <li><strong>5%</strong>: alcune prestazioni sociosanitarie ed educative rese dalle cooperative sociali, alcune erbe aromatiche fresche come basilico, rosmarino e salvia.</li>
-  <li><strong>4%</strong>: beni di prima necessità come pane, latte, frutta e verdura, libri e giornali, prima casa da costruttore.</li>
+${listaAmbiti}
 </ul>
 <p>Le liste complete sono nelle tabelle allegate al DPR 633/1972. Nel regime forfettario l'IVA non si applica in fattura: vedi il <a href="/calcolo-fattura/">calcolo fattura</a>.</p>
 `,
   faq: [
     {
-      q: 'Come si scorpora l\'IVA al 22%?',
-      a: '<p>Dividi il prezzo IVA inclusa per 1,22. Il risultato è l\'imponibile; la differenza tra prezzo e imponibile è l\'IVA. Esempio: 244 € ÷ 1,22 = 200 € di imponibile e 44 € di IVA.</p>',
+      q: `Come si scorpora l'IVA al ${pct(ordinaria)}?`,
+      a: `<p>Dividi il prezzo IVA inclusa per ${virgola(1 + ordinaria)}. Il risultato è l'imponibile; la differenza tra prezzo e imponibile è l'IVA. Esempio: ${euro(faqScorporo.lordo)} ÷ ${virgola(1 + ordinaria)} = ${euro(faqScorporo.imponibile)} di imponibile e ${euro(faqScorporo.iva)} di IVA.</p>`,
     },
     {
       q: 'Come si aggiunge l\'IVA a un prezzo?',
-      a: '<p>Moltiplica l\'imponibile per 1 più l\'aliquota: per il 22% moltiplica per 1,22. Per l\'IVA da sola moltiplica per 0,22.</p>',
+      a: `<p>Moltiplica l'imponibile per 1 più l'aliquota: per il ${pct(ordinaria)} moltiplica per ${virgola(1 + ordinaria)}. Per l'IVA da sola moltiplica per ${virgola(ordinaria)}.</p>`,
     },
     {
-      q: 'Perché non basta togliere il 22% dal prezzo ivato?',
-      a: '<p>Perché il 22% si calcola sull\'imponibile, non sul totale. Togliere il 22% dal totale sottrae troppo: su 122 € toglieresti 26,84 € invece di 22 €.</p>',
+      q: `Perché non basta togliere il ${pct(ordinaria)} dal prezzo ivato?`,
+      a: `<p>Perché il ${pct(ordinaria)} si calcola sull'imponibile, non sul totale. Togliere il ${pct(ordinaria)} dal totale sottrae troppo: su ${euro(faqErrore.lordo)} toglieresti ${euro(faqErrore.lordo * ordinaria)} invece di ${euro(faqErrore.iva)}.</p>`,
     },
   ],
   related: ['calcolo-fattura', 'calcolo-tasse-forfettario', 'prestazione-occasionale'],

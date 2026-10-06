@@ -55,6 +55,8 @@ export const FORFETTARIO = {
   // 35.000 € per il 2026 (L. 199/2025 art. 1 c. 27, proroga del limite della L. 207/2024);
   // dal 2027 torna a 30.000 € salvo nuova proroga.
   limiteRedditoDipendente: 35000,
+  // Limite ordinario (L. 190/2014 c. 57 lett. d-ter), di nuovo in vigore dal 2027 senza proroga.
+  limiteRedditoDipendenteOrdinario: 30000,
   impostaOrdinaria: 0.15,
   impostaStartup: 0.05,
   // Allegato 4 L. 190/2014. Codici ATECO 2007: anche dopo l'adozione di ATECO 2025 (1/4/2025) il
@@ -116,6 +118,7 @@ export const OCCASIONALE = {
 // Imposta di bollo su fatture/ricevute non soggette a IVA (DPR 642/1972).
 export const BOLLO = { importo: 2, soglia: 77.47 };
 
+// Aliquote IVA: art. 16 DPR 633/1972 (22% ordinaria) e Tabella A, parti II, II-bis e III (4%, 5%, 10%).
 export const IVA = { aliquote: [0.22, 0.10, 0.05, 0.04] };
 
 // Imposta sostitutiva sui finanziamenti a medio-lungo termine: artt. 15-18 DPR 601/1973 (0,25%);

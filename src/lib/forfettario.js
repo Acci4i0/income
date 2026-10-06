@@ -43,6 +43,8 @@ export function contributiForfettario({ reddito, gestione, riduzione35 = false, 
 
 // Stima "a regime": i contributi dell'anno sono dedotti dal reddito dello stesso anno.
 // Nella realtà si deducono i contributi effettivamente versati nell'anno (saldo + acconti).
+// Con ricavi oltre sogliaUscitaImmediata il forfettario cessa già nell'anno: fuoriRegime = true e
+// imposta, contributi e netto restano solo indicativi (non vanno mostrati come dovuti).
 export function calcolaForfettario({
   ricavi,
   coefficiente,
@@ -60,15 +62,20 @@ export function calcolaForfettario({
   const totaleTasse = imposta + contributi.totale;
   const netto = ricavi - totaleTasse - costiReali;
 
+  // Circ. AdE 32/E/2023: oltre la soglia l'IVA si applica dall'operazione che la supera, mentre il
+  // reddito dell'intero anno si determina con le regole ordinarie (IRPEF e costi reali).
+  const fuoriRegime = ricavi > FORFETTARIO.sogliaUscitaImmediata;
   const avvisi = [];
-  if (ricavi > FORFETTARIO.sogliaUscitaImmediata) {
-    avvisi.push(`Oltre ${FORFETTARIO.sogliaUscitaImmediata.toLocaleString('it-IT')} € di ricavi esci dal forfettario già nell'anno in corso: dall'operazione che supera la soglia si applicano IVA e regime ordinario.`);
+  if (fuoriRegime) {
+    avvisi.push(`Oltre ${FORFETTARIO.sogliaUscitaImmediata.toLocaleString('it-IT')} € di ricavi esci dal forfettario già quest'anno: l'IVA si applica dall'operazione che fa superare la soglia, e il reddito dell'intero anno si tassa con IRPEF ordinaria e costi reali. L'imposta sostitutiva calcolata qui non è dovuta.`);
   } else if (ricavi > FORFETTARIO.sogliaRicavi) {
     avvisi.push(`Oltre ${FORFETTARIO.sogliaRicavi.toLocaleString('it-IT')} € di ricavi resti forfettario per quest'anno, ma dal prossimo passi al regime ordinario.`);
   }
   if (gestione === 'artigiani' || gestione === 'commercianti') {
-    if (redditoLordo < INPS.artigiani.minimale) {
-      avvisi.push('Il reddito è sotto il minimale INPS: i contributi fissi sono dovuti comunque, per intero.');
+    if (redditoLordo < INPS[gestione].minimale) {
+      avvisi.push(riduzione35
+        ? `Il reddito è sotto il minimale INPS: i contributi fissi (ridotti del ${Math.round(INPS.riduzioneForfettari * 100)}%) sono dovuti comunque, anche se il reddito è più basso.`
+        : 'Il reddito è sotto il minimale INPS: i contributi fissi sono dovuti comunque, per intero.');
     }
   }
 
@@ -85,6 +92,7 @@ export function calcolaForfettario({
     netto,
     nettoMensile: netto / 12,
     incidenza: ricavi > 0 ? totaleTasse / ricavi : 0,
+    fuoriRegime,
     avvisi,
   };
 }

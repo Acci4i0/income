@@ -95,7 +95,8 @@ La voce "Aggiornamento parametri <anno>" entra in cima al backlog ogni gennaio.
 ## Passaggio a dominio definitivo
 
 Quando il proprietario comunica il dominio (issue o LOG):
-1. `site.config.json`: `baseUrl` = `https://<dominio>`, `indexable` = `true`.
+1. `site.config.json`: `baseUrl` = `https://<dominio>`, `indexable` = `true`, `titolare` e `contactEmail`
+   con i dati forniti dal proprietario (la build fallisce se mancano: servono per l'informativa privacy).
 2. Build, smoke test, PR (il merge lo fa il proprietario). Controlla che `robots.txt` contenga la sitemap.
 3. Annota nel LOG di inviare la sitemap in Google Search Console (azione del proprietario, vedi SETUP.md).
 

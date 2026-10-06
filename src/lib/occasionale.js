@@ -1,7 +1,8 @@
 import { OCCASIONALE, INPS, BOLLO } from './params.js';
 import { risolvi } from './format.js';
 
-// Prestazione occasionale: ritenuta del 20% se il committente è sostituto d'imposta,
+// Prestazione occasionale: ritenuta del 20% se il committente è sostituto d'imposta
+// (privati, forfettari e minimi non la applicano sui compensi di lavoro autonomo),
 // contributi in Gestione Separata solo sulla parte di compensi annui oltre 5.000 €.
 export function calcolaOccasionale({ lordo, giaPercepito = 0, sostituto = true, iscrittoAltraForma = false }) {
   const f = OCCASIONALE.franchigiaInps;

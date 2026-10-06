@@ -2,6 +2,18 @@
 
 Voci più recenti in alto. Formato in OPERATIONS.md.
 
+## 2026-10-06 — Verifica avversariale dell'accuratezza
+- Fatto: 5 revisori indipendenti (forfettario, stipendio, occasionale, fattura, IVA/mutuo/privacy) e
+  5 scettici: 34 errori confermati su 39 segnalati, tutti corretti. Principali: addizionali azzerate
+  quando l'IRPEF netta è zero; opzione massimale contributivo (contributivo puro); forfettario oltre
+  100.000 € marcato "non applicabile" (circ. AdE 32/E/2023); colonna ATECO 2007 con nota su ATECO 2025;
+  committenti forfettari senza ritenuta (art. 1 c. 69 L. 190/2014); fattura ordinaria esente IVA con
+  bollo; avviso quando il netto richiesto cade nel salto della marca da bollo; informativa privacy
+  completa (art. 13 GDPR) con segnaposto titolare/contatto; build bloccata se si pubblica o si attiva
+  AdSense senza titolare ed email.
+- Verifiche: 50 test, build, smoke test desktop e mobile, controlli manuali nel browser.
+- Prossimo: addizionali regionali per regione.
+
 ## 2026-10-06 — Lancio
 - Fatto: sito statico NettoChiaro con 6 calcolatori (forfettario, stipendio netto, scorporo IVA,
   prestazione occasionale, fattura, rata mutuo), pagine istituzionali, build con validazione,

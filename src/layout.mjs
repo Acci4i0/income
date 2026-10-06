@@ -163,7 +163,7 @@ ${main}
   <div class="wrap">
     <p><strong>${esc(config.name)}</strong> · ${esc(config.tagline)}</p>
     <p class="footer-links"><a href="/chi-siamo/">Chi siamo e metodo</a> · <a href="/privacy/">Privacy e cookie</a>${config.contactEmail ? ` · <a href="mailto:${esc(config.contactEmail)}">Contatti</a>` : ` · <a href="${esc(config.repoUrl)}/issues" rel="noopener">Segnala un errore</a>`}</p>
-    <p class="small muted">Strumenti gratuiti a scopo informativo. I calcoli avvengono nel tuo browser: nessun dato inserito viene inviato o salvato.</p>
+    <p class="small muted">Strumenti gratuiti a scopo informativo. I calcoli avvengono nel tuo browser: gli importi che inserisci non vengono salvati né inviati, a meno che tu non condivida il link a un calcolo.</p>
   </div>
 </footer>
 ${page.script ? `<script type="module" src="${asset(`tools/${page.script}`)}"></script>` : ''}

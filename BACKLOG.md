@@ -30,6 +30,9 @@ L'operatore prende la prima voce non spuntata di "Prossimi". Spezza le voci trop
   scadenze F24). Il file va in `products/`; il proprietario lo carica su Gumroad o Lemon Squeezy e mette
   l'URL in `site.config.json` → offerta `foglio-forfettario`.
 
+- [ ] **Contributo integrativo delle casse in params.js**: aliquote con fonte (Cassa Forense, Inarcassa,
+  ENPAP: verificare se dal 2027 passa al 4%) al posto dei valori scritti nella pagina fattura.
+
 ## Ricorrenti
 
 - Ogni gennaio: **Aggiornamento parametri** (vedi OPERATIONS.md, "Aggiornamento annuale").
