@@ -65,7 +65,7 @@ jobs:
             echo
             echo "### HTTP"
             echo '```'
-            for p in / /robots.txt /sitemap.xml; do
+            for p in / /robots.txt /sitemap.xml /etsy-callback/ /prodotti/; do
               printf '%-14s %s\n' "$p" "$(curl -sS -o /dev/null -w '%{http_code} %{redirect_url}' --max-time 20 "https://$d$p" 2>&1)"
             done
             echo "server: $(curl -sSI --max-time 20 "https://$d/" 2>/dev/null | grep -iE '^(server|cf-ray|x-robots-tag):' | tr '\r\n' '  ')"
