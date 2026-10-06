@@ -1,10 +1,10 @@
 {
   "name": "NettoChiaro",
   "tagline": "Calcolatori fiscali chiari: quanto ti resta davvero in tasca",
-  "baseUrl": "",
-  "indexable": false,
-  "titolare": "",
-  "contactEmail": "",
+  "baseUrl": "https://nettochiaro.com",
+  "indexable": true,
+  "titolare": "Andrea Lando",
+  "contactEmail": "lando.andrea04@gmail.com",
   "repoUrl": "https://github.com/Acci4i0/income",
   "monetization": {
     "adsenseClient": "",
@@ -12,7 +12,10 @@
       {
         "id": "conto-business",
         "label": "Partner",
-        "pages": ["calcolo-tasse-forfettario", "calcolo-fattura"],
+        "pages": [
+          "calcolo-tasse-forfettario",
+          "calcolo-fattura"
+        ],
         "title": "Conto business per partita IVA",
         "text": "Separare le entrate della partita IVA dal conto personale semplifica tasse e contabilità.",
         "cta": "Confronta l'offerta",
@@ -21,7 +24,11 @@
       {
         "id": "commercialista-online",
         "label": "Partner",
-        "pages": ["calcolo-tasse-forfettario", "prestazione-occasionale", "calcolo-fattura"],
+        "pages": [
+          "calcolo-tasse-forfettario",
+          "prestazione-occasionale",
+          "calcolo-fattura"
+        ],
         "title": "Commercialista online per forfettari",
         "text": "Apertura partita IVA, dichiarazione e F24 gestiti da un professionista a canone fisso.",
         "cta": "Richiedi una consulenza",
@@ -30,7 +37,9 @@
       {
         "id": "foglio-forfettario",
         "label": "Prodotto",
-        "pages": ["calcolo-tasse-forfettario"],
+        "pages": [
+          "calcolo-tasse-forfettario"
+        ],
         "title": "Foglio Excel per forfettari 2026",
         "text": "Registro fatture, accantonamento tasse e INPS mese per mese, scadenze F24. Si aggiorna da solo.",
         "cta": "Scaricalo",
