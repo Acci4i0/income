@@ -1,0 +1,67 @@
+# Diagnostica di dominio e sito dall'esterno (il container delle sessioni Claude non raggiunge Internet).
+# Lanciabile a mano (Actions → "Controllo sito" → Run workflow) o dall'operatore con il tool GitHub.
+name: "Controllo sito"
+
+on:
+  workflow_dispatch:
+    inputs:
+      domain:
+        description: "Dominio da controllare (es. nettochiaro.com)"
+        required: true
+  schedule:
+    - cron: "30 6 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Diagnostica
+        env:
+          INPUT_DOMAIN: ${{ inputs.domain }}
+        run: |
+          set -u
+          d="${INPUT_DOMAIN:-}"
+          if [ -z "$d" ]; then
+            d=$(node -e "const u=require('./site.config.json').baseUrl||''; process.stdout.write(u.replace(/^https?:\/\//,'').replace(/\/.*$/,''))")
+          fi
+          if ! printf '%s' "$d" | grep -Eq '^[a-z0-9.-]+\.[a-z]{2,}$'; then
+            echo "::error::Dominio non valido: $d"; exit 1
+          fi
+          root=$(printf '%s' "$d" | awk -F. '{print $(NF-1)"."$NF}')
+          tld=${root##*.}
+          out="$RUNNER_TEMP/report.md"
+          {
+            echo "## Controllo di \`$d\`"
+            echo
+            echo "### Registrazione (RDAP di \`$root\`)"
+            echo '```'
+            curl -sS --max-time 20 "https://rdap.org/domain/$root" -L | jq -r '
+              "stato: \(.status // [] | join(", "))",
+              (.events // [] | .[] | "\(.eventAction): \(.eventDate)"),
+              "registrar: \([.entities[]? | select(.roles | index("registrar")) | .vcardArray[1][]? | select(.[0]=="fn") | .[3]] | join(", "))",
+              "nameserver: \([.nameservers[]?.ldhName] | join(", "))"
+            ' 2>&1 || echo "RDAP non disponibile per .$tld"
+            echo '```'
+            echo
+            echo "### DNS"
+            echo '```'
+            for t in NS A AAAA CNAME; do echo "$t: $(dig +short "$d" "$t" | tr '\n' ' ')"; done
+            echo "www CNAME/A: $(dig +short "www.$d" | tr '\n' ' ')"
+            echo '```'
+            echo
+            echo "### HTTP"
+            echo '```'
+            for p in / /robots.txt /sitemap.xml; do
+              printf '%-14s %s\n' "$p" "$(curl -sS -o /dev/null -w '%{http_code} %{redirect_url}' --max-time 20 "https://$d$p" 2>&1)"
+            done
+            echo "server: $(curl -sSI --max-time 20 "https://$d/" 2>/dev/null | grep -iE '^(server|cf-ray|x-robots-tag):' | tr '\r\n' '  ')"
+            echo "titolo: $(curl -sS --max-time 20 "https://$d/" 2>/dev/null | grep -o '<title>[^<]*' | head -1 | sed 's/<title>//')"
+            echo '```'
+          } > "$out"
+          cat "$out"
+          cat "$out" >> "$GITHUB_STEP_SUMMARY"
