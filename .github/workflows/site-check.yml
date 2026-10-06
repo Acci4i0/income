@@ -1,8 +1,13 @@
 # Diagnostica di dominio e sito dall'esterno (il container delle sessioni Claude non raggiunge Internet).
-# Lanciabile a mano (Actions → "Controllo sito" → Run workflow) o dall'operatore con il tool GitHub.
+# Si avvia a mano (Actions → "Controllo sito" → Run workflow), ogni lunedì, oppure con un push che modifica
+# .github/site-check-domains.txt (un dominio per riga): è il modo per l'operatore, che non può avviare i workflow.
 name: "Controllo sito"
 
 on:
+  push:
+    paths:
+      - ".github/site-check-domains.txt"
+      - ".github/workflows/site-check.yml"
   workflow_dispatch:
     inputs:
       domain:
@@ -25,12 +30,16 @@ jobs:
           INPUT_DOMAIN: ${{ inputs.domain }}
         run: |
           set -u
-          d="${INPUT_DOMAIN:-}"
-          if [ -z "$d" ]; then
-            d=$(node -e "const u=require('./site.config.json').baseUrl||''; process.stdout.write(u.replace(/^https?:\/\//,'').replace(/\/.*$/,''))")
+          domains="${INPUT_DOMAIN:-}"
+          if [ -z "$domains" ]; then
+            domains=$(node -e "const u=require('./site.config.json').baseUrl||''; process.stdout.write(u.replace(/^https?:\/\//,'').replace(/\/.*$/,''))")
+            if [ -f .github/site-check-domains.txt ]; then
+              domains="$domains $(grep -vE '^\s*(#|$)' .github/site-check-domains.txt | tr '\n' ' ')"
+            fi
           fi
+          for d in $(printf '%s\n' $domains | sort -u); do
           if ! printf '%s' "$d" | grep -Eq '^[a-z0-9.-]+\.[a-z]{2,}$'; then
-            echo "::error::Dominio non valido: $d"; exit 1
+            echo "::warning::Dominio non valido: $d"; continue
           fi
           root=$(printf '%s' "$d" | awk -F. '{print $(NF-1)"."$NF}')
           tld=${root##*.}
@@ -65,3 +74,4 @@ jobs:
           } > "$out"
           cat "$out"
           cat "$out" >> "$GITHUB_STEP_SUMMARY"
+          done
