@@ -2,8 +2,9 @@
 
 Questo file è il manuale per le sessioni Claude che gestiscono NettoChiaro.
 Una Routine settimanale avvia una sessione nuova che legge questo file e lo segue alla lettera.
-L'operatore prepara ogni modifica in una PR; il proprietario la rivede e fa il merge. Per il resto il
-proprietario interviene solo per le azioni elencate in `SETUP.md`.
+L'operatore prepara ogni modifica in una PR e ne fa il merge quando tutti i controlli sono verdi
+(autorizzazione del proprietario del 6/10/2026). Il proprietario interviene solo per le azioni elencate
+in `SETUP.md`.
 
 ## Obiettivo
 
@@ -20,7 +21,7 @@ e il posizionamento: **l'accuratezza vale più della velocità**.
 - Il deploy è automatico: ogni merge sul branch di default del repo pubblica il sito (Cloudflare Pages,
   dopo il punto 1 di SETUP.md). Se `baseUrl` in `site.config.json` è vuoto il sito non è ancora online:
   salta il controllo del sito live.
-- La CI GitHub (`.github/workflows/ci.yml`) esegue test e build su ogni PR: il proprietario fa il merge solo con CI verde.
+- La CI GitHub (`.github/workflows/ci.yml`) esegue test e build su ogni PR: il merge si fa solo con CI verde.
 
 ## Procedura settimanale (una sessione = un incremento)
 
@@ -39,10 +40,12 @@ e il posizionamento: **l'accuratezza vale più della velocità**.
 8. **Registra**: aggiungi una voce in cima a `LOG.md` (formato sotto) e spunta la voce in `BACKLOG.md`.
    Se scopri lavoro nuovo, aggiungilo al backlog nella posizione giusta.
 9. **Pubblica**: commit, push sul branch di lavoro della sessione, apri una PR verso il branch di default
-   con un riassunto chiaro (cosa cambia, fonti verificate, esito dei controlli). **Non fare il merge**: lo
-   fa il proprietario dopo una revisione. Se trovi PR dell'operatore ancora aperte, non accumularne altre
-   sulla stessa voce: annota nel LOG che sono in attesa. Se i tool GitHub non sono disponibili nella
-   sessione, pusha comunque il branch e scrivi nel LOG e nel riepilogo finale il nome del branch: il
+   con un riassunto chiaro (cosa cambia, fonti verificate, esito dei controlli). Il proprietario ha
+   autorizzato il merge automatico (6/10/2026): fai lo squash merge solo se (a) `npm test`, build e smoke
+   test sono verdi in locale, (b) la CI GitHub della PR è verde (ricontrolla lo stato con il tool GitHub),
+   (c) ogni nuovo valore fiscale è verificato su almeno due fonti autorevoli. Se una condizione manca, o
+   se il merge viene rifiutato, lascia la PR aperta e scrivilo nel LOG. Se i tool GitHub non sono
+   disponibili, pusha comunque il branch e scrivi nel LOG e nel riepilogo il nome del branch: il
    proprietario aprirà la PR da GitHub ("Compare & pull request").
 10. **Chiudi**: la sessione finisce qui. Niente refactoring non richiesti, niente lavoro extra.
 
@@ -97,7 +100,7 @@ La voce "Aggiornamento parametri <anno>" entra in cima al backlog ogni gennaio.
 Quando il proprietario comunica il dominio (issue o LOG):
 1. `site.config.json`: `baseUrl` = `https://<dominio>`, `indexable` = `true`, `titolare` e `contactEmail`
    con i dati forniti dal proprietario (la build fallisce se mancano: servono per l'informativa privacy).
-2. Build, smoke test, PR (il merge lo fa il proprietario). Controlla che `robots.txt` contenga la sitemap.
+2. Build, smoke test, PR e merge. Controlla che `robots.txt` contenga la sitemap.
 3. Annota nel LOG di inviare la sitemap in Google Search Console (azione del proprietario, vedi SETUP.md).
 
 ## Formato LOG.md

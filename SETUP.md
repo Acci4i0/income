@@ -5,9 +5,16 @@ Queste azioni richiedono la tua identità, un pagamento o un account a tuo nome.
 
 ## 1. Dominio e hosting definitivo (15 minuti, ~11 €/anno) — BLOCCANTE
 
-Finché non fai questo passo il sito non è online. Hosting scelto: Cloudflare Pages, gratuito e con uso
-commerciale consentito (il piano gratuito di Vercel lo vieta, pubblicità e affiliazioni comprese).
-Se una build fallisce, Cloudflare non pubblica e resta online la versione precedente.
+Finché non fai questo passo il sito non è online. Due strade:
+
+- **Vercel (meno lavoro per te)**: riconnetti il connettore Vercel su <https://claude.ai/customize/connectors>
+  con i permessi di scrittura e apri una nuova sessione: Claude compra il dominio (con la tua conferma sul
+  prezzo), crea il progetto e collega il dominio. Limite: il piano gratuito Vercel vieta l'uso commerciale,
+  quindi prima di attivare pubblicità o affiliazioni bisogna passare a Cloudflare Pages (gratuito, basta
+  cambiare il DNS) o a Vercel Pro (20 $/mese).
+- **Cloudflare Pages (subito definitivo)**: i passi sotto. Gratuito, uso commerciale consentito.
+
+In entrambi i casi, se una build fallisce non viene pubblicata e resta online la versione precedente.
 
 1. Compra il dominio. Disponibile al 6/10/2026: `nettochiaro.com` (11,25 $/anno su Vercel; su Cloudflare
    Registrar costa circa uguale). Per un `.it` usa un registrar italiano: Vercel e Cloudflare non lo vendono.
@@ -72,11 +79,12 @@ la partita IVA: il calcolatore del forfettario del sito ti dice quanto pagherest
 
 ---
 
-## Ogni settimana: revisione della PR (2 minuti)
+## Ogni settimana (facoltativo)
 
-Il lunedì l'operatore apre una PR con la modifica della settimana. Controlla il riassunto e che la CI sia
-verde, poi fai **Squash and merge**. Il merge pubblica il sito. Se qualcosa non ti convince, lascia un
-commento o chiudi la PR: la sessione successiva lo legge.
+Il lunedì l'operatore apre una PR e, se test, CI e verifiche delle fonti sono verdi, ne fa il merge da
+solo: il merge pubblica il sito. Se una PR resta aperta, c'è un controllo fallito o il merge è stato
+bloccato: guarda il riassunto e fai tu **Squash and merge**, oppure commenta. Per annullare una modifica
+già pubblicata usa **Revert** sulla PR.
 
 ## Come dare istruzioni all'operatore
 
