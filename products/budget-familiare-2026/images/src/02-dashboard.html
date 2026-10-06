@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><title>02 dashboard</title>
+<link rel="stylesheet" href="comune.css">
+<style>
+  .window { position: absolute; left: 56px; right: 56px; top: 176px; height: 530px; }
+  .tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; padding: 4px 18px 0; }
+  .tile { background: var(--teal-s); border-top: 4px solid var(--teal); padding: 10px 10px 11px 11px; }
+  .tl { font-size: 14px; white-space: nowrap; font-weight: 700; color: var(--teal-d); }
+  .tv { font-size: 24px; font-weight: 800; margin-top: 4px; letter-spacing: -0.01em; }
+  .tn { font-size: 13px; color: var(--muted); margin-top: 3px; white-space: nowrap; }
+  .panels { display: grid; grid-template-columns: 1.45fr 1fr; gap: 18px; padding: 16px 18px 0; }
+  .panel h3 { font-size: 16px; color: var(--teal-d); font-weight: 800; border-bottom: 2px solid var(--teal); padding-bottom: 5px; margin-bottom: 8px; }
+</style></head>
+<body>
+<div class="frame">
+  <div class="kicker">Dashboard annuale</div>
+  <h1>Tutto l'anno in una pagina</h1>
+  <p class="sub">Entrate, spese, risparmio e saldo si aggiornano da soli a ogni movimento.</p>
+</div>
+<div class="window" id="w"></div>
+<div class="brand"><b>Netto</b>Chiaro</div>
+<script src="dati.js"></script>
+<script src="comune.js"></script>
+<script>
+  document.getElementById('w').innerHTML = bar('budget-familiare-2026-esempio.xlsx') +
+    `<div class="sheet-title">Budget familiare ${D.anno} · ${D.famiglia}</div>` +
+    `<div class="tiles">${kpiTiles(['entrate', 'spese', 'risparmio', 'tasso', 'saldo'])}</div>` +
+    `<div class="panels">
+       <div class="panel"><h3>Entrate e spese per mese</h3>${chartMesi(500, 262)}</div>
+       <div class="panel"><h3>Le spese più alte</h3>${chartTop(330, 6, 41)}</div>
+     </div>` + `<div style="position:absolute;left:0;right:0;bottom:0">${tabs('Dashboard')}</div>`;
+</script>
+</body></html>

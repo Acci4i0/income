@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>04 transactions</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  .window { position: absolute; left: 56px; right: 56px; top: 198px; height: 522px; }
+  .sheet td { height: 32px; }
+  .sheet td.typing { background: #fff; border: 2.5px solid var(--teal); }
+  .dd { position: absolute; background: #fff; border: 1px solid #b9c4bf; border-radius: 6px; box-shadow: 0 12px 30px rgb(0 0 0 / .18);
+    width: 196px; font-size: 15px; padding: 4px 0; }
+  .dd div { padding: 5px 12px; }
+  .dd div.sel { background: var(--teal); color: #fff; font-weight: 700; }
+  .arrow { float: right; color: var(--muted); font-size: 12px; margin-top: 3px; }
+  .fund { color: var(--teal-d); font-weight: 600; }
+  .callout.c1 { right: 56px; top: 40px; max-width: 262px; }
+  .callout.c2 { left: 572px; top: 604px; max-width: 360px; }
+  .dd { z-index: 5; }
+</style></head>
+<body>
+<div class="frame">
+  <div class="kicker">Transactions</div>
+  <h1>Log a purchase in seconds</h1>
+  <p class="sub">Pick the category from a drop-down list.<br>Built-in checks flag missing dates and typos.</p>
+</div>
+<div class="window" id="w"></div>
+<div class="callout c1">Dates as year-month-day<small>2026-12-04 reads the same in the US and the UK.</small></div>
+<div class="callout c2">Tag a goal or sinking fund<small>Its balance updates on the Sinking Funds and Savings Goals sheets.</small></div>
+<div class="brand"><b>Netto</b>Chiaro</div>
+<script src="data.js"></script>
+<script src="common.js"></script>
+<script>
+  const pick = ['Alex paycheck', 'Rent', 'Set aside: holiday gifts', 'Supermarket', 'Gas station', 'Holiday gifts', 'Car insurance'];
+  const rows = [];
+  for (const t of D.transactions) {
+    if (!t[0].startsWith('2026-12')) continue;
+    const i = pick.indexOf(t[1]);
+    if (i >= 0 && !rows.some((r) => r[1] === t[1])) rows.push(t);
+  }
+  rows.sort((a, b) => a[0].localeCompare(b[0]));
+  const head = `<tr><th style="width:112px">Date</th><th style="text-align:left">Description</th><th style="text-align:left;width:190px">Category</th>` +
+    `<th style="width:112px">Amount (${D.currency})</th><th style="width:118px">Account</th><th style="width:176px">Goal / fund</th></tr>`;
+  const body = rows.map((t) => `<tr><td class="in c">${t[0]}</td><td class="in">${t[1]}</td><td class="in">${t[2]}</td>` +
+    `<td class="in num">${fmt(t[3])}</td><td class="in">${t[4]}</td><td class="in fund">${t[5]}</td></tr>`).join('');
+  const typing = `<tr><td class="in c">2026-12-12</td><td class="in">Pizza night</td><td class="typing" id="dd">Dining out<span class="arrow">▼</span></td>` +
+    `<td class="in num">38.50</td><td class="in">Credit card</td><td class="in"></td></tr>`;
+  document.getElementById('w').innerHTML = bar() + `<div class="sheet-title">Transactions</div>` +
+    `<div class="sheet-note">Rows used: ${D.transactions.length} of 2,000</div>` +
+    `<table class="sheet">${head}${body}${typing}</table>` + `<div style="position:absolute;left:0;right:0;bottom:0">${tabs('Transactions')}</div>`;
+  const cell = document.getElementById('dd').getBoundingClientRect();
+  const list = ['Groceries', 'Dining out', 'Transport / Gas'];
+  const dd = document.createElement('div');
+  dd.className = 'dd';
+  dd.style.left = cell.left + 'px';
+  dd.style.top = cell.bottom + 'px';
+  dd.innerHTML = list.map((c) => `<div class="${c === 'Dining out' ? 'sel' : ''}">${c}</div>`).join('');
+  document.body.appendChild(dd);
+</script>
+</body></html>

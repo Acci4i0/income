@@ -72,6 +72,21 @@ Se una voce è troppo grande per una sessione, spezzala nel backlog e consegna l
   `data-out`. Riusa le classi CSS esistenti.
 - **Ordine nel menu**: campo `order`. I tool con più domanda stanno prima.
 
+## Prodotti digitali (Etsy)
+
+- Struttura e schema in `products/README.md`; guida del proprietario in `products/ETSY.md`.
+- Un prodotto nuovo o un'edizione nuova è una voce di backlog come un calcolatore: `build.py`
+  deterministico, `verifica.py` con ricalcolo LibreOffice e totali calcolati a mano, immagini rigenerabili
+  da `images/src/`, `npm run etsy:validate` verde, QA visivo delle immagini (guardale).
+- La pubblicazione su Etsy è automatica: al merge di modifiche in `products/` parte l'Action
+  "Etsy: sincronizzazione". Non toccare mai a mano `products/etsy-listings.json` né `etsy-sales.json`.
+- Ogni sessione controlla l'esito dell'ultimo run di "Etsy: sincronizzazione" (tool GitHub, log del job):
+  se è fallito per un errore nel codice, ripararlo è la voce della settimana; se manca il setup del
+  proprietario (segreti o autorizzazione), annotalo nel LOG senza insistere.
+- Leggi `products/etsy-sales.json` per decidere le priorità: un prodotto che vende merita varianti e
+  nuove edizioni; uno fermo da 3 mesi va migliorato (titolo, tag, immagini) prima di farne altri.
+- I file del repository sono pubblici: mai dati degli acquirenti, mai segreti.
+
 ## Regole non negoziabili
 
 - Niente contenuti di massa o pagine fotocopia (es. una pagina per città con lo stesso testo): Google le

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><link rel="stylesheet" href="stile.css">
+<style>
+  .stage { margin-top: 50px; }
+  .window { width: 100%; }
+  .body { display: flex; flex-direction: column; }
+  .msg { margin-top: 22px; font-size: 26px; padding: 18px 26px; }
+  .cols { display: flex; gap: 36px; margin-top: 26px; flex: 1; min-height: 0; }
+  .det { width: 760px; flex: none; }
+  .det h3, .chart h3 { margin: 0 0 10px; font-size: 26px; color: var(--teal-dark); background: var(--teal-light); padding: 10px 16px; border-radius: 8px; }
+  .det .r { display: flex; justify-content: space-between; font-size: 26px; padding: 9px 16px; border-bottom: 1px solid var(--line); }
+  .det .r.s { font-weight: 800; color: var(--teal-dark); }
+  .det .r span:last-child { font-variant-numeric: tabular-nums; }
+  .chart { flex: 1; min-width: 0; }
+  .legend { display: flex; gap: 28px; font-size: 22px; color: #475569; margin: 4px 0 8px 10px; }
+  .legend i { display: inline-block; width: 18px; height: 18px; border-radius: 4px; margin-right: 8px; vertical-align: -2px; }
+</style></head>
+<body><div class="canvas">
+  <div class="kicker">Dashboard</div>
+  <h1>Quanto ti resta dopo tasse e contributi</h1>
+  <div class="sub">Incassato, imposta sostitutiva, contributi INPS e netto: si aggiornano a ogni fattura incassata.</div>
+  <div class="stage">
+    <div class="window">
+      <div class="body">
+        <div class="tiles" id="tiles"></div>
+        <div class="msg ok" id="msg"></div>
+        <div class="cols">
+          <div class="det" id="det"></div>
+          <div class="chart"><h3>Incassi del mese e quota da accantonare</h3>
+            <div class="legend"><span><i style="background:#0f766e"></i>Incassato</span><span><i style="background:#f59e0b"></i>Da accantonare</span></div>
+            <div id="g"></div></div>
+        </div>
+      </div>
+      <div id="tabs"></div>
+    </div>
+  </div>
+</div>
+<script src="dati.js"></script><script src="comuni.js"></script>
+<script>
+  const d = D.dashboard;
+  $('#tiles').innerHTML = [
+    [`Incassato nel ${D.anno}`, eur(d.incassato, 0), `${d.incassate} fatture incassate`],
+    ['Tasse e contributi stimati', eur(d.totale, 0), `il ${nf(1).format(d.incidenza * 100)}% di quanto incassi`],
+    ['Netto stimato', eur(d.netto, 0), `circa ${eur(d.netto / 12, 0)} al mese`],
+    [`Soglia di ${nf(0).format(D.soglie.s85)} €`, pct(d.pct85), `mancano ${eur(d.manca85, 0)}`],
+  ].map(([l, v, n]) => `<div class="tile"><div class="l">${l}</div><div class="v">${v}</div><div class="n">${n}</div></div>`).join('');
+  $('#msg').textContent = d.messaggio;
+  $('#det').innerHTML = '<h3>Dettaglio del calcolo</h3>' + [
+    ['Incassato nell\'anno', eur(d.incassato)],
+    [`Reddito (× ${pct(d.coeff)})`, eur(d.reddito)],
+    ['Contributi Gestione Separata', eur(d.contributi), 1],
+    ['Reddito su cui si paga l\'imposta', eur(d.imponibile)],
+    [`Imposta sostitutiva (${pct(d.aliquota)})`, eur(d.imposta), 1],
+    ['Totale tasse e contributi', eur(d.totale), 1],
+    ['Spese registrate', eur(d.spese)],
+    ['Netto dopo le spese', eur(d.nettoSpese), 1],
+  ].map(([l, v, s]) => `<div class="r${s ? ' s' : ''}"><span>${l}</span><span>${v}</span></div>`).join('');
+  $('#g').innerHTML = grafico(900, 470);
+  $('#tabs').innerHTML = tabs('Dashboard');
+  brand();
+</script>
+</body></html>

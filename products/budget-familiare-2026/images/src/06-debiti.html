@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><title>06 debiti</title>
+<link rel="stylesheet" href="comune.css">
+<style>
+  .window { position: absolute; left: 56px; right: 56px; top: 186px; height: 522px; }
+  table.sheet { font-size: 15.5px; table-layout: fixed; }
+  .sheet td { height: 40px; }
+  .sheet th { padding: 8px 6px; }
+  .ord { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--teal-s); color: var(--teal-d); font-weight: 800; }
+  .ord.first { background: var(--teal); color: #fff; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 14px 20px 0; }
+  .card { border: 1px solid var(--line); border-radius: 10px; padding: 11px 16px 10px; }
+  .card h3 { font-size: 15.5px; color: var(--teal-d); font-weight: 800; margin-bottom: 4px; }
+  .card ol { padding-left: 22px; font-size: 15.5px; line-height: 1.45; }
+  .card ol li::marker { font-weight: 700; color: var(--teal); }
+  .big { font-size: 28px; font-weight: 800; margin: 0 0 2px; }
+  .card p { font-size: 15px; color: var(--muted); line-height: 1.35; }
+</style></head>
+<body>
+<div class="frame">
+  <div class="kicker">Debiti</div>
+  <h1>In che ordine estinguere i debiti</h1>
+  <p class="sub">Metodo valanga o palla di neve, mesi alla fine e interessi stimati per ogni debito.</p>
+</div>
+<div class="window" id="w"></div>
+<div class="brand"><b>Netto</b>Chiaro</div>
+<script src="dati.js"></script>
+<script src="comune.js"></script>
+<script>
+  const body = D.debiti.map((d) => `<tr>
+    <td class="in">${d.nome}</td><td class="in num">${eurZ(d.saldo)}</td><td class="in num">${fmt(d.tan * 100, 2)}%</td>
+    <td class="in num">${eurZ(d.rata)}</td><td class="c">${d.mesi}</td><td class="c">${d.fine}</td>
+    <td class="c"><span class="ord ${d.valanga === 1 ? 'first' : ''}">${d.valanga}</span></td>
+    <td class="c"><span class="ord">${d.neve}</span></td></tr>`).join('');
+  const val = [...D.debiti].sort((a, b) => a.valanga - b.valanga);
+  const x = D.extra;
+  document.getElementById('w').innerHTML = bar('budget-familiare-2026-esempio.xlsx') +
+    `<div class="sheet-title" style="padding-bottom:12px">Debiti e piano di estinzione</div>` +
+    `<table class="sheet"><colgroup><col style="width:200px"><col style="width:122px"><col style="width:82px"><col style="width:90px"><col style="width:98px"><col style="width:98px"><col style="width:90px"><col style="width:106px"></colgroup>
+      <tr><th style="text-align:left">Debito</th><th>Saldo residuo</th><th>TAN</th><th>Rata</th><th>Mesi alla fine</th><th>Fine prevista</th><th>Valanga</th><th>Palla di neve</th></tr>${body}</table>` +
+    `<div class="cards">
+       <div class="card"><h3>Ordine consigliato (valanga)</h3><ol>${val.map((d) => `<li>${d.nome} · ${fmt(d.tan * 100, 2)}%</li>`).join('')}</ol></div>
+       <div class="card"><h3>Con ${eurZ(x.somma)} in più al mese su «${x.debito}»</h3>
+         <div class="big">${x.mesi_dopo} mesi invece di ${x.mesi_prima}</div>
+         <p>${x.mesi_meno} mesi in meno e circa ${eur(x.interessi)} di interessi risparmiati (stima con tasso e rata costanti).</p></div>
+     </div>` +
+    `<div style="position:absolute;left:0;right:0;bottom:0">${tabs('Debiti')}</div>`;
+</script>
+</body></html>

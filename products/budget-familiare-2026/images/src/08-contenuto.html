@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><title>08 contenuto</title>
+<link rel="stylesheet" href="comune.css">
+<style>
+  .grid { position: absolute; left: 56px; right: 56px; top: 200px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; min-height: 122px; }
+  .card .n { font-size: 13px; font-weight: 800; color: var(--teal); letter-spacing: .08em; }
+  .card h3 { font-size: 19px; font-weight: 800; margin-top: 2px; }
+  .card p { font-size: 15.5px; color: var(--muted); margin-top: 4px; line-height: 1.35; }
+  .compat { position: absolute; left: 56px; right: 56px; bottom: 62px; display: flex; gap: 10px; flex-wrap: wrap; }
+</style></head>
+<body>
+<div class="frame">
+  <div class="kicker">Cosa ricevi</div>
+  <h1>Due file .xlsx, nove fogli collegati</h1>
+  <p class="sub">Il modello da compilare e lo stesso file con un anno di esempio già inserito.</p>
+</div>
+<div class="grid" id="g"></div>
+<div class="compat">
+  <span class="chip teal">Excel e Google Sheets</span><span class="chip">Modello vuoto + esempio</span>
+  <span class="chip">Nessuna macro</span><span class="chip">Istruzioni in italiano</span>
+</div>
+<div class="brand"><b>Netto</b>Chiaro</div>
+<script>
+  const fogli = [
+    ['Istruzioni', 'Come iniziare in sei passi e legenda dei colori.'],
+    ['Impostazioni', 'Anno, saldo iniziale, membri della famiglia e conti.'],
+    ['Categorie', '32 voci pronte, rinominabili, fino a 60.'],
+    ['Movimenti', 'Registro unico con menu a tendina e controlli automatici.'],
+    ['Budget', 'Importo previsto per categoria, mese per mese.'],
+    ['Mensile', 'Consuntivo per categoria e differenze dal budget.'],
+    ['Dashboard', 'Entrate, spese, tasso di risparmio, saldo e grafici.'],
+    ['Obiettivi', 'Quanto manca e quanto accantonare ogni mese.'],
+    ['Debiti', 'Ordine di estinzione valanga o palla di neve.'],
+  ];
+  document.getElementById('g').innerHTML = fogli.map(([t, d], i) =>
+    `<div class="card"><div class="n">FOGLIO ${i + 1}</div><h3>${t}</h3><p>${d}</p></div>`).join('');
+</script>
+</body></html>

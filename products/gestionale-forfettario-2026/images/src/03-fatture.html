@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><link rel="stylesheet" href="stile.css">
+<style>
+  .stage { flex-direction: column; gap: 22px; margin-top: 44px; }
+  .callouts { display: flex; gap: 18px; }
+  .window { flex: 1; min-height: 0; }
+  .body { padding: 0 !important; }
+  .sheet { font-size: 25px; }
+  .sheet td { padding: 12px 12px; }
+  .sheet th { font-size: 21px; padding: 12px 8px; }
+  .gap td { text-align: center; color: #94a3b8; padding: 2px; font-size: 22px; background: #f8fafc; }
+  .cli { max-width: 330px; overflow: hidden; text-overflow: ellipsis; }
+  .flag { outline: 4px solid #f59e0b; outline-offset: -4px; }
+</style></head>
+<body><div class="canvas">
+  <div class="kicker">Registro fatture</div>
+  <h1>Una riga per ogni fattura</h1>
+  <div class="sub">Rivalsa INPS 4% (se la applichi) e marca da bollo da 2 € sopra 77,47 € si calcolano da sole. Per tasse e soglie conta la data di incasso.</div>
+  <div class="stage">
+    <div class="callouts">
+      <span class="callout">Giallo = da compilare</span>
+      <span class="callout" style="background:#b45309">Bollo solo sopra 77,47 €</span>
+      <span class="callout" style="background:#0f766e">Fattura di dicembre 2025, incassata nel 2026: conta nel 2026</span>
+    </div>
+    <div class="window">
+      <div class="body"><table class="sheet" id="t"></table></div>
+      <div id="tabs"></div>
+    </div>
+  </div>
+</div>
+<script src="dati.js"></script><script src="comuni.js"></script>
+<script>
+  const f = D.fatture;
+  const righe = [0, 1, 2, 3, 4, 5, 6, 7, null, 11, 12, null, f.length - 2, f.length - 1];
+  let h = '<tr><th>N.</th><th>Data<br>emissione</th><th>Data<br>incasso</th><th>Cliente</th><th>Compenso</th><th>Rivalsa<br>4%</th><th>Rivalsa</th><th>Bollo</th><th>Bollo al<br>cliente</th><th>Totale<br>fattura</th><th>Stato</th></tr>';
+  for (const i of righe) {
+    if (i === null) { h += '<tr class="gap"><td colspan="11">⋯</td></tr>'; continue; }
+    const r = f[i];
+    const stato = r.stato === 'Da incassare' ? 'stato-da' : 'stato-ok';
+    h += `<tr><td class="in">${r.n}</td><td class="in num${i === 0 ? ' flag' : ''}">${r.emissione}</td><td class="in num${i === 0 ? ' flag' : ''}">${r.incasso}</td>`
+      + `<td class="in cli">${r.cliente}</td><td class="in num">${eur(r.compenso)}</td><td class="in c">${r.rivalsaSi}</td>`
+      + `<td class="num">${eur(r.rivalsa)}</td><td class="num${r.bollo === 0 ? ' flag' : ''}">${eur(r.bollo)}</td><td class="in c">${r.bolloCliente}</td>`
+      + `<td class="num b">${eur(r.totale)}</td><td class="c ${stato}">${r.stato}</td></tr>`;
+  }
+  $('#t').innerHTML = h;
+  $('#tabs').innerHTML = tabs('Fatture');
+  brand();
+</script>
+</body></html>

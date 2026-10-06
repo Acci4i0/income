@@ -1,0 +1,51 @@
+{
+  "slug": "budget-planner-2026-en",
+  "language": "en",
+  "title": "2026 Budget Planner Spreadsheet, Excel and Google Sheets, Monthly Budget, Debt Snowball, Sinking Funds",
+  "short": "2026 budget planner for Excel and Google Sheets: monthly budget, expense log, dashboard, savings goals, sinking funds and debt snowball or avalanche.",
+  "description": "A budget planner spreadsheet for the whole of 2026. Plan each month, log your transactions, and the file works out your totals, the difference from your plan, your savings rate, your sinking funds and your debt-free date.\n\nWHAT YOU GET\n• budget-planner-2026.xlsx: the blank planner, ready to fill in.\n• budget-planner-2026-example.xlsx: the same planner with a full year of sample data from a fictional household, so you can see how everything works.\n\nTHE SHEETS\n1. Start Here: six steps to get started and a color key.\n2. Settings: year, currency symbol (shown in every heading), plan name, accounts and an optional as-of date.\n3. Categories: 28 ready-made categories that you can rename or delete, with room for up to 60. Income; fixed bills (rent or mortgage, utilities, internet and phone, insurance, subscriptions, car payment); variable expenses (groceries, dining out, transport and gas, health, kids, personal care, entertainment, gifts, travel, clothing, home, pets, misc); savings and debt payments.\n4. Transactions: one log for the whole year with 2,000 rows. Category, account and goal or fund come from drop-down lists. A check column flags missing dates, dates from other years, categories that are not in the list and missing amounts.\n5. Monthly Budget: type a typical monthly amount per category and all 12 months fill in. Type over any month that is different. \"Left to budget\" shows what is still unassigned each month.\n6. Monthly Summary: planned vs actual for the month you choose and for the year to date, with differences in green or red, plus the actual amounts for every month.\n7. Annual Dashboard: income, expenses, savings and debt payments, savings rate, money left over, total debt, the 10 biggest spending categories and two charts.\n8. Savings Goals: target, target date, saved so far, progress bar, months left, amount needed per month and the date you reach the goal at your monthly plan.\n9. Sinking Funds: money set aside for irregular costs such as car repairs, gifts or vacations. Balance, amount still needed and how much to set aside each month.\n10. Debt Payoff: up to 10 debts. Snowball (smallest balance first) or avalanche (highest APR first) order, payoff date for each debt, debt-free date, total interest and interest saved compared with minimum payments only, plus a chart of the balance over time.\n11. Debt Schedule: the month-by-month calculation behind Debt Payoff, for both methods.\n\nWHO IT IS FOR\nIndividuals, couples and families who want to see where their money goes every month and plan savings and debt payoff, without apps or subscriptions.\n\nWORKS WITH\n• Excel 2016 or later (Windows and Mac) and Excel on the web.\n• Google Sheets: upload the file to Google Drive, open it and choose File > Save as Google Sheets.\n• LibreOffice Calc.\nThe year is set in Settings, so you can also use the blank planner for 2027. Any currency: type your symbol in Settings. Amounts use 2 decimals. Dates use the ISO format year-month-day (2026-03-15), which reads the same in the US, the UK and everywhere else. No macros and no external links. Formulas are visible; sheets are protected without a password so you do not delete formulas by mistake.\n\nHOW TO DOWNLOAD\nThis is a digital download: nothing is shipped. After payment, download the files from Purchases and reviews in your Etsy account, or from the link in your confirmation email.\n\nGOOD TO KNOW\n• If Excel opens the file in Protected View, click Enable Editing so that the formulas calculate.\n• You type the amounts yourself: the file does not connect to your bank.\n• Debt payoff estimates assume that rates and minimum payments stay the same; your lender's figures can differ slightly.\n• In Google Sheets, charts can look slightly different and sheet protection may not carry over, so type only in the yellow cells.\n• It is a personal organization tool, not financial, tax or legal advice.\n• The listing images show the example file with sample data.\n\nDesigned by NettoChiaro with the help of AI tools; formulas verified with tests.",
+  "tags": [
+    "budget planner",
+    "budget spreadsheet",
+    "2026 budget",
+    "monthly budget",
+    "budget template",
+    "google sheets budget",
+    "excel template",
+    "debt snowball",
+    "debt payoff",
+    "sinking funds",
+    "savings tracker",
+    "expense tracker",
+    "personal finance"
+  ],
+  "price": 5.9,
+  "quantity": 999,
+  "who_made": "i_did",
+  "when_made": "made_to_order",
+  "is_supply": false,
+  "taxonomy_path": [
+    "Paper & Party Supplies",
+    "Paper",
+    "Stationery",
+    "Design & Templates",
+    "Templates",
+    "Personal Finance Templates"
+  ],
+  "files": [
+    "files/budget-planner-2026.xlsx",
+    "files/budget-planner-2026-example.xlsx"
+  ],
+  "images": [
+    "images/01-cover.png",
+    "images/02-dashboard.png",
+    "images/03-budget.png",
+    "images/04-transactions.png",
+    "images/05-summary.png",
+    "images/06-debt.png",
+    "images/07-goals-funds.png",
+    "images/08-included.png"
+  ],
+  "site_pages": [],
+  "publish": true
+}

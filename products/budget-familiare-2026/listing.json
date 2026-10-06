@@ -1,0 +1,54 @@
+{
+  "slug": "budget-familiare-2026",
+  "language": "it",
+  "title": "Budget familiare 2026 in italiano per Excel e Google Sheets: spese mensili, risparmio e debiti",
+  "short": "Foglio per Excel e Google Sheets: entrate, spese, budget mese per mese, obiettivi di risparmio e debiti della famiglia, con dashboard e grafici.",
+  "description": "Budget familiare 2026 è un foglio di calcolo in italiano per seguire entrate, spese e risparmio della famiglia. Registri i movimenti e il file calcola da solo il consuntivo, le differenze dal budget, il tasso di risparmio e i grafici.\n\nCosa ricevi\n- budget-familiare-2026.xlsx: il modello da compilare.\n- budget-familiare-2026-esempio.xlsx: lo stesso modello con un anno di dati di una famiglia di fantasia, per vedere come funziona.\n\nI nove fogli\n1. Istruzioni: come iniziare in sei passi e legenda delle celle.\n2. Impostazioni: anno, saldo di cassa al 1° gennaio, nomi dei membri della famiglia (facoltativi), conti e metodi di pagamento.\n3. Categorie: 32 voci pronte e modificabili, fino a 60. Entrate (stipendi, tredicesima, assegno unico, entrate extra, rimborsi), spese fisse (affitto o mutuo, condominio, luce, gas, acqua, TARI, internet e telefono, assicurazioni, bollo auto, abbonamenti, rate), spese variabili (spesa alimentare, carburante, trasporti, salute, scuola e figli, casa, abbigliamento, svago, regali, vacanze, imprevisti), risparmio e investimenti.\n4. Movimenti: un unico registro da 2.000 righe con data, descrizione, categoria dal menu a tendina, importo, conto e persona. Una colonna di controllo segnala date mancanti, categorie non trovate e movimenti di altri anni.\n5. Budget: importo tipico mensile per ogni categoria. Per le spese che non sono mensili (TARI, bollo, assicurazioni) scrivi l'importo nel mese in cui le paghi.\n6. Mensile: consuntivo per categoria e per mese, differenze dal budget in verde o in rosso, confronto del mese e da inizio anno.\n7. Dashboard: entrate, spese, risparmio, tasso di risparmio, saldo di cassa e debiti residui; grafico mensile di entrate e spese; le 10 categorie di spesa più alte; spese per persona.\n8. Obiettivi: importo, scadenza, già versato, percentuale raggiunta e quota mensile necessaria per ogni obiettivo di risparmio.\n9. Debiti: saldo, TAN, rata, mesi alla fine e interessi stimati; ordine di estinzione con metodo valanga (prima il tasso più alto) o palla di neve (prima il debito più piccolo) ed effetto di una somma extra al mese.\n\nA chi serve\nA famiglie, coppie e persone che vogliono sapere dove vanno i soldi ogni mese e pianificare il risparmio, senza app e senza abbonamenti.\n\nCompatibilità\n- Excel 2016 o successivo, su Windows e Mac.\n- Google Sheets: carica il file su Google Drive e aprilo con Google Sheets.\n- LibreOffice Calc.\nÈ pensato per l'uso da computer. Nessuna macro e nessun collegamento esterno. Le formule sono visibili; i fogli sono protetti senza password per evitare di cancellarle per errore.\nSe Excel apre il file in «Visualizzazione protetta», fai clic su «Abilita modifica» per aggiornare i calcoli.\n\nCome si scarica\nÈ un prodotto digitale: non ricevi nulla per posta. Dopo il pagamento scarichi i file dalla pagina «Acquisti e recensioni» del tuo account Etsy o dal link nell'email di conferma dell'ordine.\n\nLimiti\n- Gli importi si inseriscono a mano: il file non si collega al conto in banca.\n- Le stime su obiettivi e debiti ipotizzano tasso e rata costanti.\n- In Google Sheets la protezione dei fogli può non restare attiva (scrivi solo nelle celle gialle) e i grafici possono avere uno stile leggermente diverso.\n- È uno strumento di organizzazione personale: non è consulenza finanziaria né fiscale.\n- Le immagini mostrano il file di esempio con dati di fantasia.\n- Per uso personale e familiare: non è consentito rivendere o condividere i file.\n\nProgettato da NettoChiaro con l'aiuto di strumenti di intelligenza artificiale; formule verificate con test.",
+  "tags": [
+    "budget familiare",
+    "budget 2026",
+    "foglio excel",
+    "google sheets",
+    "foglio di calcolo",
+    "gestione spese",
+    "budget mensile",
+    "spese famiglia",
+    "finanze personali",
+    "obiettivi risparmio",
+    "piano debiti",
+    "budget planner",
+    "modello excel"
+  ],
+  "price": 5.9,
+  "quantity": 999,
+  "who_made": "i_did",
+  "when_made": "made_to_order",
+  "is_supply": false,
+  "taxonomy_path": [
+    "Paper & Party Supplies",
+    "Paper",
+    "Stationery",
+    "Design & Templates",
+    "Templates",
+    "Personal Finance Templates"
+  ],
+  "files": [
+    "files/budget-familiare-2026.xlsx",
+    "files/budget-familiare-2026-esempio.xlsx"
+  ],
+  "images": [
+    "images/01-cover.png",
+    "images/02-dashboard.png",
+    "images/03-movimenti.png",
+    "images/04-mensile.png",
+    "images/05-obiettivi.png",
+    "images/06-debiti.png",
+    "images/07-categorie.png",
+    "images/08-contenuto.png"
+  ],
+  "site_pages": [
+    "calcolo-stipendio-netto",
+    "calcolo-rata-mutuo"
+  ],
+  "publish": true
+}

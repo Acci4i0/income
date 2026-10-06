@@ -41,6 +41,9 @@ export default {
 <p>Quando la pubblicità è attiva, alla prima visita compare il messaggio di consenso di Google, una piattaforma certificata e integrata con il Transparency and Consent Framework di IAB Europe. Puoi accettare, rifiutare o scegliere le singole finalità e i singoli fornitori. Nelle opzioni del messaggio trovi l'elenco dei fornitori, le finalità e la durata dei cookie.</p>
 <p>Puoi cambiare le tue scelte in ogni momento dal link per le impostazioni privacy che il messaggio aggiunge alla pagina, oppure cancellando i cookie dal browser.</p>
 
+<h2>Acquisti su Etsy</h2>
+<p>I fogli di calcolo in vendita si acquistano su Etsy: il link del sito porta alla pagina del prodotto su Etsy e l'acquisto avviene lì. Il pagamento e la consegna dei file sono gestiti da Etsy, che tratta i dati come titolare autonomo secondo la propria informativa. Per evadere l'ordine e gestire eventuali richieste, {{titolare}} riceve da Etsy i dati dell'ordine (nome, indirizzo email e prodotto acquistato), li usa solo per questo scopo e li conserva per il tempo richiesto dagli obblighi fiscali. Questi dati non vengono pubblicati né usati per marketing.</p>
+
 <h2>Link di affiliazione</h2>
 <p>Alcuni link verso servizi esterni sono di affiliazione e sono contrassegnati come tali. Cliccandoli lasci questo sito: si applicano le informative privacy di quei servizi.</p>
 

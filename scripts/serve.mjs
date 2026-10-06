@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const dist = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'dist');
 const port = Number(process.argv[2] || process.env.PORT || 4321);
-const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.xml': 'application/xml', '.txt': 'text/plain' };
+const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.xml': 'application/xml', '.txt': 'text/plain', '.jpg': 'image/jpeg', '.png': 'image/png' };
 
 createServer(async (req, res) => {
   let p = path.join(dist, decodeURIComponent(new URL(req.url, 'http://x').pathname));

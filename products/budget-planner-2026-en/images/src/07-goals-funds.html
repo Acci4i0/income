@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>07 goals and sinking funds</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  .window { position: absolute; left: 56px; right: 56px; }
+  .w1 { top: 176px; height: 262px; }
+  .w2 { top: 456px; height: 262px; }
+  .sheet-title { padding: 10px 20px 8px; font-size: 19px; }
+  table.sheet { font-size: 14.5px; }
+  .sheet th { font-size: 13px; padding: 7px 6px; }
+  .sheet td { height: 34px; padding: 5px 8px; }
+  .pbar { display: flex; align-items: center; gap: 6px; }
+  .pbar .progress { width: 74px; }
+  .pbar span { width: 40px; text-align: right; font-weight: 700; font-size: 14.5px; }
+</style></head>
+<body>
+<div class="frame">
+  <div class="kicker">Savings Goals &amp; Sinking Funds</div>
+  <h1>Save for big goals and irregular bills</h1>
+  <p class="sub">Progress and the amount to set aside each month, for every goal and fund.</p>
+</div>
+<div class="window w1" id="w1"></div>
+<div class="window w2" id="w2"></div>
+<div class="brand"><b>Netto</b>Chiaro</div>
+<script src="data.js"></script>
+<script src="common.js"></script>
+<script>
+  const prog = (p) => `<div class="pbar"><div class="progress"><i style="width:${Math.round(p * 100)}%"></i></div><span>${pct(p)}</span></div>`;
+  const pill = (s) => `<span class="pill ${s === 'Behind' || s === 'Overspent' ? 'no' : 'ok'}">${s}</span>`;
+  const c = D.currency;
+  document.getElementById('w1').innerHTML = bar('Savings Goals') +
+    `<table class="sheet"><tr><th style="text-align:left">Goal</th><th>Target (${c})</th><th>Target date</th><th>Saved so far (${c})</th>` +
+    `<th>Progress</th><th>Needed per month (${c})</th><th>Your plan (${c})</th><th>Status</th></tr>` +
+    D.goals.map((g) => `<tr><td class="in">${g.name}</td><td class="in num">${fmt(g.target)}</td><td class="in c">${g.date}</td>` +
+      `<td class="num b">${num(g.saved)}</td><td>${prog(g.pct)}</td><td class="num">${fmt(g.perMonth)}</td><td class="in num">${fmt(g.plan)}</td>` +
+      `<td class="c">${pill(g.status)}</td></tr>`).join('') +
+    `<tr class="tot"><td>Total</td><td class="num">${fmt(D.goalsTotal.target)}</td><td></td><td class="num">${fmt(D.goalsTotal.saved)}</td>` +
+    `<td>${prog(D.goalsTotal.saved / D.goalsTotal.target)}</td><td class="num">${fmt(D.goalsTotal.needed)}</td><td class="num">${fmt(D.goalsTotal.plan)}</td><td></td></tr></table>`;
+  document.getElementById('w2').innerHTML = bar('Sinking Funds') +
+    `<table class="sheet"><tr><th style="text-align:left">Fund</th><th>Amount needed (${c})</th><th>Due date</th><th>Balance (${c})</th>` +
+    `<th>Progress</th><th>Spent this year (${c})</th><th>Set aside per month (${c})</th><th>Status</th></tr>` +
+    D.funds.map((f) => `<tr><td class="in">${f.name}</td><td class="in num">${fmt(f.target)}</td><td class="in c">${f.date}</td>` +
+      `<td class="num b">${num(f.balance)}</td><td>${prog(f.pct)}</td><td class="num">${num(f.spent)}</td><td class="num b">${fmt(f.perMonth)}</td>` +
+      `<td class="c">${pill(f.status)}</td></tr>`).join('') +
+    `<tr class="tot"><td>Total</td><td class="num">${fmt(D.fundsTotal.target)}</td><td></td><td class="num">${fmt(D.fundsTotal.balance)}</td>` +
+    `<td>${prog(D.fundsTotal.balance / D.fundsTotal.target)}</td><td class="num">${fmt(D.funds.reduce((a, f) => a + f.spent, 0))}</td>` +
+    `<td class="num">${fmt(D.fundsTotal.perMonth)}</td><td></td></tr></table>`;
+</script>
+</body></html>

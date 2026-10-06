@@ -1,5 +1,7 @@
 // Layout HTML condiviso. Nessuna dipendenza: template string + escape.
 
+import { euro } from './lib/format.js';
+
 export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 const stripTags = (html) => String(html).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
@@ -69,6 +71,34 @@ function offersFor(page, config) {
     </aside>`;
 }
 
+// Prodotti digitali venduti su Etsy (preparati da build.mjs). Prodotti del sito, non affiliazioni:
+// niente rel="sponsored".
+export function productItem(p, { level = 3, extra = '', eager = false } = {}) {
+  return `
+      <li class="product">
+        <img class="product-img" src="${esc(p.image)}" width="1200" height="900" alt="Anteprima: ${esc(p.name)}" loading="${eager ? 'eager' : 'lazy'}" decoding="async">
+        <div class="product-body">
+          <span class="offer-label">Prodotto NettoChiaro</span>
+          <h${level} class="product-name">${esc(p.name)}</h${level}>
+          <p>${esc(p.short)}</p>
+          <p class="product-price">${esc(euro(p.price))}</p>
+          <a class="btn" href="${esc(p.url)}" rel="noopener" target="_blank">Disponibile su Etsy</a>
+        </div>${extra}
+      </li>`;
+}
+
+function productsFor(page, products) {
+  const list = (products || []).filter((p) => p.sitePages.includes(page.slug));
+  if (!list.length) return '';
+  const uno = list.length === 1;
+  return `
+    <aside class="products" aria-labelledby="prodotti-box">
+      <h2 id="prodotti-box">${uno ? 'Foglio di calcolo' : 'Fogli di calcolo'}</h2>
+      <ul class="product-list">${list.map((p) => productItem(p)).join('')}</ul>
+      <p class="small muted">${uno ? 'È un prodotto' : 'Sono prodotti'} di NettoChiaro: acquisto e download avvengono su Etsy. I calcolatori del sito restano gratuiti.</p>
+    </aside>`;
+}
+
 function faqHtml(faq) {
   if (!faq?.length) return '';
   return `
@@ -99,7 +129,7 @@ function toolCards(tools) {
 
 const dataIt = (iso) => new Date(`${iso}T12:00:00Z`).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
 
-export function renderPage(page, { config, pages, asset }) {
+export function renderPage(page, { config, pages, asset, products = [] }) {
   const url = urlFor(config, page.slug);
   const title = page.slug ? `${page.title} | ${config.name}` : page.title;
   const tools = pages.filter((p) => p.kind === 'tool');
@@ -114,6 +144,7 @@ export function renderPage(page, { config, pages, asset }) {
     <h1>${esc(page.h1)}</h1>
     <div class="lead">${page.intro}</div>
     <section class="tool" aria-label="Calcolatore">${page.tool}</section>
+    ${productsFor(page, products)}
     ${offersFor(page, config)}
     <article class="prose">${page.content}</article>
     ${faqHtml(page.faq)}
@@ -123,6 +154,7 @@ export function renderPage(page, { config, pages, asset }) {
     <h1>${esc(page.h1)}</h1>
     ${page.intro ? `<div class="lead">${page.intro}</div>` : ''}
     ${page.kind === 'home' ? toolCards(tools) : `<article class="prose">${page.content}</article>`}
+    ${productsFor(page, products)}
     ${page.updated ? `<p class="small muted">Ultimo aggiornamento: ${dataIt(page.updated)}.</p>` : ''}
   `;
 
@@ -162,7 +194,7 @@ ${main}
 <footer class="site-footer">
   <div class="wrap">
     <p><strong>${esc(config.name)}</strong> · ${esc(config.tagline)}</p>
-    <p class="footer-links"><a href="/chi-siamo/">Chi siamo e metodo</a> · <a href="/privacy/">Privacy e cookie</a>${config.contactEmail ? ` · <a href="mailto:${esc(config.contactEmail)}">Contatti</a>` : ` · <a href="${esc(config.repoUrl)}/issues" rel="noopener">Segnala un errore</a>`}</p>
+    <p class="footer-links"><a href="/chi-siamo/">Chi siamo e metodo</a>${products.length ? ' · <a href="/prodotti/">Fogli Excel</a>' : ''} · <a href="/privacy/">Privacy e cookie</a>${config.contactEmail ? ` · <a href="mailto:${esc(config.contactEmail)}">Contatti</a>` : ` · <a href="${esc(config.repoUrl)}/issues" rel="noopener">Segnala un errore</a>`}</p>
     <p class="small muted">Strumenti gratuiti a scopo informativo. I calcoli avvengono nel tuo browser: gli importi che inserisci non vengono salvati né inviati, a meno che tu non condivida il link a un calcolo.</p>
   </div>
 </footer>

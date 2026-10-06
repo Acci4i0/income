@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><title>05 obiettivi</title>
+<link rel="stylesheet" href="comune.css">
+<style>
+  .window { position: absolute; left: 56px; right: 56px; top: 186px; height: 522px; }
+  table.sheet { font-size: 15px; table-layout: fixed; }
+  .sheet td { height: 44px; padding: 6px 9px; }
+  .sheet th { padding: 8px 6px; }
+  .prog { height: 14px; border-radius: 7px; background: #e3e9e6; overflow: hidden; width: 84px; display: inline-block; vertical-align: middle; }
+  .prog i { display: block; height: 100%; background: var(--teal); border-radius: 7px; }
+  .pc { display: inline-block; width: 44px; text-align: right; margin-right: 8px; font-weight: 600; }
+  .st { font-weight: 700; font-size: 13.5px; padding: 4px 9px; border-radius: 999px; background: var(--surf2); color: var(--muted); }
+  .st.ok { background: var(--good-s); color: var(--good); }
+  .sum { display: flex; gap: 14px; padding: 14px 20px; }
+  .box { flex: 1; border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; }
+  .box .l { font-size: 14.5px; color: var(--muted); font-weight: 600; }
+  .box .v { font-size: 24px; font-weight: 800; margin-top: 2px; }
+</style></head>
+<body>
+<div class="frame">
+  <div class="kicker">Obiettivi di risparmio</div>
+  <h1>Quanto mettere da parte ogni mese</h1>
+  <p class="sub">Scrivi importo e scadenza: il foglio calcola la quota mensile necessaria.</p>
+</div>
+<div class="window" id="w"></div>
+<div class="brand"><b>Netto</b>Chiaro</div>
+<script src="dati.js"></script>
+<script src="comune.js"></script>
+<script>
+  const body = D.obiettivi.map((o) => `<tr>
+    <td class="in">${o.nome}</td><td class="in num">${eurZ(o.importo)}</td><td class="in c">${o.scadenza}</td>
+    <td class="in num">${eurZ(o.versato)}</td>
+    <td><span class="pc">${pct(o.perc)}</span><span class="prog"><i style="width:${Math.round(o.perc * 100)}%"></i></span></td>
+    <td class="num"><b>${o.quota ? eur(o.quota, 2) : '–'}</b></td>
+    <td class="c"><span class="st ${o.stato === 'Raggiunto' ? 'ok' : ''}">${o.stato}</span></td></tr>`).join('');
+  const quotaMedia = D.summary.risparmio.budget / 12;
+  document.getElementById('w').innerHTML = bar('budget-familiare-2026-esempio.xlsx') +
+    `<div class="sheet-title">Obiettivi di risparmio</div><div class="sheet-note">Data di riferimento: 31/12/2026</div>` +
+    `<table class="sheet"><colgroup><col style="width:222px"><col style="width:92px"><col style="width:108px"><col style="width:92px"><col style="width:160px"><col style="width:108px"><col style="width:104px"></colgroup>
+      <tr><th style="text-align:left">Obiettivo</th><th>Importo</th><th>Scadenza</th><th>Già versato</th><th>% raggiunta</th><th>Quota mensile necessaria</th><th>Stato</th></tr>${body}</table>` +
+    `<div class="sum"><div class="box"><div class="l">Quota mensile per tutti gli obiettivi</div><div class="v">${eur(D.quota_totale, 2)}</div></div>
+      <div class="box"><div class="l">Risparmio previsto nel budget (al mese)</div><div class="v">${eur(quotaMedia, 2)}</div></div></div>` +
+    `<div style="position:absolute;left:0;right:0;bottom:0">${tabs('Obiettivi')}</div>`;
+</script>
+</body></html>

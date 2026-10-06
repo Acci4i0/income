@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><title>03 movimenti</title>
+<link rel="stylesheet" href="comune.css">
+<style>
+  .window { position: absolute; left: 56px; right: 56px; top: 186px; height: 522px; }
+  .wrap { position: relative; }
+  td.sel { outline: 2.5px solid var(--teal); outline-offset: -2px; position: relative; }
+  td.sel::after { content: ""; position: absolute; right: 8px; top: 14px; border: 6px solid transparent; border-top-color: var(--text); }
+  .dd { position: absolute; background: #fff; border: 1px solid #b9c6c0; border-radius: 8px; box-shadow: 0 12px 30px rgb(0 0 0 / .16);
+    font-size: 15.5px; padding: 5px 0; width: 230px; }
+  .dd div { padding: 6px 14px; }
+  .dd div.on { background: var(--teal); color: #fff; font-weight: 600; }
+  .auto { color: var(--muted); }
+  .note { position: absolute; display: flex; gap: 10px; }
+</style></head>
+<body>
+<div class="frame">
+  <div class="kicker">Registro movimenti</div>
+  <h1>Registri una spesa in pochi secondi</h1>
+  <p class="sub">Data, importo e categoria dal menu a tendina. Il tipo e i controlli si compilano da soli.</p>
+</div>
+<div class="window" id="w"></div>
+<div class="brand"><b>Netto</b>Chiaro</div>
+<script src="dati.js"></script>
+<script src="comune.js"></script>
+<script>
+  const rows = D.movimenti.filter((m) => m.data.endsWith('/12/2026') && +m.data.slice(0, 2) >= 12 && +m.data.slice(0, 2) <= 19).slice(0, 9);
+  const SEL = rows.findIndex((m) => m.cat === 'Spesa alimentare');
+  const body = rows.map((m, i) => `<tr>
+      <td class="in c">${m.data}</td><td class="in">${m.desc}</td>
+      <td class="in${i === SEL ? ' sel' : ''}">${m.cat}</td><td class="in num">${fmt(m.imp, 2)} €</td>
+      <td class="in">${m.conto}</td><td class="auto">${m.tipo}</td></tr>`).join('');
+  const opts = ['Rate di prestiti', 'Spesa alimentare', 'Carburante', 'Trasporti', 'Farmacia e salute', 'Scuola e figli', 'Casa e manutenzione'];
+  document.getElementById('w').innerHTML = bar('budget-familiare-2026-esempio.xlsx') +
+    `<div class="sheet-title">Movimenti</div><div class="sheet-note">Un movimento per riga. Importi sempre positivi: il tipo lo decide la categoria.</div>` +
+    `<div class="wrap"><table class="sheet" id="t"><colgroup><col style="width:112px"><col style="width:220px"><col style="width:196px"><col style="width:112px"><col style="width:140px"><col></colgroup>
+      <tr><th>Data</th><th>Descrizione</th><th>Categoria</th><th>Importo</th><th>Conto o metodo</th><th>Tipo</th></tr>${body}</table></div>` +
+    `<div style="position:absolute;left:0;right:0;bottom:0">${tabs('Movimenti')}</div>`;
+  const cell = document.querySelector('td.sel');
+  const wrap = document.querySelector('.wrap');
+  const dd = document.createElement('div');
+  dd.className = 'dd';
+  dd.innerHTML = opts.map((o) => `<div class="${o === rows[SEL].cat ? 'on' : ''}">${o}</div>`).join('');
+  dd.style.left = cell.offsetLeft + 'px';
+  dd.style.top = cell.offsetTop + cell.offsetHeight + 'px';
+  wrap.appendChild(dd);
+</script>
+</body></html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>01 cover</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  body { background: linear-gradient(135deg, #e6f3f0 0%, #f4f7f5 55%, #fbf7ea 100%); }
+  .left { position: absolute; left: 56px; top: 60px; width: 410px; }
+  .compat { display: inline-block; font-size: 15px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    color: #fff; background: var(--teal); padding: 7px 12px; border-radius: 6px; }
+  .year { font-size: 118px; font-weight: 900; letter-spacing: -0.04em; line-height: .9; color: var(--teal); margin-top: 22px; }
+  .name { font-size: 50px; font-weight: 850; letter-spacing: -0.025em; line-height: 1.02; margin-top: 4px; }
+  .tag { font-size: 22px; color: var(--muted); margin-top: 16px; line-height: 1.35; font-weight: 500; }
+  ul { list-style: none; margin-top: 24px; }
+  li { font-size: 20px; font-weight: 650; padding: 8px 0 8px 36px; position: relative; }
+  li::before { content: ''; position: absolute; left: 0; top: 8px; width: 24px; height: 24px; border-radius: 50%; background: var(--teal); }
+  li::after { content: ''; position: absolute; left: 8px; top: 13px; width: 6px; height: 11px; border: solid #fff;
+    border-width: 0 3px 3px 0; transform: rotate(45deg); }
+  .window.main { position: absolute; left: 478px; top: 56px; width: 470px; height: 392px; }
+  .window.debt { position: absolute; left: 590px; top: 438px; width: 370px; height: 252px; }
+  .mini-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; padding: 12px 14px 0; }
+  .mini-tiles .tile { padding: 8px 9px 9px; }
+  .mini-tiles .tv { font-size: 19px; }
+  .chartbox { padding: 12px 14px 0; }
+  .chartbox h3 { font-size: 14.5px; color: var(--teal-d); font-weight: 800; margin-bottom: 4px; }
+  .debt .sheet td { height: 30px; font-size: 14.5px; }
+  .badge { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .badge span { font-size: 15.5px; font-weight: 700; background: #fff; border: 1.5px solid var(--line); color: var(--teal-d);
+    padding: 8px 13px; border-radius: 99px; }
+</style></head>
+<body>
+<div class="left">
+  <span class="compat">Excel &amp; Google Sheets</span>
+  <div class="year">2026</div>
+  <div class="name">Budget Planner</div>
+  <div class="tag">Budget, track spending, save and pay off debt in one spreadsheet.</div>
+  <ul>
+    <li>Monthly budget and expense tracker</li>
+    <li>Annual dashboard with charts</li>
+    <li>Debt snowball and avalanche</li>
+    <li>Sinking funds and savings goals</li>
+  </ul>
+  <div class="badge"><span>Any currency</span><span>Blank + example file</span><span>Digital download</span></div>
+</div>
+<div class="window main" id="w1"></div>
+<div class="window debt" id="w2"></div>
+<div class="brand"><b>Netto</b>Chiaro</div>
+<script src="data.js"></script>
+<script src="common.js"></script>
+<script>
+  const k = D.kpi;
+  document.getElementById('w1').innerHTML = bar() +
+    `<div class="sheet-title" style="font-size:18px;padding:12px 14px 0">Budget Planner ${D.year}</div>` +
+    `<div class="mini-tiles">
+      <div class="tile"><div class="tl">Income</div><div class="tv">${num(k.income)}</div></div>
+      <div class="tile"><div class="tl">Expenses</div><div class="tv">${num(k.expenses)}</div></div>
+      <div class="tile"><div class="tl">Savings rate</div><div class="tv">${pct(k.rate, 1)}</div></div>
+    </div>` +
+    `<div class="chartbox"><h3>Income <span style="color:var(--inc)">■</span> and expenses <span style="color:var(--exp)">■</span> by month</h3>${chartMonths(440, 196)}</div>`;
+  const aval = D.debts.slice().sort((a, b) => a.aval - b.aval).slice(0, 4);
+  document.getElementById('w2').innerHTML = bar('Debt Payoff') +
+    `<table class="sheet"><tr><th style="text-align:left">Avalanche order</th><th>APR</th><th>Paid off</th></tr>` +
+    aval.map((d, i) => `<tr class="${i === 0 ? 'hl' : ''}"><td>${d.aval}. ${d.name}</td><td class="num">${pct(d.apr, 2)}</td><td class="c">${ym(d.paidPlan)}</td></tr>`).join('') +
+    `</table><div style="padding:9px 14px;font-size:15px;font-weight:800;color:var(--teal-d)">Debt-free: ${ym(k.debtFree)}</div>`;
+</script>
+</body></html>

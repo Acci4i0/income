@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><link rel="stylesheet" href="stile.css">
+<style>
+  .stage { margin-top: 40px; }
+  .window { width: 100%; }
+  .body { padding: 0 !important; }
+  .sheet { font-size: 23px; }
+  .sheet td { padding: 8px 14px; }
+  .sheet th { padding: 11px 10px; }
+  .past td { color: #94a3b8; }
+  .past td.num { color: #94a3b8; }
+  td.cosa { white-space: normal; width: 560px; }
+  td.chi { white-space: normal; font-size: 21px; color: #475569; width: 500px; line-height: 1.25; }
+  td.cod { font-size: 22px; white-space: normal; width: 200px; }
+</style></head>
+<body><div class="canvas">
+  <div class="kicker">Scadenze</div>
+  <h1>Le scadenze F24 2026-2027</h1>
+  <div class="sub">Imposta, contributi INPS e bollo, con le date già spostate quando cadono nel fine settimana.</div>
+  <div class="stage">
+    <div class="window">
+      <div class="body"><table class="sheet" id="t"></table></div>
+      <div id="tabs"></div>
+    </div>
+  </div>
+</div>
+<script src="dati.js"></script><script src="comuni.js"></script>
+<script>
+  let h = '<tr><th>Data</th><th>Versamento</th><th>Chi lo paga</th><th>Codice F24</th><th>Importo stimato</th></tr>';
+  for (const s of D.scadenze) {
+    const imp = typeof s.importo === 'number' ? eur(s.importo) : s.importo;
+    h += `<tr><td class="b num">${s.data}</td><td class="cosa">${s.cosa}</td><td class="chi">${s.chi}</td><td class="cod">${s.codice}</td><td class="num b">${imp}</td></tr>`;
+  }
+  $('#t').innerHTML = h;
+  $('#tabs').innerHTML = tabs('Scadenze');
+  brand();
+</script>
+</body></html>

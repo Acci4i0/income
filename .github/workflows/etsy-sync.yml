@@ -1,0 +1,102 @@
+# Sincronizza products/*/listing.json con il negozio Etsy e aggiorna il report delle vendite.
+# Senza segreti o senza autorizzazione termina con successo e un avviso nel riepilogo. Guida: products/ETSY.md
+# Nessun ciclo di commit: il commit dei risultati usa il GITHUB_TOKEN (i push fatti con il GITHUB_TOKEN non
+# avviano altri workflow) e tocca solo i due file esclusi qui sotto dai paths del trigger push.
+name: "Etsy: sincronizzazione"
+
+on:
+  push:
+    paths:
+      - "products/**"
+      - "!products/etsy-listings.json"
+      - "!products/etsy-sales.json"
+      - "scripts/etsy/**"
+  schedule:
+    # Ogni lunedì alle 05:00 UTC: aggiorna le vendite e rinnova il refresh token (scade dopo 90 giorni senza uso).
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Solo prova: stampa le chiamate senza inviarle e senza modificare file"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write # salva products/etsy-listings.json, products/etsy-sales.json e il token rinnovato
+
+concurrency:
+  group: etsy-state
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    # Solo sul branch di default: i branch di lavoro non toccano il negozio.
+    if: github.event_name == 'schedule' || github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DRY_RUN: ${{ inputs.dry_run && '1' || '' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Sincronizza le inserzioni
+        id: sync
+        # I segreti solo nei due passi che chiamano Etsy (non in checkout né nel passo git).
+        env:
+          ETSY_KEYSTRING: ${{ secrets.ETSY_KEYSTRING }}
+          ETSY_SHARED_SECRET: ${{ secrets.ETSY_SHARED_SECRET }}
+          ETSY_COMMIT_NOTES: ${{ runner.temp }}/etsy-commit.txt
+        run: node scripts/etsy/sync.mjs
+      - name: Aggiorna il report delle vendite
+        if: success() || failure()
+        env:
+          ETSY_KEYSTRING: ${{ secrets.ETSY_KEYSTRING }}
+          ETSY_SHARED_SECRET: ${{ secrets.ETSY_SHARED_SECRET }}
+          ETSY_COMMIT_NOTES: ${{ runner.temp }}/etsy-commit.txt
+        run: node scripts/etsy/report.mjs
+      - name: Salva i risultati nel repository
+        if: (success() || failure()) && env.DRY_RUN != '1'
+        env:
+          BRANCH: ${{ github.ref_name }}
+          NOTES: ${{ runner.temp }}/etsy-commit.txt
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for f in products/etsy-listings.json products/etsy-sales.json; do
+            if [ -f "$f" ]; then git add "$f"; fi
+          done
+          if git diff --cached --quiet; then
+            echo "Nessuna modifica da salvare."
+            exit 0
+          fi
+          subject="Etsy: aggiorna inserzioni e vendite (sincronizzazione automatica)"
+          if [ "$(git diff --cached --name-only)" = "products/etsy-sales.json" ]; then
+            # Cambiano solo i totali delle vendite, che il sito non usa: niente deploy di Cloudflare Pages.
+            # Pages riconosce [skip ci] solo all'inizio del messaggio. Il commit tiene comunque attivo il
+            # repository (GitHub disattiva i workflow pianificati dopo 60 giorni senza attività).
+            subject="[skip ci] Etsy: aggiorna il report delle vendite (sincronizzazione automatica)"
+          fi
+          {
+            echo "$subject"
+            echo
+            if [ -s "$NOTES" ]; then cat "$NOTES"; else echo "- aggiornati products/etsy-listings.json e/o products/etsy-sales.json"; fi
+          } > "$RUNNER_TEMP/etsy-message.txt"
+          git commit -q -F "$RUNNER_TEMP/etsy-message.txt"
+          for i in 1 2 3; do
+            if git pull -q --rebase origin "$BRANCH"; then
+              if git push -q origin "HEAD:$BRANCH"; then
+                echo "Salvato su $BRANCH."
+                exit 0
+              fi
+            else
+              git rebase --abort 2>/dev/null || true
+            fi
+            sleep $((i * 10))
+          done
+          echo "::error::Impossibile salvare i risultati su $BRANCH (branch protetto o modifiche in conflitto)."
+          exit 1

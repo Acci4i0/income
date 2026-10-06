@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><link rel="stylesheet" href="stile.css">
+<style>
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px; margin-top: 64px; }
+  .card { background: #fff; border-radius: 20px; border: 1px solid #c7efe6; padding: 32px 30px 34px; box-shadow: 0 12px 36px rgba(15,118,110,.09); min-height: 320px; box-sizing: border-box; }
+  .card .k { display: inline-block; font-size: 22px; font-weight: 800; color: #fff; background: var(--teal); border-radius: 8px; padding: 6px 14px; }
+  .card .t { font-size: 38px; font-weight: 800; color: var(--teal-dark); margin-top: 18px; }
+  .card .d { font-size: 28px; color: #334155; margin-top: 10px; line-height: 1.38; }
+  .bottom { display: flex; gap: 22px; margin-top: 54px; flex-wrap: wrap; }
+  .note { margin-top: 40px; font-size: 28px; color: var(--muted); }
+</style></head>
+<body><div class="canvas">
+  <div class="kicker">Cosa ricevi</div>
+  <h1>Due file .xlsx, otto fogli</h1>
+  <div class="sub">Uno vuoto da compilare e uno con un anno di esempio, per vedere subito come funziona.</div>
+  <div class="grid" id="g"></div>
+  <div class="bottom">
+    <div class="pill"><i></i>Excel 2016 o successivo</div>
+    <div class="pill"><i></i>Google Sheets</div>
+    <div class="pill"><i></i>LibreOffice</div>
+    <div class="pill"><i></i>Nessuna macro</div>
+    <div class="pill"><i></i>Stampa A4 pronta</div>
+  </div>
+  <div class="note">Le stime aiutano a pianificare e non sostituiscono il commercialista.</div>
+</div>
+<script src="dati.js"></script><script src="comuni.js"></script>
+<script>
+  const fogli = [
+    ['Istruzioni', 'Come si usa, legenda dei colori e limiti del calcolo.'],
+    ['Impostazioni', 'Attività, previdenza, imposta al 5% o al 15%, riduzione del 35%.'],
+    [`Parametri ${D.anno}`, 'Tutti i valori fiscali usati, ciascuno con la sua fonte.'],
+    ['Fatture', 'Registro con rivalsa, bollo, totale e stato dell\'incasso.'],
+    ['Spese', 'Facoltativo: i costi reali, per vedere il netto vero.'],
+    ['Riepilogo mensile', 'Incassi, quota da accantonare e netto mese per mese.'],
+    ['Dashboard', 'Totali dell\'anno, soglie, controlli e due grafici.'],
+    ['Scadenze', 'F24 di imposta, contributi INPS e bollo, con gli importi stimati.'],
+  ];
+  $('#g').innerHTML = fogli.map(([t, d], k) => `<div class="card"><span class="k">${k + 1}</span><div class="t">${t}</div><div class="d">${d}</div></div>`).join('');
+  brand();
+</script>
+</body></html>

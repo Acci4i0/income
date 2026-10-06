@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><link rel="stylesheet" href="stile.css">
+<style>
+  .stage { margin-top: 44px; gap: 44px; }
+  .window { flex: 1; min-width: 0; }
+  .body { padding: 0 !important; }
+  .sheet { font-size: 26px; }
+  .sheet td { padding: 13px 18px; }
+  .side { width: 430px; flex: none; display: flex; flex-direction: column; gap: 26px; justify-content: center; }
+  .box { background: #fff; border: 1px solid #c7efe6; border-radius: 20px; padding: 30px; box-shadow: 0 14px 40px rgba(15,118,110,.10); }
+  .box .l { font-size: 25px; font-weight: 700; color: var(--teal-dark); }
+  .box .v { font-size: 58px; font-weight: 800; margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .box .n { font-size: 23px; color: var(--muted); margin-top: 8px; line-height: 1.35; }
+</style></head>
+<body><div class="canvas">
+  <div class="kicker">Riepilogo mensile</div>
+  <h1>Quanto mettere da parte, mese per mese</h1>
+  <div class="sub">Per ogni mese: incassato, quota da accantonare per tasse e contributi, spese e netto stimato.</div>
+  <div class="stage">
+    <div class="window">
+      <div class="body"><table class="sheet" id="t"></table></div>
+      <div id="tabs"></div>
+    </div>
+    <div class="side" id="side"></div>
+  </div>
+</div>
+<script src="dati.js"></script><script src="comuni.js"></script>
+<script>
+  let h = '<tr><th>Mese</th><th>Incassato</th><th>Da accantonare</th><th>Spese</th><th>Netto stimato</th><th>% soglia<br>85.000 €</th></tr>';
+  for (const m of D.mesi) {
+    h += `<tr><td class="b">${m.mese}</td><td class="num">${eur(m.incassato)}</td><td class="num hl">${eur(m.accantonare)}</td>`
+      + `<td class="num">${eur(m.spese)}</td><td class="num">${eur(m.netto)}</td><td class="num">${pct(m.pct85, 1)}</td></tr>`;
+  }
+  const t = D.totaleMesi;
+  h += `<tr class="tot"><td>Totale</td><td class="num">${eur(t.incassato)}</td><td class="num">${eur(t.accantonare)}</td><td class="num">${eur(t.spese)}</td><td class="num">${eur(t.netto)}</td><td class="num">${pct(D.mesi[11].pct85, 1)}</td></tr>`;
+  $('#t').innerHTML = h;
+  const giu = D.mesi[5];
+  $('#side').innerHTML = `
+    <div class="box"><div class="l">Giugno: incassati</div><div class="v">${eur(giu.incassato, 0)}</div>
+      <div class="n">da mettere da parte <b>${eur(giu.accantonare, 0)}</b> per imposta e contributi</div></div>
+    <div class="box"><div class="l">In tutto l'anno</div><div class="v">${eur(t.accantonare, 0)}</div>
+      <div class="n">la somma dei 12 mesi coincide con le tasse e i contributi stimati nella Dashboard</div></div>`;
+  $('#tabs').innerHTML = tabs('Riepilogo mensile');
+  brand();
+</script>
+</body></html>

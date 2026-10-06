@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>02 dashboard</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  .window { position: absolute; left: 56px; right: 56px; top: 178px; height: 540px; }
+  .panels { display: grid; grid-template-columns: 1.42fr 1fr; gap: 20px; padding: 14px 18px 0; }
+  .wide { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 8px 18px 0; }
+  .wide .tile { padding: 7px 11px 8px; }
+  .wide .tv { font-size: 18px; }
+</style></head>
+<body>
+<div class="frame">
+  <div class="kicker">Annual Dashboard</div>
+  <h1>See your whole year on one page</h1>
+  <p class="sub">Income, spending, savings rate and top categories update as you log transactions.</p>
+</div>
+<div class="window" id="w"></div>
+<div class="brand"><b>Netto</b>Chiaro</div>
+<script src="data.js"></script>
+<script src="common.js"></script>
+<script>
+  const k = D.kpi;
+  document.getElementById('w').innerHTML = bar() +
+    `<div class="sheet-title">Budget Planner ${D.year} · ${D.name}</div>` +
+    `<div class="tiles">${kpiTiles()}</div>` +
+    `<div class="wide">
+       <div class="tile"><div class="tl">Savings goals: saved so far</div><div class="tv">${num(k.goalsSaved)}</div><div class="tn">${k.goalsNote}</div></div>
+       <div class="tile"><div class="tl">Sinking funds: balance</div><div class="tv">${num(k.fundsBalance)}</div><div class="tn">${k.fundsNote}</div></div>
+       <div class="tile"><div class="tl">Debt-free (your plan)</div><div class="tv">${ym(k.debtFree)}</div><div class="tn">${k.debtNote}</div></div>
+     </div>` +
+    `<div class="panels">
+       <div class="panel"><h3>Income and expenses by month (${D.currency})</h3>${chartMonths(500, 128)}
+         <div class="legend"><span><i style="background:var(--inc)"></i>Income</span><span><i style="background:var(--exp)"></i>Expenses</span></div></div>
+       <div class="panel"><h3>Top spending categories (${D.currency})</h3>${chartTop(340, 6, 24)}</div>
+     </div>` + `<div style="position:absolute;left:0;right:0;bottom:0">${tabs('Annual Dashboard')}</div>`;
+</script>
+</body></html>

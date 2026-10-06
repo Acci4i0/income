@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>08 what is included</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  .grid { position: absolute; left: 56px; top: 186px; width: 560px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .card { background: #fff; border: 1px solid var(--line); border-left: 5px solid var(--teal); border-radius: 8px; padding: 10px 13px; }
+  .card b { display: block; font-size: 17px; color: var(--teal-d); }
+  .card span { display: block; font-size: 14.5px; color: var(--muted); margin-top: 2px; line-height: 1.3; }
+  .side { position: absolute; left: 640px; top: 186px; width: 304px; display: flex; flex-direction: column; gap: 12px; }
+  .box { background: var(--teal); color: #fff; border-radius: 10px; padding: 14px 16px; }
+  .box h3 { font-size: 15px; letter-spacing: .08em; text-transform: uppercase; opacity: .85; margin-bottom: 6px; }
+  .box p { font-size: 17px; font-weight: 650; line-height: 1.35; }
+  .box.light { background: #fff; color: var(--text); border: 1px solid var(--line); }
+  .box.light h3 { color: var(--teal); opacity: 1; }
+  .cur { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .cur i { font-style: normal; font-weight: 800; font-size: 16px; background: var(--input); border: 1px solid var(--input-line);
+    padding: 3px 9px; border-radius: 6px; color: var(--text); }
+</style></head>
+<body>
+<div class="frame">
+  <div class="kicker">What's included</div>
+  <h1>Everything in one spreadsheet</h1>
+  <p class="sub">Two files: a blank planner to fill in, and the same planner with a year of sample data to see how it works.</p>
+</div>
+<div class="grid" id="g"></div>
+<div class="side">
+  <div class="box"><h3>Works with</h3><p>Excel 2016 or later (Windows and Mac), Excel on the web, Google Sheets, LibreOffice</p></div>
+  <div class="box light"><h3>Your currency</h3><p style="font-size:16px">Pick a symbol in Settings: it shows in every heading.</p>
+    <div class="cur"><i>$</i><i>£</i><i>€</i><i>CA$</i><i>A$</i><i>CHF</i><i>kr</i></div></div>
+  <div class="box light"><h3>Good to know</h3><p style="font-size:16px;font-weight:500">No macros, no subscription, no bank login.
+    Dates in ISO format (2026-03-15). Digital download: nothing is shipped.</p></div>
+</div>
+<div class="brand"><b>Netto</b>Chiaro</div>
+<script src="data.js"></script>
+<script src="common.js"></script>
+<script>
+  const sheets = [
+    ['Start Here', 'Six steps to get going and a color key'],
+    ['Settings', 'Year, currency, accounts, as-of date'],
+    ['Categories', '28 ready-made categories, up to 60'],
+    ['Transactions', '2,000 rows with drop-downs and checks'],
+    ['Monthly Budget', 'Plan each category, month by month'],
+    ['Monthly Summary', 'Actual vs planned, month and year to date'],
+    ['Annual Dashboard', 'Totals, savings rate, two charts'],
+    ['Savings Goals', 'Progress and amount needed per month'],
+    ['Sinking Funds', 'Set aside for irregular costs'],
+    ['Debt Payoff', 'Snowball vs avalanche, month-by-month schedule'],
+  ];
+  document.getElementById('g').innerHTML = sheets.map(([n, d]) => `<div class="card"><b>${n}</b><span>${d}</span></div>`).join('');
+</script>
+</body></html>

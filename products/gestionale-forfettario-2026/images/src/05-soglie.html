@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><link rel="stylesheet" href="stile.css">
+<style>
+  .stage { margin-top: 50px; gap: 44px; }
+  .window { width: 820px; flex: none; align-self: center; }
+  .stage { align-items: center; }
+  .tip { margin-top: 30px; font-size: 26px; color: var(--muted); line-height: 1.4; }
+  .soglia { margin-bottom: 40px; }
+  .soglia .top { display: flex; justify-content: space-between; font-size: 30px; font-weight: 700; margin-bottom: 14px; }
+  .soglia .top span:last-child { color: var(--teal); }
+  .soglia .n { font-size: 24px; color: var(--muted); margin-top: 12px; }
+  .bar { height: 40px; }
+  .msgs { flex: 1; display: flex; flex-direction: column; gap: 24px; }
+  .msgs .lab { font-size: 26px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 8px; }
+  .msg { font-size: 28px; }
+</style></head>
+<body><div class="canvas">
+  <div class="kicker">Soglie del regime</div>
+  <h1>Avvisi a 85.000 € e a 100.000 €</h1>
+  <div class="sub">La Dashboard segue l'incassato dell'anno e mostra quanto manca a ogni soglia.</div>
+  <div class="stage">
+    <div class="window">
+      <div class="body" id="bars"></div>
+      <div id="tabs"></div>
+    </div>
+    <div class="msgs" id="msgs"></div>
+  </div>
+</div>
+<script src="dati.js"></script><script src="comuni.js"></script>
+<script>
+  const d = D.dashboard;
+  const s85 = nf(0).format(D.soglie.s85), s100 = nf(0).format(D.soglie.s100);
+  $('#bars').innerHTML = `<div class="wtitle">Soglie del regime</div><div class="wsub">${D.impostazioni.nome} · dati di esempio</div>
+    <div class="soglia"><div class="top"><span>Verso ${s85} €</span><span>${pct(d.pct85)}</span></div>
+      <div class="bar"><div style="width:${Math.min(100, d.pct85 * 100)}%"></div></div>
+      <div class="n">Incassato ${eur(d.incassato, 0)} · mancano ${eur(d.manca85, 0)}</div></div>
+    <div class="soglia"><div class="top"><span>Verso ${s100} €</span><span>${pct(d.pct100)}</span></div>
+      <div class="bar"><div style="width:${Math.min(100, d.pct100 * 100)}%"></div></div>
+      <div class="n">Mancano ${eur(D.soglie.s100 - d.incassato, 0)}</div></div>
+    <div class="msg ok">${d.messaggio}</div>
+    <div class="tip">Il riepilogo mensile mostra anche la percentuale delle due soglie, mese per mese.</div>`;
+  const [stop, warn, ok] = D.avvisiSoglie;
+  $('#msgs').innerHTML = `
+    <div><div class="lab" style="color:var(--green)">Fino a ${s85} €</div><div class="msg ok">${ok}</div></div>
+    <div><div class="lab" style="color:var(--amber)">Oltre ${s85} €</div><div class="msg warn">${warn}</div></div>
+    <div><div class="lab" style="color:var(--red)">Oltre ${s100} €</div><div class="msg stop">${stop}</div></div>`;
+  $('#tabs').innerHTML = tabs('Dashboard', ['Fatture', 'Riepilogo mensile', 'Dashboard', 'Scadenze']);
+  brand();
+</script>
+</body></html>

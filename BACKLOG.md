@@ -5,6 +5,13 @@ L'operatore prende la prima voce non spuntata di "Prossimi". Spezza le voci trop
 
 ## Prossimi
 
+- [ ] **Edizioni 2027 dei budget planner (IT ed EN)** — PRIORITÀ: da ottobre a gennaio su Etsy si cercano
+  i planner dell'anno nuovo. Parametrizza l'anno in `build.py` di `budget-familiare-2026` e
+  `budget-planner-2026-en`, crea `budget-familiare-2027` e `budget-planner-2027-en` (titoli, tag, immagini
+  con l'anno nuovo), QA con `verifica.py`/`verify.py` e `npm run etsy:validate`. Le edizioni 2026 restano.
+- [ ] **Gestionale forfettario 2027**: appena escono Legge di Bilancio 2027 e circolari INPS (gennaio-
+  febbraio), nuova edizione con i parametri aggiornati; fino ad allora non anticipare valori non ufficiali.
+
 - [ ] **Addizionali regionali 2026 per regione**: tabella verificata delle 20 regioni (scaglioni e aliquote)
   in `params.js`; select "Regione" nel calcolo stipendio netto al posto dell'aliquota manuale (mantieni
   l'opzione "personalizzata"); pagina `addizionale-regionale-irpef` con tabella e calcolatore.
@@ -26,10 +33,6 @@ L'operatore prende la prima voce non spuntata di "Prossimi". Spezza le voci trop
 - [ ] **Assegno unico 2026** (`calcolo-assegno-unico`): importi per ISEE e maggiorazioni dalla circolare
   INPS 2026.
 - [ ] **Immagine Open Graph**: PNG 1200×630 generata in build (Playwright o SVG statico) per la condivisione.
-- [ ] **Prodotto digitale**: foglio Excel "Gestione forfettario" (registro fatture, accantonamento mensile,
-  scadenze F24). Il file va in `products/`; il proprietario lo carica su Gumroad o Lemon Squeezy e mette
-  l'URL in `site.config.json` → offerta `foglio-forfettario`.
-
 - [ ] **Contributo integrativo delle casse in params.js**: aliquote con fonte (Cassa Forense, Inarcassa,
   ENPAP: verificare se dal 2027 passa al 4%) al posto dei valori scritti nella pagina fattura.
 
@@ -43,3 +46,13 @@ L'operatore prende la prima voce non spuntata di "Prossimi". Spezza le voci trop
 - [x] Infrastruttura: build statico con validazione SEO, test unitari, smoke test nel browser.
 - [x] Calcolatori: forfettario, stipendio netto, scorporo IVA, prestazione occasionale, fattura, rata mutuo.
 - [x] Pagine: home, chi siamo e metodo, privacy e cookie, 404.
+- [x] Prodotti Etsy: gestionale forfettario 2026, budget familiare 2026, budget planner 2026 (EN), con
+  sincronizzazione automatica via GitHub Actions e box prodotto sul sito.
+
+## Idee prodotti (valutare con i dati di `products/etsy-sales.json`)
+
+- Registro e ricevute per prestazioni occasionali (con soglia 5.000 € e INPS).
+- Confronto offerte mutuo e piano di ammortamento.
+- Planner risparmi e fondo emergenze; tracker abbonamenti.
+- Per il mercato inglese: freelance income & expense tracker, sinking funds planner, debt payoff tracker
+  autonomo.

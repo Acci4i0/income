@@ -2,6 +2,20 @@
 
 Voci più recenti in alto. Formato in OPERATIONS.md.
 
+## 2026-10-06 — Prodotti Etsy e sincronizzazione automatica
+- Fatto: 3 prodotti in `products/` (gestionale forfettario 2026, budget familiare 2026, budget planner
+  2026 EN) con file vuoti e di esempio, 8 immagini ciascuno, listing.json; sincronizzazione Etsy via
+  GitHub Actions (`scripts/etsy/`, workflow etsy-auth e etsy-sync, token cifrato sul branch etsy-state,
+  solo aggregati di vendita nel repo); pagina /prodotti/ e box prodotto nelle pagine collegate, visibili
+  solo con inserzione attiva; pagina /etsy-callback/ per l'autorizzazione. Titolare ed email nella privacy,
+  baseUrl nettochiaro.com, indicizzazione attiva.
+- Verifiche: 105 test; gestionale confrontato al centesimo con `forfettario.js` su 22 scenari (LibreOffice);
+  budget ricalcolati e verificati a mano; DRY_RUN della sync su Etsy simulato (2 run: 36 scritture, poi 0);
+  smoke test desktop e mobile. Non provati dal vivo: Excel, Google Sheets e le API Etsy reali (bloccate dal
+  container: il primo run reale avverrà in GitHub Actions).
+- In attesa del proprietario: Cloudflare Pages + dominio, negozio Etsy, app Etsy e 2 segreti (SETUP.md).
+- Prossimo: edizioni 2027 dei budget planner (stagionalità Etsy).
+
 ## 2026-10-06 — Verifica avversariale dell'accuratezza
 - Fatto: 5 revisori indipendenti (forfettario, stipendio, occasionale, fattura, IVA/mutuo/privacy) e
   5 scettici: 34 errori confermati su 39 segnalati, tutti corretti. Principali: addizionali azzerate

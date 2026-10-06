@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><title>07 categorie</title>
+<link rel="stylesheet" href="comune.css">
+<style>
+  .grid { position: absolute; left: 56px; right: 56px; top: 196px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .col { background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; box-shadow: 0 10px 30px rgb(15 60 50 / .08); }
+  .col h3 { font-size: 17px; font-weight: 800; color: #fff; background: var(--teal); padding: 12px 16px; }
+  .col.f h3 { background: #0b5c56; } .col.v h3 { background: #b45309; } .col.r h3 { background: #334155; }
+  .col h3 { min-height: 64px; display: flex; align-items: center; }
+  .nota { position: absolute; right: 56px; bottom: 72px; font-size: 15px; color: var(--muted); }
+  .nota b { color: var(--text); }
+  .col ul { list-style: none; padding: 8px 0; }
+  .col li { font-size: 16.5px; padding: 6px 16px; border-bottom: 1px solid #edf1ef; }
+  .col li:last-child { border-bottom: 0; }
+  .col li.hl { font-weight: 700; }
+  .foot { position: absolute; left: 56px; bottom: 58px; display: flex; gap: 10px; }
+</style></head>
+<body>
+<div class="frame">
+  <div class="kicker">Categorie</div>
+  <h1>Voci pensate per le famiglie italiane</h1>
+  <p class="sub">32 categorie già pronte e modificabili, fino a 60 in tutto.</p>
+</div>
+<div class="grid" id="g"></div>
+<div class="foot"><span class="chip"><i class="check"></i>Spese fisse e variabili separate</span><span class="chip"><i class="check"></i>Risparmio distinto dalle spese</span></div>
+<div class="nota"><b>In grassetto</b> le voci tipiche italiane</div>
+<div class="brand"><b>Netto</b>Chiaro</div>
+<script src="dati.js"></script>
+<script src="comune.js"></script>
+<script>
+  const gruppi = [['Entrate', 'Entrata', 'e'], ['Spese fisse', 'Spesa fissa', 'f'], ['Spese variabili', 'Spesa variabile', 'v'], ['Risparmio e investimenti', 'Risparmio e investimenti', 'r']];
+  const hl = ['TARI', 'Bollo auto', 'Condominio', 'Assegno unico figli', 'Tredicesima e quattordicesima', 'Previdenza complementare'];
+  // nomi del modello vuoto (nell'esempio i primi due stipendi sono rinominati)
+  const nome = (n) => n.replace('Stipendio Marco', 'Stipendio 1').replace('Stipendio Giulia', 'Stipendio 2');
+  document.getElementById('g').innerHTML = gruppi.map(([t, tipo, cls]) =>
+    `<div class="col ${cls}"><h3>${t}</h3><ul>${D.categorie.filter((c) => c.tipo === tipo)
+      .map((c) => `<li class="${hl.includes(c.nome) ? 'hl' : ''}">${nome(c.nome)}</li>`).join('')}</ul></div>`).join('');
+</script>
+</body></html>

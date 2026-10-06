@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>03 monthly budget</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  .window { position: absolute; left: 56px; right: 56px; top: 198px; height: 522px; }
+  table.sheet { table-layout: fixed; font-size: 14.5px; }
+  .sheet td { padding: 6px 7px; }
+  .sheet th { padding: 7px 6px; font-size: 13.5px; }
+  .sheet td.ov { background: #ffe9a3; border: 2px solid #d9a400; font-weight: 700; }
+  .callout.c1 { right: 56px; top: 40px; max-width: 262px; }
+</style></head>
+<body>
+<div class="frame">
+  <div class="kicker">Monthly Budget</div>
+  <h1>Plan once, adjust any month</h1>
+  <p class="sub">Type a typical amount once.<br>Change only the months that are different.</p>
+</div>
+<div class="window" id="w"></div>
+<div class="brand"><b>Netto</b>Chiaro</div>
+<script src="data.js"></script>
+<script src="common.js"></script>
+<script>
+  const months = [6, 7, 8, 9, 10, 11];   // Jul..Dec
+  const head = `<tr><th style="text-align:left;width:192px">Category</th><th style="width:94px">Typical month (${D.currency})</th>` +
+    months.map((m) => `<th style="width:83px">${D.months[m]}</th>`).join('') + `<th style="width:102px">Year total (${D.currency})</th></tr>`;
+  const typ = (types) => D.categories.filter((c) => types.includes(c.type)).reduce((a, c) => a + c.typical, 0);
+  const typical = { income: typ(['Income']), expenses: typ(['Fixed bills', 'Variable expenses']), savings: typ(['Savings & debt']) };
+  typical.left = typical.income - typical.expenses - typical.savings;
+  const sumRow = (label, key, cls = '') => `<tr class="${cls}"><td class="b">${label}</td><td class="num">${key === 'fromFunds' ? '' : num(typical[key])}</td>` +
+    months.map((m) => `<td class="num ${key === 'fromFunds' ? 'in' : ''}">${num(D.rows[key].plan[m])}</td>`).join('') +
+    `<td class="num b">${num(D.rows[key].planYear)}</td></tr>`;
+  const catRow = (name) => {
+    const c = cat(name);
+    return `<tr><td>${name}</td><td class="num in">${numZ(c.typical)}</td>` +
+      months.map((m) => `<td class="num ${Math.abs(c.plan[m] - c.typical) > 0.001 ? 'ov' : 'in'}">${num(c.plan[m])}</td>`).join('') +
+      `<td class="num b">${num(c.planYear)}</td></tr>`;
+  };
+  document.getElementById('w').innerHTML = bar() +
+    `<div class="sheet-title">Monthly Budget</div>` +
+    `<table class="sheet">${head}` +
+    sumRow('Income', 'income') + sumRow('Total expenses', 'expenses') + sumRow('Savings & debt payments', 'savings') +
+    sumRow('Paid from goals & funds', 'fromFunds') + sumRow('Left to budget', 'left', 'tot') +
+    `<tr class="sec"><td colspan="9">Categories</td></tr>` +
+    ['Utilities', 'Groceries', 'Transport / Gas', 'Gifts', 'Travel'].map(catRow).join('') +
+    `</table>` + `<div style="position:absolute;left:0;right:0;bottom:0">${tabs('Monthly Budget')}</div>`;
+</script>
+<div class="callout c1">Vacation in July, new tires in September?<small>Type over that month. The others keep the typical amount.</small></div>
+</body></html>

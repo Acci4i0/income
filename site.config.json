@@ -33,17 +33,6 @@
         "text": "Apertura partita IVA, dichiarazione e F24 gestiti da un professionista a canone fisso.",
         "cta": "Richiedi una consulenza",
         "url": ""
-      },
-      {
-        "id": "foglio-forfettario",
-        "label": "Prodotto",
-        "pages": [
-          "calcolo-tasse-forfettario"
-        ],
-        "title": "Foglio Excel per forfettari 2026",
-        "text": "Registro fatture, accantonamento tasse e INPS mese per mese, scadenze F24. Si aggiorna da solo.",
-        "cta": "Scaricalo",
-        "url": ""
       }
     ]
   },

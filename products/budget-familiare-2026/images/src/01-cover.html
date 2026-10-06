@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><title>01 copertina</title>
+<link rel="stylesheet" href="comune.css">
+<style>
+  body { background: #f7f9f8; }
+  .side { position: absolute; left: 650px; top: 0; right: 0; bottom: 0; background: linear-gradient(160deg, #0f766e 0%, #0b5c56 100%); }
+  .side::after { content: ""; position: absolute; inset: 0; background-image: radial-gradient(rgb(255 255 255 / .09) 1.5px, transparent 1.5px); background-size: 22px 22px; }
+  .left { position: absolute; left: 56px; top: 60px; width: 410px; }
+  .left h1 { font-size: 68px; line-height: 1.0; margin-top: 14px; }
+  .left h1 span { color: var(--teal); }
+  .left .sub { font-size: 21px; margin-top: 18px; color: #3d4944; }
+  ul { list-style: none; margin-top: 26px; display: grid; gap: 14px; }
+  li { display: flex; gap: 12px; align-items: center; font-size: 19px; font-weight: 600; }
+  .chips { position: absolute; left: 56px; bottom: 56px; display: flex; gap: 10px; }
+  .window { position: absolute; left: 498px; top: 86px; width: 462px; }
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 2px 16px 0; }
+  .tile { background: var(--teal-s); border-top: 4px solid var(--teal); padding: 9px 12px 10px; }
+  .tl { font-size: 14px; font-weight: 700; color: var(--teal-d); }
+  .tv { font-size: 25px; font-weight: 800; margin-top: 3px; }
+  .tn { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .chart { padding: 12px 10px 4px 6px; }
+  .tabs b { padding-left: 9px; padding-right: 9px; }
+  .brand { color: rgb(255 255 255 / .85); }
+  .brand b { color: #fff; }
+</style></head>
+<body>
+<div class="side"></div>
+<div class="left">
+  <div class="kicker">Excel e Google Sheets</div>
+  <h1>Budget<br>familiare<br><span>2026</span></h1>
+  <p class="sub">Entrate, spese e risparmio della famiglia in un unico file.</p>
+  <ul>
+    <li><i class="check"></i>Dashboard con grafici</li>
+    <li><i class="check"></i>Budget mese per mese</li>
+    <li><i class="check"></i>Obiettivi e piano debiti</li>
+    <li><i class="check"></i>Voci italiane già pronte</li>
+  </ul>
+</div>
+<div class="chips"><span class="chip teal">File digitale .xlsx</span><span class="chip">Modello vuoto + esempio</span></div>
+<div class="window" id="w"></div>
+<div class="brand"><b>Netto</b>Chiaro</div>
+<script src="dati.js"></script>
+<script src="comune.js"></script>
+<script>
+  document.getElementById('w').innerHTML = bar('Dashboard') +
+    `<div class="sheet-title" style="font-size:19px">Budget familiare ${D.anno} · ${D.famiglia}</div>` +
+    `<div class="tiles">${kpiTiles(['entrate', 'spese', 'risparmio', 'tasso'])}</div>` +
+    `<div class="chart">${chartMesi(446, 250)}</div>` +
+    `<div class="tabs"><b>Budget</b><b>Mensile</b><b class="on">Dashboard</b><b>Obiettivi</b><b>Debiti</b></div>`;
+</script>
+</body></html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8"><title>04 mensile</title>
+<link rel="stylesheet" href="comune.css">
+<style>
+  .window { position: absolute; left: 56px; right: 56px; top: 186px; height: 522px; }
+  table.sheet { font-size: 15.5px; }
+  .sheet td { height: 32px; padding: 5px 9px; }
+</style></head>
+<body>
+<div class="frame">
+  <div class="kicker">Mensile</div>
+  <h1>Budget e consuntivo, voce per voce</h1>
+  <p class="sub">Le differenze dal budget si colorano da sole: verde se va bene, rosso se sfori.</p>
+</div>
+<div class="window" id="w"></div>
+<div class="brand"><b>Netto</b>Chiaro</div>
+<script src="dati.js"></script>
+<script src="comune.js"></script>
+<script>
+  const M = [8, 9, 10, 11];   // set-dic
+  const row = (label, tipo, mesi, tot, bud, diff, cls = '') => `<tr class="${cls}"><td>${label}</td>` +
+    M.map((m) => `<td class="num">${eur(mesi[m])}</td>`).join('') +
+    `<td class="num"><b>${eur(tot)}</b></td><td class="num">${eur(bud)}</td>` +
+    `<td class="num ${diffClass(tipo, diff)}">${eur(diff)}</td><td class="num">${bud ? pct(tot / bud) : ''}</td></tr>`;
+  const S = D.summary;
+  let html = row('Entrate', 'Entrata', S.entrate.mesi, S.entrate.totale, S.entrate.budget, S.entrate.diff, 'tot') +
+    row('Totale spese', 'Spesa', S.spese.mesi, S.spese.totale, S.spese.budget, S.spese.diff, 'tot') +
+    `<tr class="sec"><td colspan="9">Dettaglio per categoria</td></tr>`;
+  for (const n of ['Spesa alimentare', 'Carburante', 'Luce', 'Gas', 'Scuola e figli', 'Svago', 'Regali', 'Vacanze', 'Imprevisti']) {
+    const c = cat(n);
+    html += row(c.nome, c.tipo, c.mesi, c.totale, c.budget, c.diff);
+  }
+  document.getElementById('w').innerHTML = bar('budget-familiare-2026-esempio.xlsx') +
+    `<table class="sheet" style="margin-top:0"><colgroup><col style="width:190px"><col><col><col><col><col style="width:104px"><col style="width:104px"><col style="width:104px"><col style="width:62px"></colgroup>
+     <tr><th style="text-align:left">Voce</th>${M.map((m) => `<th>${D.mesi[m]}</th>`).join('')}<th>Totale anno</th><th>Budget anno</th><th>Differenza</th><th>%</th></tr>${html}</table>` +
+    `<div style="position:absolute;left:0;right:0;bottom:0">${tabs('Mensile')}</div>`;
+</script>
+</body></html>

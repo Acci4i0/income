@@ -1,0 +1,61 @@
+# Autorizzazione una tantum del negozio Etsy, senza terminale. Guida: products/ETSY.md
+# 1. Run workflow con passo "avvia": il riepilogo del run (Summary) mostra il link di autorizzazione.
+# 2. Dopo aver autorizzato su Etsy, la pagina nettochiaro.com/etsy-callback/ mostra code e state.
+# 3. Run workflow con passo "completa", code e state: il token viene cifrato e salvato sul branch etsy-state.
+# Il code è monouso e inutile senza il code_verifier, che si ricava solo con ETSY_SHARED_SECRET. Non compare
+# comunque nel log: lo script lo legge dal payload dell'evento e lo maschera.
+name: "Etsy: autorizzazione"
+
+on:
+  workflow_dispatch:
+    inputs:
+      passo:
+        description: "avvia = crea il link per Etsy; completa = salva l'autorizzazione"
+        type: choice
+        options:
+          - avvia
+          - completa
+        default: avvia
+      code:
+        description: "Solo per completa: il code mostrato dalla pagina etsy-callback"
+        required: false
+        default: ""
+      state:
+        description: "Solo per completa: lo state mostrato dalla pagina etsy-callback"
+        required: false
+        default: ""
+
+permissions:
+  contents: write # scrive etsy-token.enc sul branch etsy-state
+  actions: write # avvia la prima sincronizzazione dopo "completa"
+
+# Stesso gruppo della sincronizzazione: mai due job che leggono e scrivono il token insieme.
+concurrency:
+  group: etsy-state
+  cancel-in-progress: false
+
+jobs:
+  auth:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: "Etsy: ${{ inputs.passo }}"
+        # code e state NON passano da env: GitHub stampa nel log del passo i valori di env: in chiaro (solo i
+        # segreti diventano ***) e il log di un repository pubblico è visibile a tutti. Lo script li legge
+        # dal payload dell'evento ($GITHUB_EVENT_PATH) e li maschera prima di stampare qualsiasi cosa.
+        # Nessun input viene interpolato nel comando shell.
+        env:
+          PASSO: ${{ inputs.passo }}
+          ETSY_KEYSTRING: ${{ secrets.ETSY_KEYSTRING }}
+          ETSY_SHARED_SECRET: ${{ secrets.ETSY_SHARED_SECRET }}
+        run: node scripts/etsy/auth.mjs "$PASSO"
+      - name: Avvia la prima sincronizzazione
+        if: inputs.passo == 'completa'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ github.event.repository.default_branch }}
+        run: gh workflow run etsy-sync.yml --repo "$GITHUB_REPOSITORY" --ref "$BRANCH"

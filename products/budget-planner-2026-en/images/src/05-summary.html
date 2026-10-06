@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>05 monthly summary</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  .window { position: absolute; left: 56px; right: 56px; top: 178px; height: 540px; }
+  .sel { display: flex; align-items: center; gap: 12px; padding: 0 20px 10px; font-size: 15px; }
+  .sel b { color: var(--teal-d); }
+  .sel span.box { background: var(--input); border: 1px solid var(--input-line); padding: 4px 14px; font-weight: 700; }
+  .sel span.m { font-size: 14px; }
+  table.sheet { table-layout: fixed; }
+  .sheet td { height: 31px; padding: 6px 8px; }
+  .gap { width: 12px; background: #fff !important; border: 0 !important; padding: 0 !important; }
+  th.grp { background: var(--teal-s); color: var(--teal-d); font-size: 14px; }
+</style></head>
+<body>
+<div class="frame">
+  <div class="kicker">Monthly Summary</div>
+  <h1>Planned vs actual, every month</h1>
+  <p class="sub">Pick a month: see what you planned, what you spent and the difference in green or red.</p>
+</div>
+<div class="window" id="w"></div>
+<div class="brand"><b>Netto</b>Chiaro</div>
+<script src="data.js"></script>
+<script src="common.js"></script>
+<script>
+  const M = 11;   // December (Auto = latest month)
+  const mname = D.monthNames[M];
+  const line = (label, type, plan, act, planY, actY, cls = '', pctOk = true) => {
+    const d = act - plan, dy = actY - planY;
+    return `<tr class="${cls}"><td>${label}</td>` +
+      `<td class="num">${num(plan)}</td><td class="num b">${num(act)}</td><td class="num ${diffClass(type, d)}">${num(d)}</td>` +
+      `<td class="num">${pctOk && plan ? pct(act / plan) : ''}</td><td class="gap"></td>` +
+      `<td class="num">${num(planY)}</td><td class="num">${num(actY)}</td><td class="num ${diffClass(type, dy)}">${num(dy)}</td></tr>`;
+  };
+  const R = D.rows;
+  const sum = (key, label, type, cls, pctOk) =>
+    line(label, type, R[key].plan[M], R[key].act[M], R[key].planYear, R[key].actYear, cls, pctOk);
+  const catLine = (name) => {
+    const c = cat(name);
+    return line(name, c.type, c.plan[M], c.act[M], c.planYear, c.actYear);
+  };
+  document.getElementById('w').innerHTML = bar() + `<div class="sheet-title">Monthly Summary</div>` +
+    `<div class="sel"><b>Month to review ▸</b><span class="box">Auto</span><span class="m">Showing ${mname} ${D.year}</span></div>` +
+    `<table class="sheet"><tr><th class="grp" style="background:#fff;width:212px"></th><th colspan="4" class="grp">${mname} ${D.year} (${D.currency})</th>` +
+    `<th class="gap"></th><th colspan="3" class="grp">Year to date (${D.currency})</th></tr>` +
+    `<tr><th style="text-align:left">Category</th><th style="width:98px">Planned</th><th style="width:98px">Actual</th><th style="width:100px">Difference</th>` +
+    `<th style="width:72px">% of plan</th><th class="gap"></th><th style="width:102px">Planned</th><th style="width:102px">Actual</th><th style="width:100px">Difference</th></tr>` +
+    sum('income', 'Income', 'Income') + sum('expenses', 'Total expenses', 'All expenses', 'tot') +
+    sum('savings', 'Savings & debt', 'Savings & debt') + sum('left', 'Left over', 'Result', 'tot', false) +
+    ['Groceries', 'Dining out', 'Utilities', 'Personal care', 'Gifts'].map(catLine).join('') +
+    `</table>` + `<div style="position:absolute;left:0;right:0;bottom:0">${tabs('Monthly Summary')}</div>`;
+</script>
+</body></html>

@@ -1,0 +1,54 @@
+{
+  "slug": "gestionale-forfettario-2026",
+  "language": "it",
+  "title": "Regime Forfettario 2026 Excel e Google Sheets: Gestionale Partita IVA, Fatture, Tasse, INPS, Scadenze F24",
+  "short": "Foglio Excel e Google Sheets per forfettari: registro fatture, stima di imposta e contributi INPS, quota da accantonare ogni mese e scadenze F24 2026.",
+  "description": "Foglio di calcolo per chi ha la partita IVA in regime forfettario. Registri le fatture e il file stima l'imposta sostitutiva, i contributi INPS, il netto e quanto mettere da parte ogni mese, con i valori fiscali 2026.\n\nCosa ricevi\n• 2 file .xlsx: uno vuoto da compilare e uno con un anno di dati di esempio, per vedere subito come funziona.\n• 8 fogli: Istruzioni, Impostazioni, Parametri 2026, Fatture, Spese, Riepilogo mensile, Dashboard, Scadenze.\n\nCosa fa\n• Registro fatture (300 righe): rivalsa INPS 4% (se la applichi) e marca da bollo da 2 € sopra 77,47 € calcolate in automatico, totale e stato dell'incasso.\n• Principio di cassa: ricavi, tasse e soglie si calcolano sulla data di incasso, non su quella della fattura.\n• Stima dell'imposta sostitutiva (15% o 5% per le nuove attività) e dei contributi: Gestione Separata (anche con aliquota ridotta), Artigiani e Commercianti con contributi fissi e riduzione del 35%, cassa professionale con la tua aliquota.\n• Coefficiente di redditività da un menu a tendina, con i 9 gruppi di attività.\n• Riepilogo mensile: incassato, quota da accantonare, spese, netto stimato e percentuale delle soglie.\n• Dashboard: totali dell'anno, avvisi a 85.000 € e a 100.000 €, controlli sugli errori di compilazione (date e importi scritti come testo, date incoerenti) e due grafici.\n• Scadenze F24 2026-2027: imposta sostitutiva, contributi INPS, bollo trimestrale delle fatture elettroniche, con gli importi che il foglio può stimare.\n• Parametri 2026 con la fonte di ogni valore (L. 190/2014, circolari INPS 8/2026 e 14/2026).\n• Spese facoltative: nel forfettario non si deducono, ma servono a vedere il netto dopo i costi.\n\nA chi serve\nProfessionisti, artigiani e commercianti in regime forfettario che vogliono sapere in ogni momento quanto hanno incassato e avere una stima di quanto pagheranno e di quanto tenere da parte.\n\nCompatibilità\nExcel 2016 o successivo (Windows e Mac), Google Sheets (carica il file su Google Drive e aprilo con Fogli Google), LibreOffice. Nessuna macro. Le celle da compilare sono gialle; i fogli sono protetti senza password, così le formule non si cancellano per sbaglio. In Excel, se il file si apre in Visualizzazione protetta, fai clic su Abilita modifica per vedere i calcoli.\n\nCome si scarica\nÈ un prodotto digitale: non ricevi nulla per posta. Dopo il pagamento scarichi i file dalla pagina Acquisti del tuo account Etsy o dal link nell'email di conferma.\n\nLimiti\n• È una stima per pianificare: non sostituisce il commercialista né la dichiarazione dei redditi.\n• Non gestisce minimi e contributo integrativo delle casse professionali, altre riduzioni INPS, IVA. Una fattura pagata a rate si registra a mano, una riga per pagamento.\n• Oltre 100.000 € di ricavi si esce dal regime nell'anno: imposta e contributi del file restano solo indicativi.\n• Non verifica i requisiti per entrare o restare nel regime.\n• Le date delle scadenze sono verificate a ottobre 2026: eventuali proroghe successive non sono incluse.\n\nProgettato da NettoChiaro con l'aiuto di strumenti di intelligenza artificiale; formule verificate con test.",
+  "tags": [
+    "regime forfettario",
+    "partita iva",
+    "forfettario 2026",
+    "gestionale excel",
+    "registro fatture",
+    "calcolo tasse",
+    "contributi inps",
+    "imposta sostitutiva",
+    "foglio excel",
+    "google sheets",
+    "scadenze f24",
+    "freelance italia",
+    "modello excel"
+  ],
+  "price": 9.9,
+  "quantity": 999,
+  "who_made": "i_did",
+  "when_made": "made_to_order",
+  "is_supply": false,
+  "taxonomy_path": [
+    "Paper & Party Supplies",
+    "Paper",
+    "Stationery",
+    "Design & Templates",
+    "Templates",
+    "Bookkeeping Templates"
+  ],
+  "files": [
+    "files/gestionale-forfettario-2026.xlsx",
+    "files/gestionale-forfettario-2026-esempio.xlsx"
+  ],
+  "images": [
+    "images/01-cover.png",
+    "images/02-dashboard.png",
+    "images/03-fatture.png",
+    "images/04-accantonamento.png",
+    "images/05-soglie.png",
+    "images/06-scadenze.png",
+    "images/07-impostazioni.png",
+    "images/08-contenuto.png"
+  ],
+  "site_pages": [
+    "calcolo-tasse-forfettario",
+    "calcolo-fattura"
+  ],
+  "publish": true
+}

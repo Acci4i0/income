@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>06 debt payoff</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  .window { position: absolute; left: 56px; right: 56px; top: 178px; height: 540px; }
+  .opts { display: flex; gap: 26px; padding: 0 20px 10px; font-size: 15px; align-items: center; }
+  .opts b { color: var(--teal-d); }
+  .opts span.box { background: var(--input); border: 1px solid var(--input-line); padding: 4px 14px; font-weight: 700; margin-left: 8px; }
+  .sheet td { height: 29px; padding: 5px 9px; }
+  .grid { display: grid; grid-template-columns: 410px 1fr; gap: 22px; padding: 14px 20px 0; }
+  .cmp td { height: 30px; }
+  .cmp th.on, .cmp td.on { background: var(--teal-s); font-weight: 800; }
+  .cmp th.on { background: var(--teal-d); }
+  .ord { font-weight: 800; color: var(--teal); text-align: center; }
+</style></head>
+<body>
+<div class="frame">
+  <div class="kicker">Debt Payoff · snowball or avalanche</div>
+  <h1>Find your debt-free date</h1>
+  <p class="sub">Compare both methods, see the payoff order and the interest you save.</p>
+</div>
+<div class="window" id="w"></div>
+<div class="brand"><b>Netto</b>Chiaro</div>
+<script src="data.js"></script>
+<script src="common.js"></script>
+<script>
+  const on = (col) => ((D.method === 'Snowball' && col === 'D') || (D.method === 'Avalanche' && col === 'E') ? 'on' : '');
+  const C = D.compare;
+  const debts = D.debts.map((d) => `<tr><td class="in">${d.name}</td><td class="in num">${fmt(d.balance)}</td><td class="in num">${pct(d.apr, 2)}</td>` +
+    `<td class="in num">${fmt(d.min)}</td><td class="ord">${d.aval}</td><td class="ord">${d.snow}</td><td class="c b">${ym(d.paidPlan)}</td></tr>`).join('');
+  const cmpRow = (label, f) => `<tr><td>${label}</td>${['C', 'D', 'E'].map((c) => `<td class="num ${on(c)}">${f(C[c])}</td>`).join('')}</tr>`;
+  document.getElementById('w').innerHTML = bar() + `<div class="sheet-title">Debt Payoff</div>` +
+    `<div class="opts"><span><b>Payoff method</b><span class="box">${D.method}</span></span>` +
+    `<span><b>Extra payment each month (${D.currency})</b><span class="box">${fmt(D.extra)}</span></span></div>` +
+    `<table class="sheet" style="width:calc(100% - 40px);margin:0 20px"><tr><th style="text-align:left">Debt</th><th>Balance (${D.currency})</th><th>APR</th>` +
+    `<th>Minimum (${D.currency})</th><th>Avalanche order</th><th>Snowball order</th><th>Paid off (your plan)</th></tr>${debts}` +
+    `</table>` +
+    `<div class="grid"><div><table class="sheet cmp"><tr><th></th><th>Minimums only</th><th class="${on('D')}">Snowball</th><th class="${on('E')}">Avalanche</th></tr>` +
+    cmpRow('Debt-free date', (x) => ym(x.date)) +
+    cmpRow(`Total interest`, (x) => fmt(x.interest, 0)) + cmpRow('Interest saved', (x) => (typeof x.saved === 'number' ? fmt(x.saved, 0) : '–')) +
+    `</table></div><div class="panel"><h3>Total debt balance over time</h3>${chartDebt(424, 116)}` +
+    `<div class="legend"><span><i style="background:var(--grey)"></i>Minimums only</span><span><i style="background:var(--exp)"></i>Snowball</span>` +
+    `<span><i style="background:var(--teal)"></i>Avalanche</span></div></div></div>` +
+    `<div style="position:absolute;left:0;right:0;bottom:0">${tabs('Debt Payoff')}</div>`;
+</script>
+</body></html>
