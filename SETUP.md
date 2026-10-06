@@ -3,6 +3,13 @@
 Tutto il resto (codice, contenuti, aggiornamenti, SEO tecnico) lo fa l'operatore automatico.
 Queste azioni richiedono la tua identità, un pagamento o un account a tuo nome. In ordine:
 
+**Stato (aggiornato dall'operatore)**
+- [x] 1. Dominio `nettochiaro.com` e Cloudflare Pages — online dal 6/10/2026
+- [x] 2. Google Search Console e sitemap — inviata il 6/10/2026
+- [ ] 4. Negozio Etsy, app Etsy, 2 segreti, autorizzazione
+- [ ] 3. AdSense — non prima di metà novembre 2026 (servono contenuti indicizzati)
+- [ ] 5-6. Affiliazioni e statistiche (facoltativi)
+
 ## 1. Dominio e hosting su Cloudflare Pages (15 minuti, ~10 $/anno) — BLOCCANTE
 
 Finché non fai questo passo il sito non è online. Cloudflare Pages è gratuito e consente l'uso

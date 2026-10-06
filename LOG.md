@@ -2,6 +2,11 @@
 
 Voci più recenti in alto. Formato in OPERATIONS.md.
 
+## 2026-10-06 — Google Search Console
+- Fatto: il proprietario ha verificato nettochiaro.com (proprietà Dominio, verifica DNS) e inviato
+  https://nettochiaro.com/sitemap.xml. Stato dei passi del proprietario in cima a SETUP.md.
+- Prossimo: negozio Etsy (proprietario); edizioni 2027 dei budget planner (operatore, 12/10).
+
 ## 2026-10-06 — Sito online su nettochiaro.com
 - Fatto: il proprietario ha registrato nettochiaro.com su Cloudflare e collegato il repo a Cloudflare
   Pages con i domini nettochiaro.com e www. Workflow "Controllo sito" esteso: verifica ogni pagina della
