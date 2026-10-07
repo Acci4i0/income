@@ -61,9 +61,9 @@ export default {
       <div class="kpi main"><span>Netto al mese (su <span data-out="mensilita">13</span>)</span><strong data-out="nettoMensile">–</strong></div>
       <div class="kpi"><span>Netto annuo</span><strong data-out="netto">–</strong></div>
     </div>
+    <details class="dettaglio"><summary>Dettaglio del calcolo</summary>
     <div class="bar" data-bar></div>
     <ul class="legend" data-legend></ul>
-    <details class="dettaglio"><summary>Dettaglio del calcolo</summary>
     <table class="breakdown">
       <tr><th>RAL</th><td data-out="ral"></td></tr>
       <tr><th>Contributi INPS a tuo carico</th><td data-out="inps"></td></tr>
@@ -75,8 +75,8 @@ export default {
       <tr><th>Somma esente e trattamento integrativo</th><td data-out="bonus"></td></tr>
       <tr class="total"><th>Peso totale su RAL</th><td data-out="aliquotaMedia"></td></tr>
     </table>
-    </details>
     <button type="button" class="btn-link" data-share>Copia link a questo calcolo</button>
+    </details>
   </div>
 </form>`,
   content: `
@@ -136,5 +136,4 @@ export default {
       a: '<p>Per le addizionali IRPEF: ogni regione e comune fissa la propria aliquota. Tra la regione più leggera e quella più cara la differenza su 30.000 € di RAL può superare i 400 € l\'anno.</p>',
     },
   ],
-  related: ['calcolo-tasse-forfettario', 'calcolo-rata-mutuo', 'prestazione-occasionale'],
 };

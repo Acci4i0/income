@@ -65,9 +65,9 @@ export default {
       <div class="kpi main"><span>Netto che ricevi</span><strong data-out="netto">–</strong></div>
       <div class="kpi"><span>Compenso lordo</span><strong data-out="lordo">–</strong></div>
     </div>
+    <details class="dettaglio"><summary>Dettaglio del calcolo</summary>
     <div class="bar" data-bar></div>
     <ul class="legend" data-legend></ul>
-    <details class="dettaglio"><summary>Dettaglio del calcolo</summary>
     <table class="breakdown">
       <tr><th>Compenso lordo</th><td data-out="lordo"></td></tr>
       <tr><th>Ritenuta d'acconto ${ritenuta}</th><td data-out="ritenuta"></td></tr>
@@ -77,8 +77,8 @@ export default {
       <tr><th>Costo totale per il committente</th><td data-out="costoCommittente"></td></tr>
       <tr><th>Marca da bollo</th><td data-out="bollo"></td></tr>
     </table>
-    </details>
     <button type="button" class="btn-link" data-share>Copia link a questo calcolo</button>
+    </details>
   </div>
 </form>`,
   content: `
@@ -127,5 +127,4 @@ export default {
       a: `<p>Sì. La soglia riguarda solo i contributi INPS: oltre i ${soglia} annui si pagano contributi in Gestione Separata sull'eccedenza. Resta il requisito che il lavoro sia davvero saltuario.</p>`,
     },
   ],
-  related: ['calcolo-tasse-forfettario', 'calcolo-fattura', 'calcolo-stipendio-netto'],
 };

@@ -122,22 +122,12 @@ function faqHtml(faq) {
     </section>`;
 }
 
-// Elenco dei calcolatori: home (grande) e "Altri calcolatori".
-function elenco(list, cls = 'list') {
+// Elenco dei calcolatori in home.
+function elenco(list) {
   return `
-    <ul class="${cls}">
+    <ul class="list">
       ${list.map((p) => `<li><a href="/${p.slug}/">${esc(p.navLabel)}<span aria-hidden="true">→</span></a></li>`).join('')}
     </ul>`;
-}
-
-function relatedHtml(page, pages) {
-  const rel = (page.related || []).map((s) => pages.find((p) => p.slug === s)).filter(Boolean);
-  if (!rel.length) return '';
-  return `
-    <section class="related">
-      <h2>Altri calcolatori</h2>
-      ${elenco(rel)}
-    </section>`;
 }
 
 const dataIt = (iso) => new Date(`${iso}T12:00:00Z`).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -158,12 +148,11 @@ export function renderPage(page, { config, pages, asset, products = [] }) {
     ${offersFor(page, config)}
     <article class="prose">${sezioni(page.content, { chiuse: true })}</article>
     ${faqHtml(page.faq)}
-    ${relatedHtml(page, pages)}
     <p class="disclaimer">Stime basate sulla normativa ${esc(page.year || '')}${page.fonti ? ` (${esc(page.fonti)})` : ''}. Non sostituiscono un commercialista o un CAF. Aggiornato il ${dataIt(page.updated)}.</p>
   ` : page.kind === 'home' ? `
     <h1 class="home-title">${esc(page.h1)}</h1>
     ${page.intro ? `<div class="lead">${page.intro}</div>` : ''}
-    ${elenco(tools, 'list list-home')}
+    ${elenco(tools)}
     ${productsFor(page, products)}
   ` : `
     <h1>${esc(page.h1)}</h1>
@@ -211,8 +200,7 @@ ${structuredData(page, config)}
 ${main}
 </main>
 <footer class="site-footer wrap">
-  <nav aria-label="Calcolatori"><ul>${tools.map((p) => `<li><a href="/${p.slug}/">${esc(p.navLabel)}</a></li>`).join('')}</ul></nav>
-  <nav aria-label="Informazioni"><ul class="footer-links">${linkSito.map((l) => `<li>${l}</li>`).join('')}</ul></nav>
+  <nav aria-label="Calcolatori e informazioni"><ul>${[...tools.map((p) => `<a href="/${p.slug}/">${esc(p.navLabel)}</a>`), ...linkSito].map((l) => `<li>${l}</li>`).join('')}</ul></nav>
   <p>I calcoli avvengono nel tuo browser: gli importi che inserisci non vengono salvati né inviati, a meno che tu non condivida il link a un calcolo.</p>
 </footer>
 ${page.script ? `<script type="module" src="${asset(`tools/${page.script}`)}"></script>` : ''}
