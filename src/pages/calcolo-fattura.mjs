@@ -81,9 +81,9 @@ export default {
       <tr data-ord hidden><th>Ritenuta d'acconto</th><td data-out="ritenuta"></td></tr>
       <tr class="total"><th>Netto a pagare</th><td data-out="nettoAPagare"></td></tr>
     </table>
+    <button type="button" class="btn-link" data-share>Copia link a questo calcolo</button>
     </details>
     <ul class="avvisi" data-list="avvisi" hidden></ul>
-    <button type="button" class="btn-link" data-share>Copia link a questo calcolo</button>
   </div>
 </form>`,
   content: `
@@ -143,5 +143,4 @@ export default {
       a: `<p>Sul compenso al netto dell'IVA. Comprende la rivalsa INPS ${rivalsaInps} della Gestione Separata ma non il contributo integrativo delle casse professionali, né le spese anticipate in nome e per conto del cliente. Dal 2025 sono esclusi dalla ritenuta anche i rimborsi delle spese sostenute per l'incarico e addebitati analiticamente al cliente (art. 54, c. 2, lett. b, TUIR, come modificato dal D.Lgs. 192/2024), che restano però soggetti a IVA. I rimborsi forfettari restano invece soggetti a ritenuta.</p>`,
     },
   ],
-  related: ['calcolo-tasse-forfettario', 'scorporo-iva', 'prestazione-occasionale'],
 };

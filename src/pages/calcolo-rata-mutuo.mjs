@@ -53,17 +53,17 @@ export default {
       <div class="kpi main"><span>Rata mensile</span><strong data-out="rata">–</strong></div>
       <div class="kpi"><span>Interessi totali</span><strong data-out="totaleInteressi">–</strong></div>
     </div>
+    <details class="dettaglio"><summary>Dettaglio del calcolo</summary>
     <div class="bar" data-bar></div>
     <ul class="legend" data-legend></ul>
-    <details class="dettaglio"><summary>Dettaglio del calcolo</summary>
     <table class="breakdown">
       <tr><th>Numero di rate</th><td data-out="rate"></td></tr>
       <tr><th>Totale rimborsato</th><td data-out="totalePagato"></td></tr>
       <tr><th>Rata / reddito</th><td data-out="rapporto"></td></tr>
     </table>
+    <button type="button" class="btn-link" data-share>Copia link a questo calcolo</button>
     </details>
     <ul class="avvisi" data-warn-rapporto hidden><li>La rata supera un terzo del reddito: molte banche considerano questo limite il massimo sostenibile.</li></ul>
-    <button type="button" class="btn-link" data-share>Copia link a questo calcolo</button>
   </div>
 </form>
 <details class="piano">
@@ -110,5 +110,4 @@ ${tabella}
       a: '<p>Vale per la rata iniziale. Con il tasso variabile la rata viene ricalcolata quando cambia l\'indice di riferimento (Euribor), quindi il totale degli interessi non è prevedibile.</p>',
     },
   ],
-  related: ['calcolo-stipendio-netto', 'calcolo-tasse-forfettario', 'scorporo-iva'],
 };

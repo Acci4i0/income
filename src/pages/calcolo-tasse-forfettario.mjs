@@ -73,9 +73,9 @@ export default {
       <div class="kpi main"><span>Netto annuo</span><strong data-out="netto">–</strong></div>
       <div class="kpi"><span>Netto al mese (÷12)</span><strong data-out="nettoMensile">–</strong></div>
     </div>
+    <details class="dettaglio"><summary>Dettaglio del calcolo</summary>
     <div class="bar" data-bar></div>
     <ul class="legend" data-legend></ul>
-    <details class="dettaglio"><summary>Dettaglio del calcolo</summary>
     <table class="breakdown">
       <tr><th>Ricavi</th><td data-out="ricavi"></td></tr>
       <tr><th>Reddito imponibile lordo (<span data-out="coeffPerc"></span>)</th><td data-out="redditoLordo"></td></tr>
@@ -85,9 +85,9 @@ export default {
       <tr class="total"><th>Totale tasse e contributi</th><td data-out="totale"></td></tr>
       <tr><th>Da accantonare su ogni incasso</th><td data-out="incidenza"></td></tr>
     </table>
+    <button type="button" class="btn-link" data-share>Copia link a questo calcolo</button>
     </details>
     <ul class="avvisi" data-list="avvisi" hidden></ul>
-    <button type="button" class="btn-link" data-share>Copia link a questo calcolo</button>
   </div>
 </form>`,
   content: `
@@ -187,5 +187,4 @@ export default {
       a: '<p>Con il modello F24: saldo dell\'anno precedente e primo acconto entro il 30 giugno, secondo acconto entro il 30 novembre. I contributi fissi di artigiani e commercianti si pagano invece in quattro rate (maggio, agosto, novembre, febbraio).</p>',
     },
   ],
-  related: ['calcolo-fattura', 'prestazione-occasionale', 'calcolo-stipendio-netto'],
 };

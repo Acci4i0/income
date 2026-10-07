@@ -2,6 +2,14 @@
 
 Voci più recenti in alto. Formato in OPERATIONS.md.
 
+## 2026-10-07 — Calcolatori ancora più essenziali (richiesta del proprietario)
+- Fatto: nel riquadro del risultato restano solo il numero principale e uno secondario; barra, legenda,
+  passaggi e "Copia link" dentro "Dettaglio del calcolo". Tolto il blocco "Altri calcolatori" (tutti i
+  calcolatori sono in home e nel piè di pagina, ora su una riga sola).
+- Verifiche: 105 test, build, smoke test desktop e mobile, screenshot.
+- In attesa: screenshot di kimdot.de (riferimento del proprietario, non raggiungibile dal container) per
+  allineare la grafica.
+
 ## 2026-10-07 — Sito più semplice (richiesta del proprietario)
 - Fatto: struttura e grafica ripensate dopo il rifiuto di una prima proposta. Home = titolo + elenco dei
   calcolatori. Pagina = titolo, una frase, campi essenziali e risultato; opzioni secondarie in "Altre

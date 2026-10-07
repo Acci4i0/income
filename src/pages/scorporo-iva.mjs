@@ -79,8 +79,8 @@ export default {
       <tr><th>IVA</th><td data-out="iva"></td></tr>
       <tr class="total"><th>Totale IVA inclusa</th><td data-out="lordo"></td></tr>
     </table>
-    </details>
     <button type="button" class="btn-link" data-share>Copia link a questo calcolo</button>
+    </details>
   </div>
 </form>`,
   content: `
@@ -118,5 +118,4 @@ ${listaAmbiti}
       a: `<p>Perché il ${pct(ordinaria)} si calcola sull'imponibile, non sul totale. Togliere il ${pct(ordinaria)} dal totale sottrae troppo: su ${euro(faqErrore.lordo)} toglieresti ${euro(faqErrore.lordo * ordinaria)} invece di ${euro(faqErrore.iva)}.</p>`,
     },
   ],
-  related: ['calcolo-fattura', 'calcolo-tasse-forfettario', 'prestazione-occasionale'],
 };

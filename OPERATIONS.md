@@ -78,7 +78,7 @@ Se una voce è troppo grande per una sessione, spezzala nel backlog e consegna l
   - slug che corrisponde alla ricerca reale ("calcolo-…", "…-2026" no: l'anno va nel titolo, non nello slug);
   - intro di una frase breve, il calcolatore, poi spiegazione del metodo, almeno un esempio numerico
     **generato dal codice** (importa la lib nella pagina), tabelle utili, limiti del calcolo, 3-6 FAQ;
-  - `related` verso 2-3 pagine esistenti, e aggiungi la nuova pagina ai `related` di 1-2 pagine affini.
+  - il piè di pagina e la home elencano già tutti i calcolatori: non servono blocchi di link correlati.
 - **UI** in `src/assets/tools/<nome>.js`; campi numerici con `data-num` (o `data-num="perc"`), risultati con
   `data-out`. Riusa le classi CSS esistenti.
 - **Ordine nel menu**: campo `order`. I tool con più domanda stanno prima.
@@ -87,8 +87,9 @@ Se una voce è troppo grande per una sessione, spezzala nel backlog e consegna l
 
 Il sito deve restare semplice e immediato: chi arriva vede il calcolatore e il risultato, senza leggere.
 - Pagina di un calcolatore: titolo, una frase breve (`intro`), i campi essenziali e il risultato. Le
-  opzioni secondarie vanno in `<details class="more">` ("Altre opzioni"), i passaggi del calcolo in
-  `<details class="dettaglio">`. Le fonti normative vanno nel campo `fonti` (compaiono nella nota finale).
+  opzioni secondarie vanno in `<details class="more">` ("Altre opzioni"); barra, passaggi del calcolo e
+  link di condivisione in `<details class="dettaglio">`. A vista restano solo il numero principale e uno
+  secondario. Le fonti normative vanno nel campo `fonti` (compaiono nella nota finale).
 - I testi lunghi restano nella pagina per i motori di ricerca, ma ogni `<h2>` semplice dei contenuti
   diventa una voce espandibile chiusa: scrivi i titoli di sezione come `<h2>` senza attributi.
 - Bianco e nero, un solo font (Geist, in `src/assets/fonts/`), colori solo dai token in cima a
