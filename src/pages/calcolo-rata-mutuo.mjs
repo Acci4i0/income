@@ -27,7 +27,7 @@ export default {
   year: ANNO,
   updated: AGGIORNATO,
   script: 'mutuo.js',
-  intro: '<p>Inserisci importo, tasso (TAN) e durata: ottieni la rata mensile, quanto paghi di interessi in totale e come scende il debito anno per anno. Aggiungi il reddito netto mensile per vedere se la rata è sostenibile.</p>',
+  intro: '<p>Inserisci importo, tasso e durata: vedi rata e interessi.</p>',
   tool: `
 <form id="calc" class="calc" novalidate>
   <div class="fields">
@@ -42,9 +42,11 @@ export default {
         ${[5, 10, 15, 20, 25, 30, 35, 40].map((a) => `<option value="${a}"${a === 25 ? ' selected' : ''}>${a} anni</option>`).join('')}
       </select>
     </label>
+    <details class="more"><summary>Altre opzioni</summary><div class="more-body">
     <label>Reddito netto mensile del nucleo (€, facoltativo)
       <input name="reddito" data-num inputmode="decimal" autocomplete="off" value="">
     </label>
+    </div></details>
   </div>
   <div class="results" aria-live="polite">
     <div class="kpis">
@@ -53,11 +55,13 @@ export default {
     </div>
     <div class="bar" data-bar></div>
     <ul class="legend" data-legend></ul>
+    <details class="dettaglio"><summary>Dettaglio del calcolo</summary>
     <table class="breakdown">
       <tr><th>Numero di rate</th><td data-out="rate"></td></tr>
       <tr><th>Totale rimborsato</th><td data-out="totalePagato"></td></tr>
       <tr><th>Rata / reddito</th><td data-out="rapporto"></td></tr>
     </table>
+    </details>
     <ul class="avvisi" data-warn-rapporto hidden><li>La rata supera un terzo del reddito: molte banche considerano questo limite il massimo sostenibile.</li></ul>
     <button type="button" class="btn-link" data-share>Copia link a questo calcolo</button>
   </div>

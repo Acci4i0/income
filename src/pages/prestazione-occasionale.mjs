@@ -33,7 +33,7 @@ export default {
   year: ANNO,
   updated: AGGIORNATO,
   script: 'occasionale.js',
-  intro: '<p>Lavori senza partita IVA e devi fare una ricevuta? Inserisci il compenso lordo, o il netto che vuoi incassare, e il calcolatore ricava ritenuta d\'acconto, eventuali contributi INPS e marca da bollo.</p>',
+  intro: '<p>Dal compenso lordo al netto della ricevuta, o al contrario.</p>',
   tool: `
 <form id="calc" class="calc" novalidate>
   <div class="fields">
@@ -52,11 +52,13 @@ export default {
       </select>
       <span class="hint">I committenti forfettari o minimi non applicano la ritenuta sui compensi di lavoro autonomo.</span>
     </label>
+    <details class="more"><summary>Altre opzioni</summary><div class="more-body">
     <label>Compensi occasionali già incassati nell'anno (€)
       <input name="gia" data-num inputmode="decimal" autocomplete="off" value="0">
       <span class="hint">Serve per capire se superi la franchigia INPS di ${soglia}.</span>
     </label>
     <label class="check"><input type="checkbox" name="altraForma"> <span>Sono pensionato o già iscritto a un'altra forma di previdenza obbligatoria</span></label>
+    </div></details>
   </div>
   <div class="results" aria-live="polite">
     <div class="kpis">
@@ -65,6 +67,7 @@ export default {
     </div>
     <div class="bar" data-bar></div>
     <ul class="legend" data-legend></ul>
+    <details class="dettaglio"><summary>Dettaglio del calcolo</summary>
     <table class="breakdown">
       <tr><th>Compenso lordo</th><td data-out="lordo"></td></tr>
       <tr><th>Ritenuta d'acconto ${ritenuta}</th><td data-out="ritenuta"></td></tr>
@@ -74,6 +77,7 @@ export default {
       <tr><th>Costo totale per il committente</th><td data-out="costoCommittente"></td></tr>
       <tr><th>Marca da bollo</th><td data-out="bollo"></td></tr>
     </table>
+    </details>
     <button type="button" class="btn-link" data-share>Copia link a questo calcolo</button>
   </div>
 </form>`,

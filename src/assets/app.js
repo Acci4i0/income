@@ -14,6 +14,8 @@ function leggi(form) {
   return v;
 }
 
+const predefinita = (sel) => Math.max(0, [...sel.options].findIndex((o) => o.defaultSelected));
+
 function applicaQuery(form) {
   const q = new URLSearchParams(location.search);
   for (const el of form.elements) {
@@ -22,7 +24,22 @@ function applicaQuery(form) {
     if (el.type === 'checkbox') el.checked = val === '1';
     else if (el.type === 'radio') el.checked = el.value === val;
     else el.value = val;
+    // Un link condiviso con opzioni diverse dal predefinito apre "Altre opzioni".
+    const cambiato = el.type === 'checkbox' || el.type === 'radio' ? el.checked !== el.defaultChecked
+      : el.tagName === 'SELECT' ? el.selectedIndex !== predefinita(el) : el.value !== el.defaultValue;
+    const altre = el.closest('details');
+    if (cambiato && altre) altre.open = true;
   }
+}
+
+// Al primo clic su un importo il valore di esempio è già selezionato: basta scrivere.
+function selezionaAlFocus(form) {
+  form.querySelectorAll('[data-num]').forEach((el) => {
+    let appena = false;
+    el.addEventListener('focus', () => { el.select(); appena = true; });
+    el.addEventListener('mouseup', (e) => { if (appena) e.preventDefault(); appena = false; });
+    el.addEventListener('blur', () => { appena = false; });
+  });
 }
 
 function aggiornaVisibilita(form, valori) {
@@ -80,10 +97,37 @@ export function barra(form, parti) {
   }
 }
 
+// Su mobile, quando il riquadro dei risultati esce dallo schermo mentre compili i campi, il risultato
+// principale resta visibile in una barra in basso (copia visiva: per gli screen reader c'è già aria-live).
+function barraRisultato(form) {
+  const principale = form.querySelector('.kpi.main');
+  const risultati = form.querySelector('.results');
+  if (!principale || !risultati || !('IntersectionObserver' in window)) return () => {};
+  const barra = document.createElement('div');
+  barra.className = 'barra-risultato';
+  barra.setAttribute('aria-hidden', 'true');
+  barra.hidden = true;
+  const etichetta = document.createElement('span');
+  const valore = document.createElement('strong');
+  barra.append(etichetta, valore);
+  form.after(barra);
+  let risultatiVisibili = true;
+  let formVisibile = true;
+  const aggiornaVisibile = () => { barra.hidden = risultatiVisibili || !formVisibile; };
+  new IntersectionObserver(([e]) => { risultatiVisibili = e.isIntersecting; aggiornaVisibile(); }).observe(risultati);
+  new IntersectionObserver(([e]) => { formVisibile = e.isIntersecting; aggiornaVisibile(); }).observe(form.querySelector('.fields') || form);
+  return () => {
+    etichetta.textContent = principale.querySelector(':scope > span')?.textContent || '';
+    valore.textContent = principale.querySelector('strong')?.textContent || '';
+  };
+}
+
 export function calcolatore(selettore, calcola, mostra) {
   const form = document.querySelector(selettore);
   if (!form) return;
   applicaQuery(form);
+  selezionaAlFocus(form);
+  const copiaInBarra = barraRisultato(form);
   const aggiorna = () => {
     const grezzi = leggi(form);
     aggiornaVisibilita(form, grezzi);
@@ -92,6 +136,7 @@ export function calcolatore(selettore, calcola, mostra) {
     } catch (err) {
       console.error(err);
     }
+    copiaInBarra();
   };
   form.addEventListener('input', aggiorna);
   form.addEventListener('change', aggiorna);

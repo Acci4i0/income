@@ -26,7 +26,7 @@ export default {
   year: ANNO,
   updated: AGGIORNATO,
   script: 'fattura.js',
-  intro: '<p>Scegli il regime fiscale e inserisci il compenso: ottieni imponibile, IVA, ritenuta d\'acconto, bollo e il netto che il cliente ti bonifica. Funziona anche al contrario, partendo dalla cifra che vuoi incassare.</p>',
+  intro: '<p>Dal compenso al netto che ricevi, o al contrario.</p>',
   tool: `
 <form id="calc" class="calc" novalidate>
   <div class="fields">
@@ -43,6 +43,13 @@ export default {
     <label>Importo (€)
       <input name="importo" data-num inputmode="decimal" autocomplete="off" value="1.000">
     </label>
+    <label data-show-if="regime=ordinario">Aliquota IVA
+      <select name="aliquotaIva">
+        ${opzioniIva}
+        <option value="0">Esente IVA (art. 10 DPR 633/72)</option>
+      </select>
+    </label>
+    <details class="more"><summary>Altre opzioni</summary><div class="more-body">
     <label>Rivalsa o contributo previdenziale
       <select name="rivalsa">
         <option value="nessuna">Nessuno</option>
@@ -54,20 +61,16 @@ export default {
       <input name="percCassa" data-num="perc" inputmode="decimal" value="4">
       <span class="hint">4% per avvocati e ingegneri, 2% per psicologi: verifica con la tua cassa. Le prestazioni sanitarie, come quelle cliniche degli psicologi, sono esenti IVA: in regime ordinario scegli "Esente IVA".</span>
     </label>
-    <label data-show-if="regime=ordinario">Aliquota IVA
-      <select name="aliquotaIva">
-        ${opzioniIva}
-        <option value="0">Esente IVA (art. 10 DPR 633/72)</option>
-      </select>
-    </label>
     <label class="check" data-show-if="regime=ordinario"><input type="checkbox" name="ritenuta" checked> <span>Cliente sostituto d'imposta: applica ritenuta d'acconto ${ritenuta}</span></label>
     <label class="check" data-bollo><input type="checkbox" name="bolloCliente" checked> <span>Addebita la marca da bollo al cliente</span></label>
+    </div></details>
   </div>
   <div class="results" aria-live="polite">
     <div class="kpis">
       <div class="kpi main"><span>Netto che ricevi</span><strong data-out="nettoAPagare">–</strong></div>
       <div class="kpi"><span>Totale fattura</span><strong data-out="totale">–</strong></div>
     </div>
+    <details class="dettaglio"><summary>Dettaglio del calcolo</summary>
     <table class="breakdown">
       <tr><th>Compenso</th><td data-out="importo"></td></tr>
       <tr data-riv><th>Rivalsa / contributo integrativo</th><td data-out="rivalsa"></td></tr>
@@ -78,6 +81,7 @@ export default {
       <tr data-ord hidden><th>Ritenuta d'acconto</th><td data-out="ritenuta"></td></tr>
       <tr class="total"><th>Netto a pagare</th><td data-out="nettoAPagare"></td></tr>
     </table>
+    </details>
     <ul class="avvisi" data-list="avvisi" hidden></ul>
     <button type="button" class="btn-link" data-share>Copia link a questo calcolo</button>
   </div>

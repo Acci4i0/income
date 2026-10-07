@@ -76,7 +76,7 @@ Se una voce è troppo grande per una sessione, spezzala nel backlog e consegna l
 - **Pagina** in `src/pages/<slug>.mjs`, con:
   - `title` ≤ 70 caratteri incluso " | NettoChiaro", `description` 70-160 caratteri (la build lo controlla);
   - slug che corrisponde alla ricerca reale ("calcolo-…", "…-2026" no: l'anno va nel titolo, non nello slug);
-  - intro di 1-2 frasi, il calcolatore, poi spiegazione del metodo, almeno un esempio numerico
+  - intro di una frase breve, il calcolatore, poi spiegazione del metodo, almeno un esempio numerico
     **generato dal codice** (importa la lib nella pagina), tabelle utili, limiti del calcolo, 3-6 FAQ;
   - `related` verso 2-3 pagine esistenti, e aggiungi la nuova pagina ai `related` di 1-2 pagine affini.
 - **UI** in `src/assets/tools/<nome>.js`; campi numerici con `data-num` (o `data-num="perc"`), risultati con
@@ -85,13 +85,15 @@ Se una voce è troppo grande per una sessione, spezzala nel backlog e consegna l
 
 ## Stile visivo
 
-- Colori solo dai token in cima a `src/assets/style.css` (chiaro e scuro). Un solo colore segnale
-  (`--accent`, arancio): il risultato principale, il focus, i link. Niente nuovi colori, gradienti o ombre.
-- Angoli vivi, filetti da 1px, nessuna card arrotondata. Etichette tecniche in Geist Mono maiuscolo;
-  cifre con `tabular-nums`. Nessun font esterno: Geist e Geist Mono sono in `src/assets/fonts/`.
-- Nei contenuti ogni `<h2>` senza attributi apre una sezione numerata (titolo a sinistra su desktop):
-  scrivi i titoli di sezione come `<h2>` semplici, mai dentro altri elementi.
-- Il quadrante dei risultati (`.results`) è sempre scuro: dentro usa le variabili, non colori fissi.
+Il sito deve restare semplice e immediato: chi arriva vede il calcolatore e il risultato, senza leggere.
+- Pagina di un calcolatore: titolo, una frase breve (`intro`), i campi essenziali e il risultato. Le
+  opzioni secondarie vanno in `<details class="more">` ("Altre opzioni"), i passaggi del calcolo in
+  `<details class="dettaglio">`. Le fonti normative vanno nel campo `fonti` (compaiono nella nota finale).
+- I testi lunghi restano nella pagina per i motori di ricerca, ma ogni `<h2>` semplice dei contenuti
+  diventa una voce espandibile chiusa: scrivi i titoli di sezione come `<h2>` senza attributi.
+- Bianco e nero, un solo font (Geist, in `src/assets/fonts/`), colori solo dai token in cima a
+  `src/assets/style.css`. Niente nuovi colori, ombre, icone o decorazioni.
+- Su mobile il risultato sta sopra i campi e, quando esce dallo schermo, resta in una barra in basso.
 
 ## Prodotti digitali (Etsy)
 

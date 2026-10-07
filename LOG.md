@@ -2,15 +2,17 @@
 
 Voci più recenti in alto. Formato in OPERATIONS.md.
 
-## 2026-10-06 — Nuovo design del sito (richiesta del proprietario)
-- Fatto: riscritti `src/assets/style.css` e la struttura di `src/layout.mjs` sul modello indicato dal
-  proprietario (t1energy.com, on.energy, rauno.me): griglia a filetti, angoli vivi, un solo colore segnale
-  arancio, Geist + Geist Mono ospitati nel sito (`src/assets/fonts/`, OFL, ~52 KB), quadrante dei risultati
-  scuro, sezioni numerate con titolo fisso a sinistra, home e "Altri calcolatori" come indice numerato,
-  piè di pagina con tutti i calcolatori, favicon nuova. Regole di stile in OPERATIONS.md.
-- Verifiche: 105 test, build, smoke test desktop e mobile; screenshot chiaro/scuro di tutte le pagine;
-  box prodotti e /prodotti/ provati con un'inserzione attiva simulata; contrasti WCAG AA (testo ≥ 4,5:1,
-  bordi dei campi ≥ 3:1). I tre siti di riferimento non erano raggiungibili dal container (proxy).
+## 2026-10-07 — Sito più semplice (richiesta del proprietario)
+- Fatto: struttura e grafica ripensate dopo il rifiuto di una prima proposta. Home = titolo + elenco dei
+  calcolatori. Pagina = titolo, una frase, campi essenziali e risultato; opzioni secondarie in "Altre
+  opzioni", passaggi in "Dettaglio del calcolo"; testi di approfondimento in voci chiuse (restano
+  nell'HTML). Menu in testata tolto (i calcolatori sono in home e nel piè di pagina). Su mobile il
+  risultato sta sopra i campi e resta visibile in una barra in basso; il valore di esempio si seleziona al
+  clic. Bianco e nero, font Geist ospitato nel sito (OFL, 29 KB). Intro accorciate; fonti nel campo
+  `fonti`. Regole in OPERATIONS.md ("Stile visivo").
+- Verifiche: 105 test, build, smoke test desktop e mobile, prove nel browser (barra mobile, link condiviso
+  che apre "Altre opzioni", selezione al clic), screenshot chiaro/scuro. Il sito di riferimento
+  (kimdot.de) non era raggiungibile dal container.
 - Prossimo: edizioni 2027 dei budget planner. Le immagini dei prodotti Etsy restano nei colori vecchi.
 
 ## 2026-10-06 — App Etsy in attesa di approvazione
