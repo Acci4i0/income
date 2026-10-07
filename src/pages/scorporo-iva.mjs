@@ -51,7 +51,7 @@ export default {
   year: ANNO,
   updated: AGGIORNATO,
   script: 'iva.js',
-  intro: '<p>Hai un prezzo IVA inclusa e vuoi sapere l\'imponibile? Oppure devi aggiungere l\'IVA a un preventivo? Scegli l\'operazione, l\'aliquota e inserisci l\'importo.</p>',
+  intro: '<p>Togli o aggiungi l\'IVA a qualsiasi importo.</p>',
   tool: `
 <form id="calc" class="calc" novalidate>
   <div class="fields">
@@ -73,11 +73,13 @@ export default {
       <div class="kpi main"><span>Imponibile</span><strong data-out="imponibile">–</strong></div>
       <div class="kpi"><span>IVA</span><strong data-out="iva">–</strong></div>
     </div>
+    <details class="dettaglio"><summary>Dettaglio del calcolo</summary>
     <table class="breakdown">
       <tr><th>Imponibile (senza IVA)</th><td data-out="imponibile"></td></tr>
       <tr><th>IVA</th><td data-out="iva"></td></tr>
       <tr class="total"><th>Totale IVA inclusa</th><td data-out="lordo"></td></tr>
     </table>
+    </details>
     <button type="button" class="btn-link" data-share>Copia link a questo calcolo</button>
   </div>
 </form>`,

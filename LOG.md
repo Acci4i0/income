@@ -2,6 +2,19 @@
 
 Voci più recenti in alto. Formato in OPERATIONS.md.
 
+## 2026-10-07 — Sito più semplice (richiesta del proprietario)
+- Fatto: struttura e grafica ripensate dopo il rifiuto di una prima proposta. Home = titolo + elenco dei
+  calcolatori. Pagina = titolo, una frase, campi essenziali e risultato; opzioni secondarie in "Altre
+  opzioni", passaggi in "Dettaglio del calcolo"; testi di approfondimento in voci chiuse (restano
+  nell'HTML). Menu in testata tolto (i calcolatori sono in home e nel piè di pagina). Su mobile il
+  risultato sta sopra i campi e resta visibile in una barra in basso; il valore di esempio si seleziona al
+  clic. Bianco e nero, font Geist ospitato nel sito (OFL, 29 KB). Intro accorciate; fonti nel campo
+  `fonti`. Regole in OPERATIONS.md ("Stile visivo").
+- Verifiche: 105 test, build, smoke test desktop e mobile, prove nel browser (barra mobile, link condiviso
+  che apre "Altre opzioni", selezione al clic), screenshot chiaro/scuro. Il sito di riferimento
+  (kimdot.de) non era raggiungibile dal container.
+- Prossimo: edizioni 2027 dei budget planner. Le immagini dei prodotti Etsy restano nei colori vecchi.
+
 ## 2026-10-06 — App Etsy in attesa di approvazione
 - Fatto: il proprietario ha aperto il negozio, creato l'app Etsy e aggiunto i 2 segreti; "Etsy:
   autorizzazione" passo avvia riuscito (run 37539842598). Il link di Etsy risponde "application not

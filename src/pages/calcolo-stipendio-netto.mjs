@@ -30,7 +30,8 @@ export default {
   year: ANNO,
   updated: AGGIORNATO,
   script: 'stipendio.js',
-  intro: `<p>Inserisci la retribuzione annua lorda (RAL) del contratto e ottieni il netto mensile stimato. Il calcolo applica gli scaglioni IRPEF ${ANNO} (${s.map((x) => perc(x.aliquota)).join(', ')}), le detrazioni per lavoro dipendente e le misure strutturali di taglio del cuneo fiscale.</p>`,
+  intro: '<p>Inserisci la RAL: vedi subito il netto in busta paga.</p>',
+  fonti: `scaglioni IRPEF ${ANNO} (${s.map((x) => perc(x.aliquota)).join(', ')}), detrazioni per lavoro dipendente e taglio strutturale del cuneo fiscale`,
   tool: `
 <form id="calc" class="calc" novalidate>
   <div class="fields">
@@ -43,6 +44,7 @@ export default {
       <label><input type="radio" name="mensilita" value="13" checked> 13</label>
       <label><input type="radio" name="mensilita" value="14"> 14</label>
     </fieldset>
+    <details class="more"><summary>Altre opzioni</summary><div class="more-body">
     <label>Addizionale regionale (%)
       <input name="addRegionale" data-num="perc" inputmode="decimal" value="${pctAdd(ADDIZIONALI_DEFAULT.regionale)}">
       <span class="hint">Varia da regione a regione: l'aliquota base è 1,23% e le regioni possono arrivare al 3,33%. Alcune regioni a statuto speciale applicano meno (es. Friuli-Venezia Giulia 0,70% fino a 15.000 €). Il valore ${pctAdd(ADDIZIONALI_DEFAULT.regionale)}% è indicativo.</span>
@@ -52,6 +54,7 @@ export default {
       <span class="hint">Di norma massimo 0,8%. Roma arriva allo 0,9% e alcuni capoluoghi con forte disavanzo lo superano in deroga (es. Napoli 1%). Molti comuni prevedono soglie di esenzione.</span>
     </label>
     <label class="check"><input type="checkbox" name="contributivoPuro"> <span>Primo contributo versato dopo il 1995 (massimale di ${eur0(DIPENDENTE.massimale)})</span></label>
+    </div></details>
   </div>
   <div class="results" aria-live="polite">
     <div class="kpis">
@@ -60,6 +63,7 @@ export default {
     </div>
     <div class="bar" data-bar></div>
     <ul class="legend" data-legend></ul>
+    <details class="dettaglio"><summary>Dettaglio del calcolo</summary>
     <table class="breakdown">
       <tr><th>RAL</th><td data-out="ral"></td></tr>
       <tr><th>Contributi INPS a tuo carico</th><td data-out="inps"></td></tr>
@@ -71,6 +75,7 @@ export default {
       <tr><th>Somma esente e trattamento integrativo</th><td data-out="bonus"></td></tr>
       <tr class="total"><th>Peso totale su RAL</th><td data-out="aliquotaMedia"></td></tr>
     </table>
+    </details>
     <button type="button" class="btn-link" data-share>Copia link a questo calcolo</button>
   </div>
 </form>`,

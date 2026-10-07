@@ -41,7 +41,8 @@ export default {
   year: ANNO,
   updated: AGGIORNATO,
   script: 'forfettario.js',
-  intro: `<p>Inserisci quanto incassi in un anno: il calcolatore stima imposta sostitutiva, contributi INPS e quanto ti resta in tasca. Usa i coefficienti di redditività in vigore e i valori INPS ${ANNO} (circolari n. 8/2026 e n. 14/2026).</p>`,
+  intro: '<p>Inserisci i ricavi dell\'anno: vedi subito tasse, contributi INPS e netto.</p>',
+  fonti: `coefficienti di redditività della L. 190/2014, valori INPS ${ANNO} (circolari n. 8/2026 e n. 14/2026)`,
   tool: `
 <form id="calc" class="calc" novalidate>
   <div class="fields">
@@ -58,12 +59,14 @@ export default {
       <input name="aliquotaCassa" data-num="perc" inputmode="decimal" value="14,5">
       <span class="hint">Es. Cassa Forense, Inarcassa, ENPAP: controlla l'aliquota soggettiva della tua cassa.</span>
     </label>
+    <details class="more"><summary>Altre opzioni</summary><div class="more-body">
     <label class="check"><input type="checkbox" name="startup"> <span>Aliquota agevolata ${aliquotaStartup} (primi 5 anni di una nuova attività)</span></label>
     <label class="check" data-show-if="gestione=artigiani|commercianti"><input type="checkbox" name="riduzione"> <span>Ho chiesto la riduzione contributiva del ${riduzione}<br><span class="hint">Spunta solo se la riduzione vale per il ${ANNO}. Chi era già in attività doveva fare domanda entro il 28 febbraio.</span></span></label>
     <label>Costi reali sostenuti nell'anno (€, facoltativo)
       <input name="costi" data-num inputmode="decimal" autocomplete="off" value="0">
       <span class="hint">Nel forfettario non si deducono, ma servono a capire quanto ti resta davvero.</span>
     </label>
+    </div></details>
   </div>
   <div class="results" aria-live="polite">
     <div class="kpis">
@@ -72,6 +75,7 @@ export default {
     </div>
     <div class="bar" data-bar></div>
     <ul class="legend" data-legend></ul>
+    <details class="dettaglio"><summary>Dettaglio del calcolo</summary>
     <table class="breakdown">
       <tr><th>Ricavi</th><td data-out="ricavi"></td></tr>
       <tr><th>Reddito imponibile lordo (<span data-out="coeffPerc"></span>)</th><td data-out="redditoLordo"></td></tr>
@@ -81,6 +85,7 @@ export default {
       <tr class="total"><th>Totale tasse e contributi</th><td data-out="totale"></td></tr>
       <tr><th>Da accantonare su ogni incasso</th><td data-out="incidenza"></td></tr>
     </table>
+    </details>
     <ul class="avvisi" data-list="avvisi" hidden></ul>
     <button type="button" class="btn-link" data-share>Copia link a questo calcolo</button>
   </div>
