@@ -9,6 +9,9 @@ Voci più recenti in alto. Formato in OPERATIONS.md.
   nosniff e referrer-policy presenti; certificato Google Trust Services fino al 4/1/2027; 9 pagine e asset
   OK. Da sistemare nel pannello (SETUP.md): Browser Cache TTL a 4 ore che sovrascrive il nostro max-age,
   DNSSEC spento, www senza redirect. Email obfuscation di Cloudflare attiva sul link mailto: lasciarla.
+- Esito dopo il deploy (run 38162042145): online il commit 49cfd04 (letto da `/version.txt`), HSTS
+  `max-age=31536000` attivo su nettochiaro.com e www. Restano da fare dal pannello: Browser Cache TTL,
+  DNSSEC, redirect www (facoltativo).
 - Nota: il connettore Cloudflare Developer Platform non vede Pages, DNS e impostazioni della zona.
 
 ## 2026-10-07 — Sito più semplice (richiesta del proprietario)
