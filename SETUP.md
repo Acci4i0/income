@@ -35,6 +35,23 @@ Dominio, titolare (Andrea Lando) ed email sono già configurati in `site.config.
 Con la pubblicità attiva, l'art. 7 del D.Lgs. 70/2003 chiede anche un recapito geografico del titolare:
 basta il comune, da indicare quando attivi AdSense.
 
+### Impostazioni Cloudflare consigliate (5 minuti, verificate dall'esterno l'11/10/2026)
+
+Già a posto: deploy automatico dal branch di default, HTTPS con reindirizzamento da http, certificato
+valido, intestazioni di sicurezza e cache da `_headers`, tutte le pagine raggiungibili.
+Da sistemare nel pannello del dominio `nettochiaro.com`:
+
+1. **Caching** → **Configuration** → **Browser Cache TTL** → **Respect Existing Headers**. Oggi Cloudflare
+   impone 4 ore di cache agli asset: dopo un aggiornamento alcuni visitatori potrebbero avere per qualche
+   ora script vecchi insieme a script nuovi.
+2. **DNS** → **Settings** → **DNSSEC** → **Enable**. Con il dominio registrato su Cloudflare si attiva con un
+   clic e protegge il dominio da risposte DNS falsificate.
+3. Facoltativo: **Rules** → **Redirect Rules** → modello **Redirect from WWW to root**, così
+   `www.nettochiaro.com` porta a `nettochiaro.com` invece di mostrare una copia del sito.
+
+Da lasciare attivo: **Email Address Obfuscation** (Security → Settings). Nasconde l'email del titolare ai
+programmi che raccolgono indirizzi per lo spam; per i visitatori il link funziona normalmente.
+
 ## 2. Google Search Console (5 minuti, subito dopo il punto 1)
 
 1. <https://search.google.com/search-console> → **Aggiungi proprietà** → **Dominio** → verifica via DNS

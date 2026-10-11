@@ -2,6 +2,15 @@
 
 Voci più recenti in alto. Formato in OPERATIONS.md.
 
+## 2026-10-11 — Verifica dell'hosting Cloudflare Pages
+- Fatto: "Controllo sito" ora ricostruisce il commit e lo confronta con il sito online (asset, HTML),
+  controlla http→https, intestazioni, cache, certificato e DNSSEC. Aggiunto HSTS in `public/_headers`.
+- Verifiche (run 38161864908): deploy allineato al commit 49fddea su nettochiaro.com e www; 301 da http;
+  nosniff e referrer-policy presenti; certificato Google Trust Services fino al 4/1/2027; 9 pagine e asset
+  OK. Da sistemare nel pannello (SETUP.md): Browser Cache TTL a 4 ore che sovrascrive il nostro max-age,
+  DNSSEC spento, www senza redirect. Email obfuscation di Cloudflare attiva sul link mailto: lasciarla.
+- Nota: il connettore Cloudflare Developer Platform non vede Pages, DNS e impostazioni della zona.
+
 ## 2026-10-07 — Sito più semplice (richiesta del proprietario)
 - Fatto: struttura e grafica ripensate dopo il rifiuto di una prima proposta. Home = titolo + elenco dei
   calcolatori. Pagina = titolo, una frase, campi essenziali e risultato; opzioni secondarie in "Altre
