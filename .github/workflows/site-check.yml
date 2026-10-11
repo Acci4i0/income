@@ -22,7 +22,7 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -103,17 +103,20 @@ jobs:
               echo "$h: $(printf '%s\n' "$hdr" | grep -i "^$h:" | cut -d' ' -f2- || true)"
             done
             locale=$(grep -oE '/assets/style\.css\?v=[a-f0-9]+' dist/index.html | head -1)
-            live=""
-            for i in 1 2 3 4 5 6 7 8 9 10; do
-              live=$(curl -sS --max-time 20 "https://$d/" 2>/dev/null | grep -oE '/assets/style\.css\?v=[a-f0-9]+' | head -1)
-              [ "$live" = "$locale" ] && break
+            versione=""
+            for i in $(seq 1 18); do
+              versione=$(curl -sS --max-time 20 "https://$d/version.txt" 2>/dev/null | head -2 | tr '\n' ' ')
+              case "$versione" in "$GITHUB_SHA "*) break ;; esac
               sleep 20
             done
-            if [ "$live" = "$locale" ]; then
-              echo "deploy: allineato al commit ${GITHUB_SHA::7} (asset $locale)"
-            else
-              echo "deploy: NON allineato al commit ${GITHUB_SHA::7}: online $live, atteso $locale"
-            fi
+            case "$versione" in
+              "$GITHUB_SHA "*) echo "deploy: online il commit ${GITHUB_SHA::7}, branch $(echo "$versione" | cut -d' ' -f2)" ;;
+              *) echo "deploy: online NON c'è il commit ${GITHUB_SHA::7} dopo 6 minuti (version.txt: ${versione:-assente})" ;;
+            esac
+            hdr=$(curl -sSI --max-time 20 "https://$d/" 2>/dev/null | tr -d '\r')
+            for h in x-content-type-options referrer-policy strict-transport-security; do
+              echo "$h (dopo il deploy): $(printf '%s\n' "$hdr" | grep -i "^$h:" | cut -d' ' -f2- || true)"
+            done
             echo "cache asset: $(curl -sSI --max-time 20 "https://$d$locale" 2>/dev/null | tr -d '\r' | grep -i '^cache-control:' | cut -d' ' -f2-)"
             curl -sS --max-time 20 "https://$d/" -o "$RUNNER_TEMP/live.html" 2>/dev/null || true
             if cmp -s "$RUNNER_TEMP/live.html" dist/index.html; then

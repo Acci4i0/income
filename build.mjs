@@ -240,6 +240,14 @@ ${indexable.map((p) => `  <url><loc>${urlFor(config, p.slug)}</loc>${p.updated ?
 </urlset>
 `;
 await writeFile(path.join(dist, 'sitemap.xml'), sitemap);
+
+// version.txt: commit e branch da cui è stato pubblicato il sito (Cloudflare Pages li passa alla build).
+// Serve al workflow "Controllo sito" per sapere se l'ultimo commit è davvero online.
+let commit = process.env.CF_PAGES_COMMIT_SHA || process.env.GITHUB_SHA || '';
+if (!commit) {
+  try { commit = (await import('node:child_process')).execSync('git rev-parse HEAD', { cwd: root, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim(); } catch { commit = 'sconosciuto'; }
+}
+await writeFile(path.join(dist, 'version.txt'), `${commit}\n${process.env.CF_PAGES_BRANCH || process.env.GITHUB_REF_NAME || 'locale'}\n`);
 await writeFile(path.join(dist, 'robots.txt'), config.indexable
   ? `User-agent: *\nAllow: /\n\nSitemap: ${urlFor(config, '')}sitemap.xml\n`
   : 'User-agent: *\nDisallow: /\n');
