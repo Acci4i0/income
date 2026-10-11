@@ -25,6 +25,11 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build locale dello stesso commit (per confrontarlo con il sito online)
+        run: node build.mjs
       - name: Diagnostica
         env:
           INPUT_DOMAIN: ${{ inputs.domain }}
@@ -89,6 +94,37 @@ jobs:
               echo "pagine OK: $ok, errori: $ko"
               echo '```'
             fi
+            echo
+            echo "### Hosting"
+            echo '```'
+            echo "http -> https: $(curl -sS -o /dev/null -w '%{http_code} -> %{redirect_url}' --max-time 20 "http://$d/" 2>&1)"
+            hdr=$(curl -sSI --max-time 20 "https://$d/" 2>/dev/null | tr -d '\r')
+            for h in x-content-type-options referrer-policy strict-transport-security; do
+              echo "$h: $(printf '%s\n' "$hdr" | grep -i "^$h:" | cut -d' ' -f2- || true)"
+            done
+            locale=$(grep -oE '/assets/style\.css\?v=[a-f0-9]+' dist/index.html | head -1)
+            live=""
+            for i in 1 2 3 4 5 6 7 8 9 10; do
+              live=$(curl -sS --max-time 20 "https://$d/" 2>/dev/null | grep -oE '/assets/style\.css\?v=[a-f0-9]+' | head -1)
+              [ "$live" = "$locale" ] && break
+              sleep 20
+            done
+            if [ "$live" = "$locale" ]; then
+              echo "deploy: allineato al commit ${GITHUB_SHA::7} (asset $locale)"
+            else
+              echo "deploy: NON allineato al commit ${GITHUB_SHA::7}: online $live, atteso $locale"
+            fi
+            echo "cache asset: $(curl -sSI --max-time 20 "https://$d$locale" 2>/dev/null | tr -d '\r' | grep -i '^cache-control:' | cut -d' ' -f2-)"
+            curl -sS --max-time 20 "https://$d/" -o "$RUNNER_TEMP/live.html" 2>/dev/null || true
+            if cmp -s "$RUNNER_TEMP/live.html" dist/index.html; then
+              echo "HTML: identico alla build (Cloudflare non lo modifica)"
+            else
+              echo "HTML: diverso dalla build. Righe aggiunte online:"
+              diff <(tr '>' '\n' < dist/index.html) <(tr '>' '\n' < "$RUNNER_TEMP/live.html") | grep '^>' | head -8 || true
+            fi
+            echo "certificato: $(echo | openssl s_client -servername "$d" -connect "$d:443" 2>/dev/null | openssl x509 -noout -issuer -enddate 2>/dev/null | tr '\n' ' ')"
+            echo "DNSSEC (DS su $root): $(dig +short DS "$root" | head -1)"
+            echo '```'
           } > "$out"
           cat "$out"
           cat "$out" >> "$GITHUB_STEP_SUMMARY"
